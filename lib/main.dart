@@ -1,11 +1,29 @@
+import 'dart:ui';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:flutter/services.dart';
+import 'package:vai_raja_vai/screens/PlayerList.dart';
 import 'package:vai_raja_vai/splash.dart';
+import './models/model.dart';
+import './models/db_provider.dart';
 
-void main() {
+void main() async {
   SystemChrome.setSystemUIOverlayStyle(
       const SystemUiOverlayStyle(statusBarColor: Colors.transparent));
-  runApp(const MyApp());
+
+  //default values in database..
+  // var db = DatabaseConnect();
+  // await db.insertPlayer(Player(id: 1, name: 'Ramesh', shortname: 'RA'));
+  // await db.insertPlayer(Player(id: 2, name: 'Elango', shortname: 'EL'));
+  // await db.insertPlayer(Player(id: 3, name: 'Mohan', shortname: 'MO'));
+  // await db.insertPlayer(Player(id: 4, name: 'Manikkam', shortname: 'MA'));
+
+  // print(await db.getPlayers());
+  // runApp(const MyApp());
+  runApp(ChangeNotifierProvider(
+    create: (_) => DatabaseProvider(),
+    child: const MyApp(),
+  ));
 }
 
 class MyApp extends StatelessWidget {
@@ -43,6 +61,14 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   @override
+  void initState() {
+    super.initState();
+
+    final provider = Provider.of<DatabaseProvider>(context, listen: false);
+    provider.getPlayers();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -55,12 +81,17 @@ class _MyHomePageState extends State<MyHomePage> {
             const Padding(
               padding: EdgeInsets.all(8.0),
               child: Text(
-                'No players added yet!',
+                'There are players!',
               ),
             ),
             ElevatedButton(
-              onPressed: () {},
-              child: const Text('Add Players'),
+              onPressed: () {
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(builder: (context) => const PlayerList()),
+                );
+              },
+              child: const Text('Goto Players'),
             ),
             const Padding(
               padding: EdgeInsets.all(8.0),
