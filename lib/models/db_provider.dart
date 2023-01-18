@@ -88,14 +88,14 @@ class DatabaseProvider with ChangeNotifier {
             'color': "#FF0000",
           },
           conflictAlgorithm: ConflictAlgorithm.replace);
-      await txn.insert(
-          pTable,
-          {
-            'name': 'Elango',
-            'shortname': 'EL',
-            'color': "#00FF00",
-          },
-          conflictAlgorithm: ConflictAlgorithm.replace);
+      // await txn.insert(
+      //     pTable,
+      //     {
+      //       'name': 'Elango',
+      //       'shortname': 'EL',
+      //       'color': "#00FF00",
+      //     },
+      //     conflictAlgorithm: ConflictAlgorithm.replace);
       await txn.insert(
           pTable,
           {

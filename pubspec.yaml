@@ -38,6 +38,20 @@ dependencies:
   sqflite: ^2.2.2
   path: ^1.8.2
   provider: ^6.0.3
+  flutter_native_splash: ^2.2.16
+
+flutter_native_splash:
+  color: "#FF0000"
+#  background_image: "assets/rajavai.png"
+  image: assets/rajavai.png
+  android_12:
+#    background_image: "assets/rajavai.png"
+    icon_background_color: "#FF0000"
+    image: assets/rajavai.png
+#    image_dark: assets/vairajavai.png
+#    icon_background_color_dark: "#121212"
+
+  web: false
 
 dev_dependencies:
   flutter_test:

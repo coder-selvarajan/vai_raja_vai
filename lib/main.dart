@@ -2,28 +2,35 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/services.dart';
-import 'package:vai_raja_vai/screens/PlayerList.dart';
+import 'package:vai_raja_vai/models/player_data.dart';
+import 'package:vai_raja_vai/screens/PlayerListOld.dart';
+import 'package:vai_raja_vai/screens/players_screen.dart';
 import 'package:vai_raja_vai/splash.dart';
 import './models/model.dart';
 import './models/db_provider.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 
 void main() async {
   SystemChrome.setSystemUIOverlayStyle(
       const SystemUiOverlayStyle(statusBarColor: Colors.transparent));
 
-  //default values in database..
-  // var db = DatabaseConnect();
-  // await db.insertPlayer(Player(id: 1, name: 'Ramesh', shortname: 'RA'));
-  // await db.insertPlayer(Player(id: 2, name: 'Elango', shortname: 'EL'));
-  // await db.insertPlayer(Player(id: 3, name: 'Mohan', shortname: 'MO'));
-  // await db.insertPlayer(Player(id: 4, name: 'Manikkam', shortname: 'MA'));
-
-  // print(await db.getPlayers());
-  // runApp(const MyApp());
-  runApp(ChangeNotifierProvider(
-    create: (_) => DatabaseProvider(),
-    child: const MyApp(),
-  ));
+  // runApp(ChangeNotifierProvider(
+  // create: (_) => DatabaseProvider(),
+  runApp(
+    // ChangeNotifierProvider(
+    //   create: (BuildContext context) => PlayerData(),
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(
+          create: (context) => PlayerData(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => DatabaseProvider(),
+        ),
+      ],
+      child: const MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -86,9 +93,10 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
             ElevatedButton(
               onPressed: () {
-                Navigator.pushReplacement(
+                Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => const PlayerList()),
+                  MaterialPageRoute(
+                      builder: (context) => const PlayerListOld()),
                 );
               },
               child: const Text('Goto Players'),
@@ -102,6 +110,22 @@ class _MyHomePageState extends State<MyHomePage> {
             ElevatedButton(
               onPressed: () {},
               child: const Text('Start Game'),
+            ),
+            const Padding(
+              padding: EdgeInsets.all(8.0),
+              child: Text(
+                'No games played yet!',
+              ),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const PlayersScreen()),
+                );
+              },
+              child: const Text('Players Home'),
             ),
             // Text(
             //   '$_counter',
