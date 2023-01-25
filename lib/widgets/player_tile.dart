@@ -26,7 +26,7 @@ class PlayerTile extends StatelessWidget {
       ),
       title: Text(
         "$shortname - $name",
-        style: const TextStyle(fontSize: 15),
+        style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
       ),
       trailing: const Icon(
         Icons.delete,

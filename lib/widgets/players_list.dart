@@ -11,6 +11,7 @@ class PlayersList extends StatelessWidget {
     return Consumer<PlayerData>(
       builder: (context, playerData, child) {
         return ListView.builder(
+          itemCount: playerData.playerCount,
           itemBuilder: (context, index) {
             final player = playerData.Players[index];
             return PlayerTile(
@@ -19,7 +20,6 @@ class PlayersList extends StatelessWidget {
               color: player.color,
             );
           },
-          itemCount: playerData.playerCount,
         );
       },
     );

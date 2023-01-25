@@ -54,7 +54,7 @@ class Game {
   //for debugging
   @override
   String toString() {
-    return 'Game(id: $id, time: $time, playercount: $playercount';
+    return 'Game(id: $id, time: $time, playercount: $playercount)';
   }
 }
 
