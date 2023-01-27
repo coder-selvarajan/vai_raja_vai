@@ -1,3 +1,12 @@
+class Cutfor {
+  int? id;
+  final DateTime time;
+  final List<Player> players;
+  final String? place;
+
+  Cutfor({this.id, required this.time, required this.players, this.place});
+}
+
 class Player {
   int? id;
   final String name;

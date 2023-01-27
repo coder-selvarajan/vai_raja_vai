@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:vai_raja_vai/models/player_data.dart';
+import 'package:vai_raja_vai/models/game_data.dart';
 import 'package:vai_raja_vai/widgets/player_tile.dart';
 
 class PlayersList extends StatelessWidget {
@@ -8,12 +8,12 @@ class PlayersList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<PlayerData>(
-      builder: (context, playerData, child) {
+    return Consumer<GameData>(
+      builder: (context, gameData, child) {
         return ListView.builder(
-          itemCount: playerData.playerCount,
+          itemCount: gameData.playerCount,
           itemBuilder: (context, index) {
-            final player = playerData.Players[index];
+            final player = gameData.players[index];
             return PlayerTile(
               name: player.name,
               shortname: player.shortname,

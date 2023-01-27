@@ -2,8 +2,9 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/services.dart';
-import 'package:vai_raja_vai/models/player_data.dart';
+import 'package:vai_raja_vai/models/game_data.dart';
 import 'package:vai_raja_vai/screens/PlayerListOld.dart';
+import 'package:vai_raja_vai/screens/games_screen.dart';
 import 'package:vai_raja_vai/screens/players_screen.dart';
 import 'package:vai_raja_vai/splash.dart';
 import './models/model.dart';
@@ -22,7 +23,7 @@ void main() async {
     MultiProvider(
       providers: [
         ChangeNotifierProvider(
-          create: (context) => PlayerData(),
+          create: (context) => GameData(),
         ),
         ChangeNotifierProvider(
           create: (context) => DatabaseProvider(),
@@ -126,6 +127,15 @@ class _MyHomePageState extends State<MyHomePage> {
                 );
               },
               child: const Text('Players Home'),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const GamesScreen()),
+                );
+              },
+              child: const Text('Goto Games Home'),
             ),
             // Text(
             //   '$_counter',

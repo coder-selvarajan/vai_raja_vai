@@ -30,35 +30,38 @@ class PlayersScreen extends StatelessWidget {
           Container(
             padding: const EdgeInsets.only(
                 top: 60.0, left: 30.0, right: 30.0, bottom: 30.0),
-            child: Column(
+            child: Row(
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: const <Widget>[
-                CircleAvatar(
-                  backgroundColor: Colors.white,
-                  radius: 30.0,
-                  child: Icon(
-                    Icons.person,
-                    size: 30.0,
-                    color: Colors.lightBlueAccent,
-                  ),
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: <Widget>[
+                const Icon(
+                  Icons.people,
+                  size: 40.0,
+                  color: Colors.white,
                 ),
-                SizedBox(
-                  height: 10.0,
+                const SizedBox(
+                  width: 20.0,
                 ),
-                Text(
-                  'Players',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 50.0,
-                    fontWeight: FontWeight.w700,
-                  ),
-                ),
-                Text(
-                  '5 Players',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 18,
-                  ),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: const [
+                    Text(
+                      'Players',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 30.0,
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
+                    Text(
+                      '5 Players',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 18,
+                      ),
+                    ),
+                  ],
                 ),
               ],
             ),

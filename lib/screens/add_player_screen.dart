@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:vai_raja_vai/models/player_data.dart';
+import 'package:vai_raja_vai/models/game_data.dart';
 
 class AddPlayer extends StatelessWidget {
   const AddPlayer({Key? key}) : super(key: key);
@@ -11,7 +11,7 @@ class AddPlayer extends StatelessWidget {
     String shortname = "";
     String color = "FF0000";
 
-    var provider = Provider.of<PlayerData>(context);
+    var provider = Provider.of<GameData>(context);
 
     return Container(
       color: const Color(0xff757575),
