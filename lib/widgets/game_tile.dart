@@ -4,15 +4,15 @@ import 'package:intl/intl.dart';
 import '../models/model.dart';
 
 class GameTile extends StatelessWidget {
-  final String place = "Gobi";
-  // final List<Player> players;
-  final DateTime time = DateTime.now();
+  final String? place;
+  final List<Player> players;
+  final DateTime time; // = DateTime.now();
 
   GameTile({
     super.key,
-    // required this.place,
-    // required this.players,
-    // required this.time
+    required this.place,
+    required this.players,
+    required this.time,
   });
 
   @override
@@ -34,13 +34,13 @@ class GameTile extends StatelessWidget {
       title: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
-        children: const [
+        children: [
           Text(
-            "Ramesh Home",
+            place!,
             style: TextStyle(fontSize: 18, fontWeight: FontWeight.normal),
           ),
-          Text("2:05pm - 3:15pm"),
-          Text("RA, EL, NA, MA"),
+          const Text("2:05pm - 3:15pm"),
+          Text(players.map((p) => p.shortname).join(',')),
         ],
       ),
       trailing: const Icon(

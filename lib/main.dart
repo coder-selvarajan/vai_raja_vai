@@ -45,6 +45,7 @@ class MyApp extends StatelessWidget {
       title: 'வை ராஜா வை',
       theme: ThemeData(
         primarySwatch: Colors.red,
+        // colorSchemeSeed: Colors.red,
       ),
       home: const Splash(),
     );

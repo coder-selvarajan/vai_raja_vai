@@ -49,8 +49,8 @@ class GameData extends ChangeNotifier {
     notifyListeners();
   }
 
-  void addCutfor(List<Player> players, String place) {
-    _games.add(Cutfor(time: DateTime.now(), players: players, place: place));
+  void addCutfor(List<Player> players, String place, DateTime time) {
+    _games.add(Cutfor(time: time, players: players, place: place));
     notifyListeners();
   }
 }

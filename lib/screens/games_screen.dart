@@ -47,7 +47,7 @@ class GamesScreen extends StatelessWidget {
                   width: 20.0,
                 ),
                 const Text(
-                  'Cutfors',
+                  'Games',
                   style: TextStyle(
                     color: Colors.white,
                     fontSize: 40.0,
@@ -87,7 +87,7 @@ class GamesScreen extends StatelessWidget {
             child: Container(
               padding: const EdgeInsets.symmetric(horizontal: 20.0),
               decoration: BoxDecoration(
-                color: Colors.white.withOpacity(0.85),
+                color: Colors.white.withOpacity(0.95),
                 borderRadius: const BorderRadius.only(
                   topLeft: Radius.circular(20.0),
                   topRight: Radius.circular(20.0),

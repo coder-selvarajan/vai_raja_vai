@@ -11,22 +11,20 @@ class GamesList extends StatelessWidget {
     return Consumer<GameData>(
       builder: (context, gameData, child) {
         return ListView.builder(
-          itemCount: gameData.playerCount,
+          itemCount: gameData.gameCount,
           itemBuilder: (context, index) {
-            final player = gameData.players[index];
+            final cutfor = gameData.games[index];
             return Column(
               children: [
-                GameTile(),
+                GameTile(
+                    place: cutfor.place,
+                    players: cutfor.players,
+                    time: cutfor.time),
                 const Divider(
                   color: Colors.black,
                 ),
               ],
             );
-            // return PlayerTile(
-            //   name: player.name,
-            //   shortname: player.shortname,
-            //   color: player.color,
-            // );
           },
         );
       },

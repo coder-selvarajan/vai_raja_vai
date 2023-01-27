@@ -4,8 +4,6 @@ import 'package:vai_raja_vai/models/model.dart';
 
 import '../models/game_data.dart';
 
-enum ExerciseFilter { Ramesh, Mohan, Elango, Manikkam }
-
 class AddGame extends StatefulWidget {
   const AddGame({Key? key}) : super(key: key);
 
@@ -14,7 +12,18 @@ class AddGame extends StatefulWidget {
 }
 
 class _AddGameState extends State<AddGame> {
-  final List<String> _filters = <String>[];
+  final List<Player> _selected = <Player>[
+    Player(id: 2, name: "Elango", shortname: "EL", color: "00FF00"),
+    Player(id: 3, name: "Manikkam", shortname: "MA", color: "0000FF"),
+  ];
+
+  final List<Player> players = [
+    Player(id: 1, name: "Ramesh", shortname: "RA", color: "FF0000"),
+    Player(id: 2, name: "Elango", shortname: "EL", color: "00FF00"),
+    Player(id: 3, name: "Manikkam", shortname: "MA", color: "0000FF"),
+    Player(id: 4, name: "Siva", shortname: "SI", color: "FF0000"),
+    Player(id: 5, name: "Natarajan", shortname: "NA", color: "0000FF"),
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -22,8 +31,8 @@ class _AddGameState extends State<AddGame> {
     // String place = "";
     // List<Player> currentPlayers = [];
     // DateTime time = DateTime.now();
-    //
-    // var provider = Provider.of<GameData>(context);
+
+    var provider = Provider.of<GameData>(context);
 
     return Scaffold(
       backgroundColor: Colors.red,
@@ -76,24 +85,24 @@ class _AddGameState extends State<AddGame> {
                     const SizedBox(
                       height: 20,
                     ),
-                    Text('Choose Players', style: textTheme.labelLarge),
+                    Text('Choose Players :', style: textTheme.labelLarge),
                     const SizedBox(height: 5.0),
                     Wrap(
                       spacing: 5.0,
-                      children:
-                          ExerciseFilter.values.map((ExerciseFilter exercise) {
+                      children: players.map((Player player) {
+                        // ExerciseFilter.values.map((ExerciseFilter exercise) {
                         return FilterChip(
-                          label: Text(exercise.name),
-                          selected: _filters.contains(exercise.name),
+                          label: Text(player.name),
+                          selected: _selected.contains(player),
                           onSelected: (bool value) {
                             setState(() {
                               if (value) {
-                                if (!_filters.contains(exercise.name)) {
-                                  _filters.add(exercise.name);
+                                if (!_selected.contains(player)) {
+                                  _selected.add(player);
                                 }
                               } else {
-                                _filters.removeWhere((String name) {
-                                  return name == exercise.name;
+                                _selected.removeWhere((Player filterPlayer) {
+                                  return filterPlayer == player;
                                 });
                               }
                             });
@@ -101,8 +110,8 @@ class _AddGameState extends State<AddGame> {
                         );
                       }).toList(),
                     ),
-                    const SizedBox(height: 10.0),
-                    Text('Selected : ${_filters.join(', ')}'),
+                    // const SizedBox(height: 10.0),
+                    // Text('Selected : ${_filters.join(', ')}'),
                     const SizedBox(height: 30.0),
                     ElevatedButton(
                       style: ElevatedButton.styleFrom(
@@ -110,7 +119,11 @@ class _AddGameState extends State<AddGame> {
                         textStyle:
                             const TextStyle(fontSize: 20, color: Colors.white),
                       ),
-                      onPressed: null,
+                      onPressed: () {
+                        provider.addCutfor(
+                            _selected, "Gobi Home", DateTime.now());
+                        Navigator.pop(context);
+                      },
                       child: const Padding(
                         padding: EdgeInsets.all(18.0),
                         child: Text('Create Game'),
