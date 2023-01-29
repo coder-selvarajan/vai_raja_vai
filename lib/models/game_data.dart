@@ -27,6 +27,13 @@ class GameData extends ChangeNotifier {
     return _games.length;
   }
 
+  int getLastCutforId() {
+    return _games.last.id!;
+  }
+
+  Game? selectedGame;
+  Game? currentGame;
+
   void initialize() {
     // adding 5 players
     _players
@@ -194,7 +201,12 @@ class GameData extends ChangeNotifier {
   }
 
   void addCutfor(List<Player> players, String place, DateTime time) {
-    _games.add(Cutfor(time: time, players: players, place: place));
+    var cutforId = 1;
+    if (_games.length > 1) {
+      cutforId = _games.last.id! + 1;
+    }
+    _games
+        .add(Cutfor(id: cutforId, time: time, players: players, place: place));
     notifyListeners();
   }
 

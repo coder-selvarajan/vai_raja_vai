@@ -14,15 +14,21 @@ class PlayersScreen extends StatelessWidget {
           backgroundColor: Colors.redAccent,
           child: const Icon(Icons.add),
           onPressed: () {
-            showModalBottomSheet(
-                context: context,
-                isScrollControlled: true,
-                builder: (context) => SingleChildScrollView(
-                        child: Container(
-                      padding: EdgeInsets.only(
-                          bottom: MediaQuery.of(context).viewInsets.bottom),
-                      child: const AddPlayer(),
-                    )));
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => const AddPlayer()),
+            );
+            // showModalBottomSheet(
+            //   context: context,
+            //   isScrollControlled: true,
+            //   builder: (context) => SingleChildScrollView(
+            //     child: Container(
+            //       padding: EdgeInsets.only(
+            //           bottom: MediaQuery.of(context).viewInsets.bottom),
+            //       child: const AddPlayer(),
+            //     ),
+            //   ),
+            // );
           }),
       appBar: AppBar(
         backgroundColor: Colors.redAccent,
@@ -46,7 +52,8 @@ class PlayersScreen extends StatelessWidget {
         children: <Widget>[
           Expanded(
             child: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 20.0),
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
               decoration: const BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.only(

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:vai_raja_vai/models/model.dart';
+import 'package:vai_raja_vai/screens/add_round_screen.dart';
 import 'package:vai_raja_vai/screens/players_screen.dart';
 import 'package:vai_raja_vai/widgets/rounds_list.dart';
 
@@ -10,11 +12,12 @@ import 'add_game_screen.dart';
 
 class RoundsScreen extends StatelessWidget {
   // const RoundsScreen({Key? key}) : super(key: key);
-  final int cutforId;
+  // final int cutforId;
+  final Cutfor cutfor;
 
   const RoundsScreen({
     super.key,
-    required this.cutforId,
+    required this.cutfor,
   });
 
   @override
@@ -27,7 +30,7 @@ class RoundsScreen extends StatelessWidget {
           onPressed: () {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => const AddGame()),
+              MaterialPageRoute(builder: (context) => const AddRound()),
             );
           }),
       appBar: AppBar(
@@ -77,7 +80,7 @@ class RoundsScreen extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: <Widget>[
                   Row(
-                    children: const [
+                    children: [
                       Icon(
                         Icons.date_range,
                         size: 25.0,
@@ -86,14 +89,15 @@ class RoundsScreen extends StatelessWidget {
                       SizedBox(
                         width: 10,
                       ),
-                      Text("Saturday, Jan-27  11:50 AM"),
+                      Text(
+                          DateFormat('EEEE MMMd, hh:mm a').format(cutfor.time)),
                     ],
                   ),
                   const SizedBox(
                     height: 10,
                   ),
                   Row(
-                    children: const [
+                    children: [
                       Icon(
                         Icons.place_outlined,
                         size: 25.0,
@@ -102,14 +106,14 @@ class RoundsScreen extends StatelessWidget {
                       SizedBox(
                         width: 10,
                       ),
-                      Text("Ramesh Home"),
+                      Text(cutfor.place!),
                     ],
                   ),
                   const SizedBox(
                     height: 10,
                   ),
                   Row(
-                    children: const [
+                    children: [
                       Icon(
                         Icons.people,
                         size: 25.0,
@@ -118,7 +122,9 @@ class RoundsScreen extends StatelessWidget {
                       SizedBox(
                         width: 10,
                       ),
-                      Text("RA, MA, EL, MO, SI"),
+                      Text(cutfor.players
+                          .map((p) => p.shortname.toString())
+                          .join(", ")),
                     ],
                   ),
                   const SizedBox(
@@ -148,7 +154,7 @@ class RoundsScreen extends StatelessWidget {
               decoration: BoxDecoration(
                 color: Colors.white.withOpacity(0.95),
               ),
-              child: RoundsList(cutforId: cutforId),
+              child: RoundsList(cutforId: cutfor.id!),
             ),
           ),
         ],

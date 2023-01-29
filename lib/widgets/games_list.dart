@@ -31,20 +31,17 @@ class GamesList extends StatelessWidget {
                   const SizedBox(
                     height: 20,
                   ),
-                  GameTile(
-                      id: cutfor.id!,
-                      place: cutfor.place,
-                      players: cutfor.players,
-                      time: cutfor.time),
+                  GameTile(cutfor: cutfor),
+                  // GameTile(
+                  //     id: cutfor.id!,
+                  //     place: cutfor.place,
+                  //     players: cutfor.players,
+                  //     time: cutfor.time),
                 ],
               );
             }
 
-            return GameTile(
-                id: cutfor.id!,
-                place: cutfor.place,
-                players: cutfor.players,
-                time: cutfor.time);
+            return GameTile(cutfor: cutfor);
           },
           separatorBuilder: (_, id) => const Divider(
             color: Colors.black,

@@ -15,17 +15,13 @@ class PlayerTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListTile(
       // onLongPress: longPressCallback,
-      leading: const CircleAvatar(
-        backgroundColor: Colors.white,
-        radius: 30.0,
-        child: Icon(
-          Icons.person,
-          size: 30.0,
-          color: Colors.orangeAccent,
-        ),
+      leading: CircleAvatar(
+        // backgroundColor: Colors.white,
+        // radius: 30.0,
+        child: Text(shortname),
       ),
       title: Text(
-        "$shortname - $name",
+        name,
         style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
       ),
       trailing: const Icon(

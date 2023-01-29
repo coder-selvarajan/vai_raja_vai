@@ -10,7 +10,7 @@ class PlayersList extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer<GameData>(
       builder: (context, gameData, child) {
-        return ListView.builder(
+        return ListView.separated(
           itemCount: gameData.playerCount,
           itemBuilder: (context, index) {
             final player = gameData.players[index];
@@ -20,6 +20,9 @@ class PlayersList extends StatelessWidget {
               color: player.color,
             );
           },
+          separatorBuilder: (_, id) => const Divider(
+            color: Colors.black,
+          ),
         );
       },
     );

@@ -3,22 +3,24 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
-import 'package:vai_raja_vai/models/model.dart';
 
 import '../models/game_data.dart';
+import '../models/model.dart';
 
-class AddGame extends StatefulWidget {
-  const AddGame({Key? key}) : super(key: key);
+List<String> amountList = <String>['Win', '0', '20', '40', '80'];
+
+class AddRound extends StatefulWidget {
+  const AddRound({Key? key}) : super(key: key);
 
   @override
-  State<AddGame> createState() => _AddGameState();
+  State<AddRound> createState() => _AddRoundState();
 }
 
-class _AddGameState extends State<AddGame> {
+class _AddRoundState extends State<AddRound> {
   final List<Player> _selected = <Player>[];
 
   String place = "";
-  DateTime gameTime = DateTime.now();
+  DateTime roundTime = DateTime.now();
   late Timer _timer;
 
   @override
@@ -26,7 +28,7 @@ class _AddGameState extends State<AddGame> {
     _timer = Timer.periodic(
       const Duration(microseconds: 5000),
       (Timer t) => setState(() {
-        gameTime = DateTime.now();
+        roundTime = DateTime.now();
       }),
     );
 
@@ -38,6 +40,8 @@ class _AddGameState extends State<AddGame> {
     _timer.cancel();
     super.dispose();
   }
+
+  String dropdownValue = amountList.first;
 
   @override
   Widget build(BuildContext context) {
@@ -52,7 +56,7 @@ class _AddGameState extends State<AddGame> {
       backgroundColor: Colors.redAccent,
       appBar: AppBar(
         backgroundColor: Colors.redAccent,
-        title: const Text("New Game"),
+        title: const Text("New Round"),
         elevation: 0,
       ),
       body: Column(
@@ -74,71 +78,8 @@ class _AddGameState extends State<AddGame> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    Text("Where ? ", style: textTheme.titleLarge),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    TextFormField(
-                      decoration: InputDecoration(
-                        filled: true, //<-- SEE HERE
-                        fillColor: Colors.grey.withOpacity(0.2),
-                        hintText: "Enter the Place",
-                        prefixIcon: const Padding(
-                          padding: EdgeInsets.all(8.0),
-                          child: Icon(Icons.place_outlined),
-                        ),
-                        enabledBorder: UnderlineInputBorder(
-                          borderSide: BorderSide(color: Colors.white),
-                          borderRadius: BorderRadius.circular(15.0),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderSide: BorderSide(color: Colors.white),
-                          borderRadius: BorderRadius.circular(15.0),
-                        ),
-                      ),
-                      onChanged: (value) {
-                        place = value;
-                      },
-                    ),
-                    const SizedBox(
-                      height: 25,
-                    ),
-                    Row(
-                      children: [
-                        Text('Who are all playing?',
-                            style: textTheme.titleLarge),
-                        const SizedBox(
-                          width: 15,
-                        ),
-                        const Text('(Tick them below)'),
-                      ],
-                    ),
-                    const SizedBox(height: 5.0),
-                    Wrap(
-                      spacing: 5.0,
-                      children: provider.players.map((Player player) {
-                        return FilterChip(
-                          label: Text(player.name),
-                          selected: _selected.contains(player),
-                          onSelected: (bool value) {
-                            setState(() {
-                              if (value) {
-                                if (!_selected.contains(player)) {
-                                  _selected.add(player);
-                                }
-                              } else {
-                                _selected.removeWhere((Player filterPlayer) {
-                                  return filterPlayer == player;
-                                });
-                              }
-                            });
-                          },
-                        );
-                      }).toList(),
-                    ),
-                    // const SizedBox(height: 10.0),
-                    // Text('Selected : ${_filters.join(', ')}'),
-                    const SizedBox(height: 30.0),
+                    Text("Round No: 2", style: textTheme.titleLarge),
+                    const SizedBox(height: 10.0),
                     Row(
                       children: [
                         const Icon(
@@ -150,7 +91,65 @@ class _AddGameState extends State<AddGame> {
                           width: 10,
                         ),
                         Text(DateFormat('EEEE, MMM-dd  -  hh:mm a')
-                            .format(gameTime)),
+                            .format(roundTime)),
+                      ],
+                    ),
+                    const Divider(
+                      color: Colors.black,
+                    ),
+                    Text("Entries: "),
+                    Column(
+                      children: [
+                        Row(
+                          children: [
+                            Text('Ramesh'),
+                            Spacer(),
+                            DropdownButton<String>(
+                              value: dropdownValue,
+                              icon: const Icon(Icons.arrow_downward),
+                              elevation: 16,
+                              style: const TextStyle(color: Colors.deepPurple),
+                              underline: Container(
+                                height: 2,
+                                color: Colors.deepPurpleAccent,
+                              ),
+                              onChanged: (String? value) {
+                                // This is called when the user selects an item.
+                                setState(() {
+                                  dropdownValue = value!;
+                                });
+                              },
+                              items: amountList.map<DropdownMenuItem<String>>(
+                                  (String value) {
+                                return DropdownMenuItem<String>(
+                                  value: value,
+                                  child: Text(value),
+                                );
+                              }).toList(),
+                            ),
+                          ],
+                        ),
+                        Row(
+                          children: [
+                            Text('Elango'),
+                            Spacer(),
+                            Text('20'),
+                          ],
+                        ),
+                        Row(
+                          children: [
+                            Text('Manikkam'),
+                            Spacer(),
+                            Text('20'),
+                          ],
+                        ),
+                        Row(
+                          children: [
+                            Text('Muhusamy'),
+                            Spacer(),
+                            Text('20'),
+                          ],
+                        )
                       ],
                     ),
                     const SizedBox(
@@ -164,7 +163,7 @@ class _AddGameState extends State<AddGame> {
                       ),
                       onPressed: () {
                         if (place.isNotEmpty && _selected.length > 1) {
-                          provider.addCutfor(_selected, place, gameTime);
+                          provider.addCutfor(_selected, place, roundTime);
                           Navigator.pop(context);
                         } else {
                           //no players are selected
@@ -188,7 +187,7 @@ class _AddGameState extends State<AddGame> {
                       },
                       child: const Padding(
                         padding: EdgeInsets.all(18.0),
-                        child: Text('Start Game'),
+                        child: Text('Save'),
                       ),
                     ),
                   ],

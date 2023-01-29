@@ -5,17 +5,19 @@ import 'package:vai_raja_vai/screens/rounds_screen.dart';
 import '../models/model.dart';
 
 class GameTile extends StatelessWidget {
-  final int id;
-  final String? place;
-  final List<Player> players;
-  final DateTime time; // = DateTime.now();
+  final Cutfor cutfor;
+  // final int id;
+  // final String? place;
+  // final List<Player> players;
+  // final DateTime time; // = DateTime.now();
 
   GameTile({
     super.key,
-    required this.id,
-    required this.place,
-    required this.players,
-    required this.time,
+    required this.cutfor,
+    // required this.id,
+    // required this.place,
+    // required this.players,
+    // required this.time,
   });
 
   @override
@@ -27,13 +29,13 @@ class GameTile extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.end,
         children: [
           Text(
-            DateFormat('EE MMMd').format(time),
+            DateFormat('EE MMMd').format(cutfor.time),
           ),
           const SizedBox(
             height: 5,
           ),
           Text(
-            DateFormat('hh:mm a').format(time),
+            DateFormat('hh:mm a').format(cutfor.time),
           ),
         ],
       ),
@@ -42,11 +44,11 @@ class GameTile extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            place!,
+            cutfor.place!,
             style: const TextStyle(fontSize: 18, fontWeight: FontWeight.normal),
           ),
           // Text("Started @ " + DateFormat('hh:mm a').format(time)),
-          Text(players.map((p) => p.shortname).join(', ')),
+          Text(cutfor.players.map((p) => p.shortname).join(', ')),
           const Text("Played for 1hr"),
         ],
       ),
@@ -58,7 +60,7 @@ class GameTile extends StatelessWidget {
       onTap: () {
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => RoundsScreen(cutforId: id)),
+          MaterialPageRoute(builder: (context) => RoundsScreen(cutfor: cutfor)),
         );
       },
     );
