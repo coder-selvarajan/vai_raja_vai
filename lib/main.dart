@@ -79,6 +79,8 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
+    var provider = Provider.of<GameData>(context);
+
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.title),
@@ -131,6 +133,8 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
             ElevatedButton(
               onPressed: () {
+                provider.initialize();
+
                 Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) => const GamesScreen()),

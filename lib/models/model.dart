@@ -1,3 +1,31 @@
+class Round {
+  int? id;
+  final int cutforId;
+  final int roundNo;
+  final DateTime time;
+  final List<RoundEntry> entries;
+
+  Round(
+      {this.id,
+      required this.cutforId,
+      required this.roundNo,
+      required this.time,
+      required this.entries});
+}
+
+class RoundEntry {
+  int? id;
+  final int roundNo;
+  final Player player;
+  final int toPay;
+
+  RoundEntry(
+      {this.id,
+      required this.roundNo,
+      required this.player,
+      required this.toPay});
+}
+
 class Cutfor {
   int? id;
   final DateTime time;
@@ -93,76 +121,76 @@ class GamePlayer {
   }
 }
 
-class Round {
-  int? id;
-  final int gameid;
-  final DateTime time;
-  final int winner; //playerid
-
-  Round(
-      {this.id,
-      required this.gameid,
-      required this.time,
-      required this.winner});
-
-  //for sqlite
-  Map<String, dynamic> toMap() => {
-        // id auto generated
-        'gameid': gameid,
-        'time': time.millisecondsSinceEpoch,
-        'winner': winner,
-      };
-  factory Round.fromString(Map<String, dynamic> value) => Round(
-        id: value['id'],
-        gameid: value['gameid'],
-        time: DateTime.fromMillisecondsSinceEpoch(value['time']),
-        winner: value['winner'],
-      );
-
-  //for debugging
-  @override
-  String toString() {
-    return 'Round(id: $id, gameid: $gameid, time: $time, winner: $winner';
-  }
-}
-
-class RoundEntry {
-  int? id;
-  final int gameid;
-  final int roundid;
-  final int playerid;
-  final int winnerid;
-  final double amount;
-
-  RoundEntry(
-      {this.id,
-      required this.gameid,
-      required this.roundid,
-      required this.playerid,
-      required this.winnerid,
-      required this.amount});
-
-  //for sqlite
-  Map<String, dynamic> toMap() => {
-        //id auto increment
-        'gameid': gameid,
-        'roundid': roundid,
-        'playerid': playerid,
-        'winnerid': winnerid,
-        'amount': amount.toString(),
-      };
-  factory RoundEntry.fromString(Map<String, dynamic> value) => RoundEntry(
-        id: value['id'],
-        gameid: value['gameid'],
-        roundid: value['roundid'],
-        playerid: value['playerid'],
-        winnerid: value['winnerid'],
-        amount: double.parse(value['amount']),
-      );
-
-  //for debugging
-  @override
-  String toString() {
-    return 'RoundEntry(id: $id, gameid: $gameid, roundid: $roundid, playerid: $playerid, winnerid:$winnerid, amount:$amount';
-  }
-}
+// class Round {
+//   int? id;
+//   final int gameid;
+//   final DateTime time;
+//   final int winner; //playerid
+//
+//   Round(
+//       {this.id,
+//       required this.gameid,
+//       required this.time,
+//       required this.winner});
+//
+//   //for sqlite
+//   Map<String, dynamic> toMap() => {
+//         // id auto generated
+//         'gameid': gameid,
+//         'time': time.millisecondsSinceEpoch,
+//         'winner': winner,
+//       };
+//   factory Round.fromString(Map<String, dynamic> value) => Round(
+//         id: value['id'],
+//         gameid: value['gameid'],
+//         time: DateTime.fromMillisecondsSinceEpoch(value['time']),
+//         winner: value['winner'],
+//       );
+//
+//   //for debugging
+//   @override
+//   String toString() {
+//     return 'Round(id: $id, gameid: $gameid, time: $time, winner: $winner';
+//   }
+// }
+//
+// class RoundEntry {
+//   int? id;
+//   final int gameid;
+//   final int roundid;
+//   final int playerid;
+//   final int winnerid;
+//   final double amount;
+//
+//   RoundEntry(
+//       {this.id,
+//       required this.gameid,
+//       required this.roundid,
+//       required this.playerid,
+//       required this.winnerid,
+//       required this.amount});
+//
+//   //for sqlite
+//   Map<String, dynamic> toMap() => {
+//         //id auto increment
+//         'gameid': gameid,
+//         'roundid': roundid,
+//         'playerid': playerid,
+//         'winnerid': winnerid,
+//         'amount': amount.toString(),
+//       };
+//   factory RoundEntry.fromString(Map<String, dynamic> value) => RoundEntry(
+//         id: value['id'],
+//         gameid: value['gameid'],
+//         roundid: value['roundid'],
+//         playerid: value['playerid'],
+//         winnerid: value['winnerid'],
+//         amount: double.parse(value['amount']),
+//       );
+//
+//   //for debugging
+//   @override
+//   String toString() {
+//     return 'RoundEntry(id: $id, gameid: $gameid, roundid: $roundid, playerid: $playerid, winnerid:$winnerid, amount:$amount';
+//   }
+// }

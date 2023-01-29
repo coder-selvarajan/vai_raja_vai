@@ -1,4 +1,7 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:vai_raja_vai/models/model.dart';
 
@@ -12,31 +15,53 @@ class AddGame extends StatefulWidget {
 }
 
 class _AddGameState extends State<AddGame> {
-  final List<Player> _selected = <Player>[
-    Player(id: 2, name: "Elango", shortname: "EL", color: "00FF00"),
-    Player(id: 3, name: "Manikkam", shortname: "MA", color: "0000FF"),
-  ];
+  final List<Player> _selected = <Player>[];
 
   final List<Player> players = [
     Player(id: 1, name: "Ramesh", shortname: "RA", color: "FF0000"),
     Player(id: 2, name: "Elango", shortname: "EL", color: "00FF00"),
     Player(id: 3, name: "Manikkam", shortname: "MA", color: "0000FF"),
     Player(id: 4, name: "Siva", shortname: "SI", color: "FF0000"),
-    Player(id: 5, name: "Natarajan", shortname: "NA", color: "0000FF"),
+    // Player(id: 5, name: "Natarajan", shortname: "NA", color: "0000FF"),
   ];
+
+  String place = "";
+  DateTime gameTime = DateTime.now();
+  late Timer _timer;
+
+  @override
+  void initState() {
+    _timer = Timer.periodic(
+      const Duration(microseconds: 5000),
+      (Timer t) => setState(() {
+        gameTime = DateTime.now();
+      }),
+    );
+
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _timer.cancel();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     final TextTheme textTheme = Theme.of(context).textTheme;
-    // String place = "";
+    // final formKey = GlobalKey<FormState>();
+
     // List<Player> currentPlayers = [];
     // DateTime time = DateTime.now();
 
     var provider = Provider.of<GameData>(context);
+    var timeNow = DateTime.now();
 
     return Scaffold(
-      backgroundColor: Colors.red,
+      backgroundColor: Colors.redAccent,
       appBar: AppBar(
+        backgroundColor: Colors.redAccent,
         title: const Text("New Game"),
         elevation: 0,
       ),
@@ -58,16 +83,15 @@ class _AddGameState extends State<AddGame> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    const Text(
-                        "Enter the place and select players to create a game"),
+                    Text("Where ? ", style: textTheme.titleLarge),
                     const SizedBox(
-                      height: 20,
+                      height: 10,
                     ),
                     TextFormField(
                       decoration: InputDecoration(
                         filled: true, //<-- SEE HERE
                         fillColor: Colors.grey.withOpacity(0.2),
-                        hintText: "Place of the game?",
+                        hintText: "Enter the Place",
                         prefixIcon: const Padding(
                           padding: EdgeInsets.all(8.0),
                           child: Icon(Icons.place_outlined),
@@ -81,11 +105,29 @@ class _AddGameState extends State<AddGame> {
                           borderRadius: BorderRadius.circular(15.0),
                         ),
                       ),
+                      onChanged: (value) {
+                        place = value;
+                      },
+                      // validator: (String? value) {
+                      //   if (value != null && value!.isEmpty) {
+                      //     return "Enter the place";
+                      //   } else {
+                      //     return null;
+                      //   }
+                      // },
                     ),
                     const SizedBox(
-                      height: 20,
+                      height: 25,
                     ),
-                    Text('Choose Players :', style: textTheme.labelLarge),
+                    Row(
+                      children: [
+                        Text('Who are all?', style: textTheme.titleLarge),
+                        const SizedBox(
+                          width: 15,
+                        ),
+                        const Text('(Tick the players below)'),
+                      ],
+                    ),
                     const SizedBox(height: 5.0),
                     Wrap(
                       spacing: 5.0,
@@ -113,6 +155,23 @@ class _AddGameState extends State<AddGame> {
                     // const SizedBox(height: 10.0),
                     // Text('Selected : ${_filters.join(', ')}'),
                     const SizedBox(height: 30.0),
+                    Row(
+                      children: [
+                        const Icon(
+                          Icons.date_range,
+                          color: Colors.red,
+                          size: 30.0,
+                        ),
+                        const SizedBox(
+                          width: 10,
+                        ),
+                        Text(DateFormat('EEEE, MMM-dd  -  hh:mm a')
+                            .format(gameTime)),
+                      ],
+                    ),
+                    const SizedBox(
+                      height: 30,
+                    ),
                     ElevatedButton(
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.red,
@@ -120,13 +179,32 @@ class _AddGameState extends State<AddGame> {
                             const TextStyle(fontSize: 20, color: Colors.white),
                       ),
                       onPressed: () {
-                        provider.addCutfor(
-                            _selected, "Gobi Home", DateTime.now());
-                        Navigator.pop(context);
+                        if (place.isNotEmpty && _selected.length > 1) {
+                          provider.addCutfor(_selected, place, gameTime);
+                          Navigator.pop(context);
+                        } else {
+                          //no players are selected
+                          //display alert here
+                          showDialog<String>(
+                            context: context,
+                            builder: (BuildContext context) => AlertDialog(
+                              title: const Text('Invalid Input:'),
+                              content: const Text(
+                                  'Enter the place & Select atleast two players'),
+                              actions: <Widget>[
+                                TextButton(
+                                  onPressed: () => Navigator.pop(context, 'OK'),
+                                  child: const Text('OK'),
+                                ),
+                              ],
+                            ),
+                          );
+                        }
+                        // }
                       },
                       child: const Padding(
                         padding: EdgeInsets.all(18.0),
-                        child: Text('Create Game'),
+                        child: Text('Start Game'),
                       ),
                     ),
                   ],

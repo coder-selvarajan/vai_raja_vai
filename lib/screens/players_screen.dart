@@ -24,48 +24,26 @@ class PlayersScreen extends StatelessWidget {
                       child: const AddPlayer(),
                     )));
           }),
+      appBar: AppBar(
+        backgroundColor: Colors.redAccent,
+        title: Row(
+          children: const [
+            Icon(
+              Icons.people,
+              size: 25.0,
+              color: Colors.white,
+            ),
+            SizedBox(
+              width: 10,
+            ),
+            Text("Players"),
+          ],
+        ),
+        elevation: 0,
+      ),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          Container(
-            padding: const EdgeInsets.only(
-                top: 60.0, left: 30.0, right: 30.0, bottom: 30.0),
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: <Widget>[
-                const Icon(
-                  Icons.people,
-                  size: 40.0,
-                  color: Colors.white,
-                ),
-                const SizedBox(
-                  width: 20.0,
-                ),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: const [
-                    Text(
-                      'Players',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 30.0,
-                        fontWeight: FontWeight.w700,
-                      ),
-                    ),
-                    Text(
-                      '5 Players',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 18,
-                      ),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-          ),
           Expanded(
             child: Container(
               padding: const EdgeInsets.symmetric(horizontal: 20.0),

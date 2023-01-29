@@ -8,24 +8,47 @@ class GamesList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final TextTheme textTheme = Theme.of(context).textTheme;
+
     return Consumer<GameData>(
       builder: (context, gameData, child) {
-        return ListView.builder(
+        return ListView.separated(
+          scrollDirection: Axis.vertical,
+          shrinkWrap: true,
           itemCount: gameData.gameCount,
           itemBuilder: (context, index) {
             final cutfor = gameData.games[index];
-            return Column(
-              children: [
-                GameTile(
-                    place: cutfor.place,
-                    players: cutfor.players,
-                    time: cutfor.time),
-                const Divider(
-                  color: Colors.black,
-                ),
-              ],
-            );
+            if (index == 0) {
+              // return the header
+              return Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    "Recent Games",
+                    style: textTheme.bodyLarge,
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  GameTile(
+                      id: cutfor.id!,
+                      place: cutfor.place,
+                      players: cutfor.players,
+                      time: cutfor.time),
+                ],
+              );
+            }
+
+            return GameTile(
+                id: cutfor.id!,
+                place: cutfor.place,
+                players: cutfor.players,
+                time: cutfor.time);
           },
+          separatorBuilder: (_, id) => const Divider(
+            color: Colors.black,
+          ),
         );
       },
     );

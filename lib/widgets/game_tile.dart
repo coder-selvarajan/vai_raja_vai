@@ -1,15 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:vai_raja_vai/screens/rounds_screen.dart';
 
 import '../models/model.dart';
 
 class GameTile extends StatelessWidget {
+  final int id;
   final String? place;
   final List<Player> players;
   final DateTime time; // = DateTime.now();
 
   GameTile({
     super.key,
+    required this.id,
     required this.place,
     required this.players,
     required this.time,
@@ -21,13 +24,16 @@ class GameTile extends StatelessWidget {
       // onLongPress: longPressCallback,
       leading: Column(
         mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.end,
         children: [
           Text(
-            DateFormat.MMMd().format(time),
+            DateFormat('EE MMMd').format(time),
+          ),
+          const SizedBox(
+            height: 5,
           ),
           Text(
-            DateFormat.EEEE().format(time),
+            DateFormat('hh:mm a').format(time),
           ),
         ],
       ),
@@ -37,10 +43,11 @@ class GameTile extends StatelessWidget {
         children: [
           Text(
             place!,
-            style: TextStyle(fontSize: 18, fontWeight: FontWeight.normal),
+            style: const TextStyle(fontSize: 18, fontWeight: FontWeight.normal),
           ),
-          const Text("2:05pm - 3:15pm"),
-          Text(players.map((p) => p.shortname).join(',')),
+          // Text("Started @ " + DateFormat('hh:mm a').format(time)),
+          Text(players.map((p) => p.shortname).join(', ')),
+          const Text("Played for 1hr"),
         ],
       ),
       trailing: const Icon(
@@ -48,6 +55,12 @@ class GameTile extends StatelessWidget {
         size: 20.0,
         color: Colors.red,
       ),
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => RoundsScreen(cutforId: id)),
+        );
+      },
     );
   }
 }
