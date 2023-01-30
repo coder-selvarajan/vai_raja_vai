@@ -7,19 +7,16 @@ import 'package:provider/provider.dart';
 import '../models/game_data.dart';
 import '../models/model.dart';
 
-List<String> amountList = <String>['-1', '0', '20', '40', '80'];
+class SettlementScreen extends StatefulWidget {
+  final Cutfor cutfor;
 
-class AddRound extends StatefulWidget {
-  final Cutfor currentCutfor;
-  final int roundNo;
-  const AddRound({Key? key, required this.currentCutfor, required this.roundNo})
-      : super(key: key);
+  const SettlementScreen({Key? key, required this.cutfor}) : super(key: key);
 
   @override
-  State<AddRound> createState() => _AddRoundState();
+  State<SettlementScreen> createState() => _SettlementScreenState();
 }
 
-class _AddRoundState extends State<AddRound> {
+class _SettlementScreenState extends State<SettlementScreen> {
   DateTime roundTime = DateTime.now();
   late Timer _timer;
   late List<String> selectedValue = [];
@@ -32,7 +29,7 @@ class _AddRoundState extends State<AddRound> {
         roundTime = DateTime.now();
       }),
     );
-    selectedValue = widget.currentCutfor.players.map((e) => "0").toList();
+    selectedValue = widget.cutfor.players.map((e) => "0").toList();
     super.initState();
   }
 
@@ -53,7 +50,7 @@ class _AddRoundState extends State<AddRound> {
       backgroundColor: Colors.redAccent,
       appBar: AppBar(
         backgroundColor: Colors.redAccent,
-        title: const Text("New Round"),
+        title: const Text("Money Settlement"),
         elevation: 0,
       ),
       body: Column(
@@ -84,22 +81,68 @@ class _AddRoundState extends State<AddRound> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          Text("Round No: ${widget.roundNo}",
-                              style: textTheme.headline5),
-                          const SizedBox(height: 10.0),
                           Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              const Icon(
+                              Icon(
                                 Icons.date_range,
-                                color: Colors.red,
-                                size: 30.0,
+                                size: 25.0,
+                                color: Colors.redAccent,
                               ),
-                              const SizedBox(
+                              SizedBox(
                                 width: 10,
                               ),
-                              Text(DateFormat('EEEE, MMM-dd  -  hh:mm a')
-                                  .format(roundTime)),
+                              Text(DateFormat('EEEE MMMd, hh:mm a')
+                                  .format(widget.cutfor.time)),
+                            ],
+                          ),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          Row(
+                            children: [
+                              Icon(
+                                Icons.place_outlined,
+                                size: 25.0,
+                                color: Colors.redAccent,
+                              ),
+                              SizedBox(
+                                width: 10,
+                              ),
+                              Text(widget.cutfor.place!),
+                            ],
+                          ),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          Row(
+                            children: [
+                              Icon(
+                                Icons.people,
+                                size: 25.0,
+                                color: Colors.redAccent,
+                              ),
+                              SizedBox(
+                                width: 10,
+                              ),
+                              Text(widget.cutfor.players
+                                  .map((p) => p.shortname.toString())
+                                  .join(", ")),
+                            ],
+                          ),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          Row(
+                            children: const [
+                              Icon(
+                                Icons.info_outline,
+                                size: 25.0,
+                                color: Colors.redAccent,
+                              ),
+                              SizedBox(
+                                width: 10,
+                              ),
+                              Text("Ongoing.."),
                             ],
                           ),
                         ],
@@ -121,7 +164,7 @@ class _AddRoundState extends State<AddRound> {
                     ListView.separated(
                       scrollDirection: Axis.vertical,
                       shrinkWrap: true,
-                      itemCount: widget.currentCutfor.players.length,
+                      itemCount: widget.cutfor.players.length,
                       itemBuilder: (BuildContext context, int index) {
                         return Container(
                           height: 60,
@@ -130,36 +173,8 @@ class _AddRoundState extends State<AddRound> {
                             child: Row(
                               children: [
                                 Text(
-                                  widget.currentCutfor.players[index].name,
+                                  widget.cutfor.players[index].name,
                                   style: TextStyle(fontSize: 20.0),
-                                ),
-                                Spacer(),
-                                Container(
-                                  padding: EdgeInsets.only(
-                                      left: 12, top: 0, bottom: 0),
-                                  decoration: BoxDecoration(
-                                      border: Border.all(
-                                          color: Colors.grey, width: 2),
-                                      borderRadius: BorderRadius.circular(10)),
-                                  child: DropdownButton<String>(
-                                    underline: SizedBox(),
-                                    value: selectedValue[index],
-                                    iconSize: 36,
-                                    icon: const Icon(Icons.arrow_drop_down),
-                                    onChanged: (String? value) {
-                                      setState(() {
-                                        selectedValue[index] = value!;
-                                      });
-                                    },
-                                    items: amountList
-                                        .map<DropdownMenuItem<String>>(
-                                            (String value) {
-                                      return DropdownMenuItem<String>(
-                                        value: value,
-                                        child: Text(value),
-                                      );
-                                    }).toList(),
-                                  ),
                                 ),
                               ],
                             ),
@@ -181,43 +196,11 @@ class _AddRoundState extends State<AddRound> {
                             const TextStyle(fontSize: 20, color: Colors.white),
                       ),
                       onPressed: () {
-                        if (true) {
-                          List<RoundEntry> entries = [];
-                          for (var i = 0;
-                              i < widget.currentCutfor.players.length;
-                              i++) {
-                            entries.add(RoundEntry(
-                                roundNo: widget.roundNo,
-                                player: widget.currentCutfor.players[i],
-                                toPay: int.parse(selectedValue[i])));
-                          }
-
-                          provider.addRound(widget.currentCutfor.id!, entries,
-                              widget.roundNo);
-                          Navigator.pop(context);
-                        } else {
-                          //no players are selected
-                          //display alert here
-                          showDialog<String>(
-                            context: context,
-                            builder: (BuildContext context) => AlertDialog(
-                              title: const Text('Invalid Input:'),
-                              content: const Text(
-                                  'Enter the place & Select atleast two players'),
-                              actions: <Widget>[
-                                TextButton(
-                                  onPressed: () => Navigator.pop(context, 'OK'),
-                                  child: const Text('OK'),
-                                ),
-                              ],
-                            ),
-                          );
-                        }
-                        // }
+                        //
                       },
                       child: const Padding(
                         padding: EdgeInsets.all(18.0),
-                        child: Text('Save Round'),
+                        child: Text('Mark as Settled'),
                       ),
                     ),
                   ],

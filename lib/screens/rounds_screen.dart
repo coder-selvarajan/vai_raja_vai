@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:vai_raja_vai/models/model.dart';
 import 'package:vai_raja_vai/screens/add_round_screen.dart';
 import 'package:vai_raja_vai/screens/players_screen.dart';
+import 'package:vai_raja_vai/screens/settlement_screen.dart';
 import 'package:vai_raja_vai/widgets/rounds_list.dart';
 
 import '../models/game_data.dart';
@@ -44,7 +45,7 @@ class RoundsScreen extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: Colors.redAccent,
         title: Row(
-          children: const [
+          children: [
             Icon(
               Icons.onetwothree,
               size: 45.0,
@@ -55,10 +56,22 @@ class RoundsScreen extends StatelessWidget {
             ),
             Text("Game Info"),
             Spacer(),
-            Icon(
-              Icons.bar_chart_outlined,
-              size: 40.0,
-              color: Colors.white,
+            InkWell(
+              child: Icon(
+                Icons.bar_chart_outlined,
+                size: 40.0,
+                color: Colors.white,
+              ),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => SettlementScreen(
+                      cutfor: cutfor,
+                    ),
+                  ),
+                );
+              },
             ),
           ],
         ),
