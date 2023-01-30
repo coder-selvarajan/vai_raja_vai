@@ -210,6 +210,17 @@ class GameData extends ChangeNotifier {
     notifyListeners();
   }
 
+  void addRound(int cutforId, List<RoundEntry> entries, int roundNo) {
+    _rounds.add(Round(
+        id: rounds.last.id! + 1,
+        cutforId: cutforId,
+        roundNo: roundNo,
+        time: DateTime.now(),
+        entries: entries));
+
+    notifyListeners();
+  }
+
   List<Round> getRounds(int cutforId) {
     List<Round> filteredRounds =
         rounds.where((value) => (value.cutforId == cutforId)).toList();

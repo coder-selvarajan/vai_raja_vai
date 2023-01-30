@@ -22,6 +22,9 @@ class RoundsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var provider = Provider.of<GameData>(context);
+    List<Round> rounds = provider.getRounds(cutfor.id!);
+
     return Scaffold(
       backgroundColor: Colors.redAccent,
       floatingActionButton: FloatingActionButton(
@@ -30,7 +33,12 @@ class RoundsScreen extends StatelessWidget {
           onPressed: () {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => const AddRound()),
+              MaterialPageRoute(
+                builder: (context) => AddRound(
+                  currentCutfor: cutfor,
+                  roundNo: rounds.length + 1,
+                ),
+              ),
             );
           }),
       appBar: AppBar(
