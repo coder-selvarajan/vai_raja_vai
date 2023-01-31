@@ -23,6 +23,7 @@ class RoundsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final TextTheme textTheme = Theme.of(context).textTheme;
     var provider = Provider.of<GameData>(context);
     List<Round> rounds = provider.getRounds(cutfor.id!);
 
@@ -55,24 +56,24 @@ class RoundsScreen extends StatelessWidget {
               width: 10,
             ),
             Text("Game Info"),
-            Spacer(),
-            InkWell(
-              child: Icon(
-                Icons.bar_chart_outlined,
-                size: 40.0,
-                color: Colors.white,
-              ),
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => SettlementScreen(
-                      cutfor: cutfor,
-                    ),
-                  ),
-                );
-              },
-            ),
+            // Spacer(),
+            // InkWell(
+            //   child: Icon(
+            //     Icons.bar_chart_outlined,
+            //     size: 40.0,
+            //     color: Colors.white,
+            //   ),
+            //   onTap: () {
+            //     Navigator.push(
+            //       context,
+            //       MaterialPageRoute(
+            //         builder: (context) => SettlementScreen(
+            //           cutfor: cutfor,
+            //         ),
+            //       ),
+            //     );
+            //   },
+            // ),
           ],
         ),
         elevation: 0,
@@ -175,7 +176,7 @@ class RoundsScreen extends StatelessWidget {
               decoration: BoxDecoration(
                 color: Colors.white.withOpacity(0.95),
               ),
-              child: RoundsList(cutforId: cutfor.id!),
+              child: RoundsList(cutfor: cutfor),
             ),
           ),
         ],

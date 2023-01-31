@@ -31,8 +31,8 @@ class GameData extends ChangeNotifier {
     return _games.last.id!;
   }
 
-  Game? selectedGame;
-  Game? currentGame;
+  Cutfor? selectedGame;
+  Cutfor? currentGame;
 
   void initialize() {
     // adding 5 players

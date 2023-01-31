@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 import 'package:vai_raja_vai/screens/rounds_screen.dart';
 
+import '../models/game_data.dart';
 import '../models/model.dart';
 
 class GameTile extends StatelessWidget {
