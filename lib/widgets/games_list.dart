@@ -25,7 +25,7 @@ class GamesList extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    "Recent Games",
+                    "Recently played:",
                     style: textTheme.bodyLarge,
                   ),
                   const SizedBox(

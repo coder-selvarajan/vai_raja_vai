@@ -29,62 +29,66 @@ class GamesScreen extends StatelessWidget {
             //           child: const AddGame(),
             //         )));
           }),
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          Container(
-            padding: const EdgeInsets.only(
-                top: 50.0, left: 30.0, right: 30.0, bottom: 30.0),
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: <Widget>[
-                const Icon(
-                  Icons.auto_awesome,
-                  size: 40.0,
-                  color: Colors.white,
-                ),
-                const SizedBox(
-                  width: 20.0,
-                ),
-                const Text(
-                  'Games',
-                  style: TextStyle(
+      body: SingleChildScrollView(
+        physics: ScrollPhysics(),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            Container(
+              padding: const EdgeInsets.only(
+                  top: 50.0, left: 30.0, right: 30.0, bottom: 30.0),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                  const Icon(
+                    Icons.auto_awesome,
+                    size: 40.0,
                     color: Colors.white,
-                    fontSize: 40.0,
-                    fontWeight: FontWeight.w700,
                   ),
-                ),
-                const Spacer(),
-                CircleAvatar(
-                  backgroundColor: Colors.white,
-                  radius: 30.0,
-                  child: IconButton(
-                    icon: const Icon(
-                      Icons.people,
-                      size: 30.0,
-                      color: Colors.red,
+                  const SizedBox(
+                    width: 20.0,
+                  ),
+                  const Text(
+                    'Games',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 40.0,
+                      fontWeight: FontWeight.w700,
                     ),
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const PlayersScreen()),
-                      );
-                    },
                   ),
-                ),
-                // Text(
-                //   '5 Players',
-                //   style: TextStyle(
-                //     color: Colors.white,
-                //     fontSize: 18,
-                //   ),
-                // ),
-              ],
+                  const Spacer(),
+                  CircleAvatar(
+                    backgroundColor: Colors.white,
+                    radius: 30.0,
+                    child: IconButton(
+                      icon: const Icon(
+                        Icons.people,
+                        size: 30.0,
+                        color: Colors.red,
+                      ),
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const PlayersScreen()),
+                        );
+                      },
+                    ),
+                  ),
+                  // Text(
+                  //   '5 Players',
+                  //   style: TextStyle(
+                  //     color: Colors.white,
+                  //     fontSize: 18,
+                  //   ),
+                  // ),
+                ],
+              ),
             ),
-          ),
-          Expanded(
-            child: Container(
+            // Expanded(
+            //   child: Container(
+            Container(
+              height: 2000.0,
               padding: const EdgeInsets.symmetric(horizontal: 20.0),
               decoration: BoxDecoration(
                 color: Colors.white.withOpacity(0.95),
@@ -95,8 +99,9 @@ class GamesScreen extends StatelessWidget {
               ),
               child: const GamesList(),
             ),
-          ),
-        ],
+            // ),
+          ],
+        ),
       ),
     );
   }

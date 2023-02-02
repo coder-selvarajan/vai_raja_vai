@@ -45,6 +45,12 @@ class GameData extends ChangeNotifier {
     _players.add(Player(id: 4, name: "Siva", shortname: "SI", color: "FF0000"));
     _players.add(
         Player(id: 5, name: "Natarajan", shortname: "NA", color: "0000FF"));
+    _players.add(
+        Player(id: 6, name: "Selvarajan", shortname: "SE", color: "0000FF"));
+    _players.add(Player(
+        id: 7, name: "Mohanasundaram", shortname: "MO", color: "FF0000"));
+    _players.add(
+        Player(id: 8, name: "Muthusamy", shortname: "MU", color: "0000FF"));
 
     // adding 2 cutfors..
     _games.add(Cutfor(

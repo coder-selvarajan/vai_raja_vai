@@ -26,7 +26,8 @@ class RoundsList extends StatelessWidget {
     return Consumer<GameData>(
       builder: (context, gameData, child) {
         return ListView.separated(
-          scrollDirection: Axis.vertical,
+          // scrollDirection: Axis.vertical,
+          physics: NeverScrollableScrollPhysics(),
           shrinkWrap: true,
           itemCount: roundsList.length,
           itemBuilder: (context, index) {

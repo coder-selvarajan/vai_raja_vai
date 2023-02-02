@@ -56,178 +56,185 @@ class _AddRoundState extends State<AddRound> {
         title: const Text("New Round"),
         elevation: 0,
       ),
-      body: Column(
-        children: [
-          Expanded(
-            child: Container(
-              height: 2000,
-              padding: const EdgeInsets.symmetric(horizontal: 20.0),
-              decoration: BoxDecoration(
-                color: Colors.white.withOpacity(0.95),
-                borderRadius: const BorderRadius.only(
-                  topLeft: Radius.circular(20.0),
-                  topRight: Radius.circular(20.0),
+      body: LayoutBuilder(
+          builder: (BuildContext context, BoxConstraints viewportConstraints) {
+        return SingleChildScrollView(
+          physics: ScrollPhysics(),
+          child: Column(
+            children: [
+              Container(
+                constraints: BoxConstraints(
+                    minHeight: viewportConstraints.maxHeight * 1.25),
+                padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                decoration: BoxDecoration(
+                  color: Colors.white.withOpacity(0.95),
+                  borderRadius: const BorderRadius.only(
+                    topLeft: Radius.circular(20.0),
+                    topRight: Radius.circular(20.0),
+                  ),
                 ),
-              ),
-              // child: Form(
-              child: Padding(
-                padding: const EdgeInsets.fromLTRB(10, 40, 10, 0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    Container(
-                      padding: EdgeInsets.all(20.0),
-                      decoration: BoxDecoration(
-                        color: Colors.grey.withOpacity(0.25),
-                        borderRadius: BorderRadius.circular(10),
+                // child: Form(
+                child: Padding(
+                  padding: const EdgeInsets.fromLTRB(10, 40, 10, 0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      Container(
+                        padding: EdgeInsets.all(20.0),
+                        decoration: BoxDecoration(
+                          color: Colors.grey.withOpacity(0.25),
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Text("Round No: ${widget.roundNo}",
+                                style: textTheme.headline5),
+                            const SizedBox(height: 10.0),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                const Icon(
+                                  Icons.date_range,
+                                  color: Colors.red,
+                                  size: 30.0,
+                                ),
+                                const SizedBox(
+                                  width: 10,
+                                ),
+                                Text(DateFormat('EEEE, MMM-dd  -  hh:mm a')
+                                    .format(roundTime)),
+                              ],
+                            ),
+                          ],
+                        ),
                       ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
+                      const SizedBox(
+                        height: 30,
+                      ),
+                      Row(
                         children: [
-                          Text("Round No: ${widget.roundNo}",
-                              style: textTheme.headline5),
-                          const SizedBox(height: 10.0),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              const Icon(
-                                Icons.date_range,
-                                color: Colors.red,
-                                size: 30.0,
-                              ),
-                              const SizedBox(
-                                width: 10,
-                              ),
-                              Text(DateFormat('EEEE, MMM-dd  -  hh:mm a')
-                                  .format(roundTime)),
-                            ],
-                          ),
+                          Spacer(),
+                          Text("Entries: ", style: textTheme.titleLarge),
+                          Spacer(),
                         ],
                       ),
-                    ),
-                    const SizedBox(
-                      height: 30,
-                    ),
-                    Row(
-                      children: [
-                        Spacer(),
-                        Text("Entries: ", style: textTheme.titleLarge),
-                        Spacer(),
-                      ],
-                    ),
-                    const SizedBox(
-                      height: 30,
-                    ),
-                    ListView.separated(
-                      scrollDirection: Axis.vertical,
-                      shrinkWrap: true,
-                      itemCount: widget.currentCutfor.players.length,
-                      itemBuilder: (BuildContext context, int index) {
-                        return Container(
-                          height: 60,
-                          padding: EdgeInsets.all(10.0),
-                          child: Center(
-                            child: Row(
-                              children: [
-                                Text(
-                                  widget.currentCutfor.players[index].name,
-                                  style: TextStyle(fontSize: 20.0),
-                                ),
-                                Spacer(),
-                                Container(
-                                  padding: EdgeInsets.only(
-                                      left: 12, top: 0, bottom: 0),
-                                  decoration: BoxDecoration(
-                                      border: Border.all(
-                                          color: Colors.grey, width: 2),
-                                      borderRadius: BorderRadius.circular(10)),
-                                  child: DropdownButton<String>(
-                                    underline: SizedBox(),
-                                    value: selectedValue[index],
-                                    iconSize: 36,
-                                    icon: const Icon(Icons.arrow_drop_down),
-                                    onChanged: (String? value) {
-                                      setState(() {
-                                        selectedValue[index] = value!;
-                                      });
-                                    },
-                                    items: amountList
-                                        .map<DropdownMenuItem<String>>(
-                                            (String value) {
-                                      return DropdownMenuItem<String>(
-                                        value: value,
-                                        child: Text(value),
-                                      );
-                                    }).toList(),
+                      const SizedBox(
+                        height: 30,
+                      ),
+                      ListView.separated(
+                        physics: NeverScrollableScrollPhysics(),
+                        shrinkWrap: true,
+                        itemCount: widget.currentCutfor.players.length,
+                        itemBuilder: (BuildContext context, int index) {
+                          return Container(
+                            height: 60,
+                            padding: EdgeInsets.all(10.0),
+                            child: Center(
+                              child: Row(
+                                children: [
+                                  Text(
+                                    widget.currentCutfor.players[index].name,
+                                    style: TextStyle(fontSize: 20.0),
                                   ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        );
-                      },
-                      separatorBuilder: (_, id) => const Divider(
-                        color: Colors.grey,
-                        thickness: 1.0,
-                      ),
-                    ),
-                    const SizedBox(
-                      height: 30,
-                    ),
-                    ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.red,
-                        textStyle:
-                            const TextStyle(fontSize: 20, color: Colors.white),
-                      ),
-                      onPressed: () {
-                        if (true) {
-                          List<RoundEntry> entries = [];
-                          for (var i = 0;
-                              i < widget.currentCutfor.players.length;
-                              i++) {
-                            entries.add(RoundEntry(
-                                roundNo: widget.roundNo,
-                                player: widget.currentCutfor.players[i],
-                                toPay: int.parse(selectedValue[i])));
-                          }
-
-                          provider.addRound(widget.currentCutfor.id!, entries,
-                              widget.roundNo);
-                          Navigator.pop(context);
-                        } else {
-                          //no players are selected
-                          //display alert here
-                          showDialog<String>(
-                            context: context,
-                            builder: (BuildContext context) => AlertDialog(
-                              title: const Text('Invalid Input:'),
-                              content: const Text(
-                                  'Enter the place & Select atleast two players'),
-                              actions: <Widget>[
-                                TextButton(
-                                  onPressed: () => Navigator.pop(context, 'OK'),
-                                  child: const Text('OK'),
-                                ),
-                              ],
+                                  Spacer(),
+                                  Container(
+                                    padding: EdgeInsets.only(
+                                        left: 12, top: 0, bottom: 0),
+                                    decoration: BoxDecoration(
+                                        border: Border.all(
+                                            color: Colors.grey, width: 2),
+                                        borderRadius:
+                                            BorderRadius.circular(10)),
+                                    child: DropdownButton<String>(
+                                      underline: SizedBox(),
+                                      value: selectedValue[index],
+                                      iconSize: 36,
+                                      icon: const Icon(Icons.arrow_drop_down),
+                                      onChanged: (String? value) {
+                                        setState(() {
+                                          selectedValue[index] = value!;
+                                        });
+                                      },
+                                      items: amountList
+                                          .map<DropdownMenuItem<String>>(
+                                              (String value) {
+                                        return DropdownMenuItem<String>(
+                                          value: value,
+                                          child: Text(value),
+                                        );
+                                      }).toList(),
+                                    ),
+                                  ),
+                                ],
+                              ),
                             ),
                           );
-                        }
-                        // }
-                      },
-                      child: const Padding(
-                        padding: EdgeInsets.all(18.0),
-                        child: Text('Save Round'),
+                        },
+                        separatorBuilder: (_, id) => const Divider(
+                          color: Colors.grey,
+                          thickness: 1.0,
+                        ),
                       ),
-                    ),
-                  ],
+                      const SizedBox(
+                        height: 30,
+                      ),
+                      ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.red,
+                          textStyle: const TextStyle(
+                              fontSize: 20, color: Colors.white),
+                        ),
+                        onPressed: () {
+                          if (true) {
+                            List<RoundEntry> entries = [];
+                            for (var i = 0;
+                                i < widget.currentCutfor.players.length;
+                                i++) {
+                              entries.add(RoundEntry(
+                                  roundNo: widget.roundNo,
+                                  player: widget.currentCutfor.players[i],
+                                  toPay: int.parse(selectedValue[i])));
+                            }
+
+                            provider.addRound(widget.currentCutfor.id!, entries,
+                                widget.roundNo);
+                            Navigator.pop(context);
+                          } else {
+                            //no players are selected
+                            //display alert here
+                            showDialog<String>(
+                              context: context,
+                              builder: (BuildContext context) => AlertDialog(
+                                title: const Text('Invalid Input:'),
+                                content: const Text(
+                                    'Enter the place & Select atleast two players'),
+                                actions: <Widget>[
+                                  TextButton(
+                                    onPressed: () =>
+                                        Navigator.pop(context, 'OK'),
+                                    child: const Text('OK'),
+                                  ),
+                                ],
+                              ),
+                            );
+                          }
+                          // }
+                        },
+                        child: const Padding(
+                          padding: EdgeInsets.all(18.0),
+                          child: Text('Save Round'),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
+                // ),
               ),
-              // ),
-            ),
+            ],
           ),
-        ],
-      ),
+        );
+      }),
     );
   }
 }

@@ -34,6 +34,7 @@ class SettlementInfo {
 class PlayerStatus {
   final Player player;
   late int gainlossAmount;
+  late int gainlossAmount2;
   // final Player? toPlayer;
   // final int toPay;
 
@@ -41,6 +42,7 @@ class PlayerStatus {
     Key? key,
     required this.player,
     required this.gainlossAmount,
+    required this.gainlossAmount2,
     // this.toPlayer,
     // required this.toPay
   });
@@ -80,34 +82,35 @@ class _SettlementScreenState extends State<SettlementScreen> {
     ];
     lossList.sort((a, b) => b.gainlossAmount.compareTo(a.gainlossAmount));
 
+    settlementInfoList = [];
     for (var j = 0; j < gainList.length; j++) {
-      int gainAmt = gainList[j].gainlossAmount;
+      int gainAmt = gainList[j].gainlossAmount2;
       for (var k = 0; k < lossList.length; k++) {
-        int lossAmt = lossList[k].gainlossAmount;
-        print("$gainAmt - $lossAmt");
+        int lossAmt = lossList[k].gainlossAmount2;
+        // print("$gainAmt - $lossAmt");
         if (gainAmt == 0 || lossAmt == 0) {
           continue;
         }
 
-        if (gainAmt >= lossAmt) {
+        if (gainAmt >= -lossAmt) {
           settlementInfoList.add(SettlementInfo(
               fromPlayer: lossList[k].player,
               toPlayer: gainList[j].player,
-              toPay: gainAmt + lossAmt));
+              toPay: -lossAmt));
 
-          gainList[j].gainlossAmount = gainAmt + lossAmt;
-          gainAmt = gainList[j].gainlossAmount;
-          lossList[k].gainlossAmount = 0;
+          gainList[j].gainlossAmount2 = gainAmt + lossAmt;
+          gainAmt = gainList[j].gainlossAmount2;
+          lossList[k].gainlossAmount2 = 0;
           lossAmt = 0;
         } else {
           settlementInfoList.add(SettlementInfo(
               fromPlayer: lossList[k].player,
               toPlayer: gainList[j].player,
-              toPay: lossAmt + gainAmt));
+              toPay: gainAmt));
 
-          lossList[k].gainlossAmount = lossAmt + gainAmt;
-          lossAmt = lossList[k].gainlossAmount;
-          gainList[j].gainlossAmount = 0;
+          lossList[k].gainlossAmount2 = lossAmt + gainAmt;
+          lossAmt = lossList[k].gainlossAmount2;
+          gainList[j].gainlossAmount2 = 0;
           gainAmt = 0;
         }
       }
@@ -142,8 +145,16 @@ class _SettlementScreenState extends State<SettlementScreen> {
       }
       winner2get = 0;
     }
-    playerStatuses.add(PlayerStatus(player: player, gainlossAmount: totalAmt));
+    playerStatuses.add(PlayerStatus(
+        player: player, gainlossAmount: totalAmt, gainlossAmount2: totalAmt));
     return (totalAmt < 0) ? totalAmt.toString() : "+$totalAmt";
+  }
+
+  String formatAmount(int amount) {
+    if (amount > 0) {
+      return "+$amount";
+    }
+    return amount.toString();
   }
 
   @override
@@ -160,220 +171,243 @@ class _SettlementScreenState extends State<SettlementScreen> {
         title: const Text("Money Settlement"),
         elevation: 0,
       ),
-      body: Column(
-        children: [
-          Expanded(
-            child: Container(
-              height: 2000,
-              padding: const EdgeInsets.symmetric(horizontal: 20.0),
-              decoration: BoxDecoration(
-                color: Colors.white.withOpacity(0.95),
-                borderRadius: const BorderRadius.only(
-                  topLeft: Radius.circular(20.0),
-                  topRight: Radius.circular(20.0),
-                ),
-              ),
-              // child: Form(
-              child: Padding(
-                padding: const EdgeInsets.fromLTRB(10, 40, 10, 0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    Container(
-                      padding: EdgeInsets.all(20.0),
-                      decoration: BoxDecoration(
-                        color: Colors.grey.withOpacity(0.25),
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Row(
-                            children: [
-                              const Icon(
-                                Icons.date_range,
-                                size: 25.0,
-                                color: Colors.redAccent,
-                              ),
-                              const SizedBox(
-                                width: 10,
-                              ),
-                              Text(DateFormat('EEEE MMMd, hh:mm a')
-                                  .format(widget.cutfor.time)),
-                            ],
-                          ),
-                          const SizedBox(
-                            height: 10,
-                          ),
-                          Row(
-                            children: [
-                              const Icon(
-                                Icons.place_outlined,
-                                size: 25.0,
-                                color: Colors.redAccent,
-                              ),
-                              const SizedBox(
-                                width: 10,
-                              ),
-                              Text(widget.cutfor.place!),
-                            ],
-                          ),
-                          const SizedBox(
-                            height: 10,
-                          ),
-                          Row(
-                            children: [
-                              const Icon(
-                                Icons.people,
-                                size: 25.0,
-                                color: Colors.redAccent,
-                              ),
-                              const SizedBox(
-                                width: 10,
-                              ),
-                              Text(widget.cutfor.players
-                                  .map((p) => p.shortname.toString())
-                                  .join(", ")),
-                            ],
-                          ),
-                          const SizedBox(
-                            height: 10,
-                          ),
-                          Row(
-                            children: const [
-                              Icon(
-                                Icons.info_outline,
-                                size: 25.0,
-                                color: Colors.redAccent,
-                              ),
-                              SizedBox(
-                                width: 10,
-                              ),
-                              Text("Ongoing.."),
-                            ],
-                          ),
-                        ],
-                      ),
+      body: LayoutBuilder(
+        builder: (BuildContext context, BoxConstraints viewportConstraints) {
+          return SingleChildScrollView(
+            physics: ScrollPhysics(),
+            child: Column(
+              children: [
+                Container(
+                  constraints:
+                      BoxConstraints(minHeight: viewportConstraints.maxHeight),
+                  padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                  decoration: BoxDecoration(
+                    color: Colors.white.withOpacity(0.95),
+                    borderRadius: const BorderRadius.only(
+                      topLeft: Radius.circular(20.0),
+                      topRight: Radius.circular(20.0),
                     ),
-                    const SizedBox(
-                      height: 30,
-                    ),
-                    Row(
-                      children: const [
-                        Text(
-                          "Gain / Loss : ",
-                          style: TextStyle(
-                            fontSize: 18.0,
-                            color: Colors.black,
-                          ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    Wrap(
-                      spacing: 5.0,
-                      // children: widget.cutfor.players.map((Player player) {
-                      children: playerStatuses.map((PlayerStatus playerStatus) {
-                        return FilterChip(
-                          label: Text(
-                            "${playerStatus.player.name} ${playerStatus.gainlossAmount}",
-                            style: textTheme.subtitle1,
-                          ),
-                          selected: false,
-                          onSelected: (bool value) {
-                            //   setState(() {
-                            //     if (value) {
-                            //       if (!_selected.contains(player)) {
-                            //         _selected.add(player);
-                            //       }
-                            //     } else {
-                            //       _selected.removeWhere((Player filterPlayer) {
-                            //         return filterPlayer == player;
-                            //       });
-                            //     }
-                            //   });
-                          },
-                        );
-                      }).toList(),
-                    ),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    Divider(
-                      color: Colors.grey[300],
-                      thickness: 3.0,
-                    ),
-                    const SizedBox(
-                      height: 20,
-                    ),
-                    Row(
+                  ),
+                  // child: Form(
+                  child: Padding(
+                    padding: const EdgeInsets.fromLTRB(10, 40, 10, 0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
-                        Text(
-                          "Who pays whom?: ",
-                          style: TextStyle(
-                            fontSize: 18.0,
-                            color: Colors.black,
-                          ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    ListView.separated(
-                      scrollDirection: Axis.vertical,
-                      shrinkWrap: true,
-                      // itemCount: widget.cutfor.players.length,
-                      itemCount: settlementInfoList.length,
-                      itemBuilder: (BuildContext context, int index) {
-                        return Container(
-                          height: 50,
-                          padding: EdgeInsets.all(15.0),
+                        Container(
+                          padding: EdgeInsets.all(20.0),
                           decoration: BoxDecoration(
-                            color: Colors.grey.withOpacity(0.3),
-                            borderRadius: BorderRadius.circular(10.0),
+                            color: Colors.grey.withOpacity(0.25),
+                            borderRadius: BorderRadius.circular(10),
                           ),
-                          child: Row(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
-                              Text(
-                                "${settlementInfoList[index].fromPlayer.name} -> ${settlementInfoList[index].toPlayer.name} = Rs ${settlementInfoList[index].toPay}",
-                                style: TextStyle(fontSize: 16.0),
+                              Row(
+                                children: [
+                                  const Icon(
+                                    Icons.date_range,
+                                    size: 25.0,
+                                    color: Colors.redAccent,
+                                  ),
+                                  const SizedBox(
+                                    width: 10,
+                                  ),
+                                  Text(DateFormat('EEEE MMMd, hh:mm a')
+                                      .format(widget.cutfor.time)),
+                                ],
+                              ),
+                              const SizedBox(
+                                height: 10,
+                              ),
+                              Row(
+                                children: [
+                                  const Icon(
+                                    Icons.place_outlined,
+                                    size: 25.0,
+                                    color: Colors.redAccent,
+                                  ),
+                                  const SizedBox(
+                                    width: 10,
+                                  ),
+                                  Text(widget.cutfor.place!),
+                                ],
+                              ),
+                              // const SizedBox(
+                              //   height: 10,
+                              // ),
+                              // Row(
+                              //   children: [
+                              //     const Icon(
+                              //       Icons.people,
+                              //       size: 25.0,
+                              //       color: Colors.redAccent,
+                              //     ),
+                              //     const SizedBox(
+                              //       width: 10,
+                              //     ),
+                              //     Text(widget.cutfor.players
+                              //         .map((p) => p.shortname.toString())
+                              //         .join(", ")),
+                              //   ],
+                              // ),
+                              const SizedBox(
+                                height: 10,
+                              ),
+                              Row(
+                                children: const [
+                                  Icon(
+                                    Icons.info_outline,
+                                    size: 25.0,
+                                    color: Colors.redAccent,
+                                  ),
+                                  SizedBox(
+                                    width: 10,
+                                  ),
+                                  Text("Ongoing.."),
+                                ],
                               ),
                             ],
                           ),
-                        );
-                      },
-                      separatorBuilder: (_, id) => const Divider(
-                        color: Colors.white,
-                        thickness: 2,
-                      ),
+                        ),
+                        const SizedBox(
+                          height: 30,
+                        ),
+                        Row(
+                          children: const [
+                            Text(
+                              "Gain / Loss : ",
+                              style: TextStyle(
+                                fontSize: 18.0,
+                                color: Colors.black,
+                              ),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        Wrap(
+                          spacing: 5.0,
+                          // children: widget.cutfor.players.map((Player player) {
+                          children:
+                              playerStatuses.map((PlayerStatus playerStatus) {
+                            return FilterChip(
+                              label: Text(
+                                "${playerStatus.player.name} ${formatAmount(playerStatus.gainlossAmount)}",
+                                style: textTheme.subtitle1,
+                              ),
+                              selected: false,
+                              onSelected: (bool value) {
+                                //   setState(() {
+                                //     if (value) {
+                                //       if (!_selected.contains(player)) {
+                                //         _selected.add(player);
+                                //       }
+                                //     } else {
+                                //       _selected.removeWhere((Player filterPlayer) {
+                                //         return filterPlayer == player;
+                                //       });
+                                //     }
+                                //   });
+                              },
+                            );
+                          }).toList(),
+                        ),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        Divider(
+                          color: Colors.grey[300],
+                          thickness: 3.0,
+                        ),
+                        const SizedBox(
+                          height: 20,
+                        ),
+                        Row(
+                          children: [
+                            Text(
+                              "Who pays whom?: ",
+                              style: TextStyle(
+                                fontSize: 18.0,
+                                color: Colors.black,
+                              ),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        ListView.separated(
+                          physics: NeverScrollableScrollPhysics(),
+                          shrinkWrap: true,
+                          // itemCount: widget.cutfor.players.length,
+                          itemCount: settlementInfoList.length,
+                          itemBuilder: (BuildContext context, int index) {
+                            return Container(
+                              height: 50,
+                              padding: EdgeInsets.all(15.0),
+                              decoration: BoxDecoration(
+                                color: Colors.grey.withOpacity(0.3),
+                                borderRadius: BorderRadius.circular(10.0),
+                              ),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    settlementInfoList[index].fromPlayer.name,
+                                    style: const TextStyle(
+                                        fontSize: 16.0,
+                                        fontWeight: FontWeight.w500),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 10.0),
+                                    child: Icon(
+                                      Icons.arrow_right_alt_sharp,
+                                      color: Colors.redAccent,
+                                      size: 22.0,
+                                    ),
+                                  ),
+                                  Text(
+                                    settlementInfoList[index].toPlayer.name,
+                                    style: TextStyle(
+                                        fontSize: 16.0,
+                                        fontWeight: FontWeight.w500),
+                                  ),
+                                  Spacer(),
+                                  const Icon(
+                                    Icons.currency_rupee_sharp,
+                                    size: 20.0,
+                                    // color: Colors.white,
+                                  ),
+                                  Text(
+                                    "${settlementInfoList[index].toPay}",
+                                    style: TextStyle(
+                                        fontSize: 16.0,
+                                        fontWeight: FontWeight.w500),
+                                  ),
+                                ],
+                              ),
+                            );
+                          },
+                          separatorBuilder: (_, id) => SizedBox(
+                            height: 10.0,
+                          ),
+                        ),
+                        const SizedBox(
+                          height: 30,
+                        ),
+                      ],
                     ),
-                    const SizedBox(
-                      height: 30,
-                    ),
-                    // ElevatedButton(
-                    //   style: ElevatedButton.styleFrom(
-                    //     backgroundColor: Colors.red,
-                    //     textStyle:
-                    //         const TextStyle(fontSize: 20, color: Colors.white),
-                    //   ),
-                    //   onPressed: () {
-                    //     //
-                    //   },
-                    //   child: const Padding(
-                    //     padding: EdgeInsets.all(18.0),
-                    //     child: Text('Mark as Settled'),
-                    //   ),
-                    // ),
-                  ],
+                  ),
+                  // ),
                 ),
-              ),
-              // ),
+              ],
             ),
-          ),
-        ],
+          );
+        },
       ),
     );
   }
