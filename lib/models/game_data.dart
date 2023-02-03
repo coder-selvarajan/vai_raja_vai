@@ -35,6 +35,9 @@ class GameData extends ChangeNotifier {
   Cutfor? currentGame;
 
   void initialize() {
+    if (_players.isNotEmpty) {
+      return;
+    }
     // adding 5 players
     _players
         .add(Player(id: 1, name: "Ramesh", shortname: "RA", color: "FF0000"));
@@ -47,8 +50,8 @@ class GameData extends ChangeNotifier {
         Player(id: 5, name: "Natarajan", shortname: "NA", color: "0000FF"));
     _players.add(
         Player(id: 6, name: "Selvarajan", shortname: "SE", color: "0000FF"));
-    _players.add(Player(
-        id: 7, name: "Mohanasundaram", shortname: "MO", color: "FF0000"));
+    _players
+        .add(Player(id: 7, name: "Mohan", shortname: "MO", color: "FF0000"));
     _players.add(
         Player(id: 8, name: "Muthusamy", shortname: "MU", color: "0000FF"));
 
@@ -56,7 +59,14 @@ class GameData extends ChangeNotifier {
     _games.add(Cutfor(
         id: 1,
         time: DateTime.now(),
-        players: [_players[0], _players[1], _players[2]], //RA, EL, MA
+        players: [
+          _players[0],
+          _players[1],
+          _players[2],
+          _players[3],
+          _players[6],
+          _players[7]
+        ], //RA, EL, MA, SI, MO, MU
         place: "Gobi"));
     _games.add(Cutfor(
         id: 2,
@@ -73,7 +83,10 @@ class GameData extends ChangeNotifier {
       entries: [
         RoundEntry(roundNo: 1, player: _players[0], toPay: 20),
         RoundEntry(roundNo: 1, player: _players[1], toPay: -1),
-        RoundEntry(roundNo: 1, player: _players[2], toPay: 40)
+        RoundEntry(roundNo: 1, player: _players[2], toPay: 40),
+        RoundEntry(roundNo: 1, player: _players[3], toPay: 20),
+        RoundEntry(roundNo: 1, player: _players[6], toPay: 0),
+        RoundEntry(roundNo: 1, player: _players[7], toPay: 20),
       ],
     ));
     _rounds.add(Round(
@@ -82,9 +95,12 @@ class GameData extends ChangeNotifier {
       roundNo: 2,
       time: DateTime.now(),
       entries: [
-        RoundEntry(roundNo: 2, player: _players[0], toPay: -1),
+        RoundEntry(roundNo: 2, player: _players[0], toPay: 20),
         RoundEntry(roundNo: 2, player: _players[1], toPay: 80),
-        RoundEntry(roundNo: 2, player: _players[2], toPay: 20)
+        RoundEntry(roundNo: 2, player: _players[2], toPay: 20),
+        RoundEntry(roundNo: 1, player: _players[3], toPay: -1),
+        RoundEntry(roundNo: 1, player: _players[6], toPay: 80),
+        RoundEntry(roundNo: 1, player: _players[7], toPay: 40),
       ],
     ));
     _rounds.add(Round(
@@ -95,7 +111,10 @@ class GameData extends ChangeNotifier {
       entries: [
         RoundEntry(roundNo: 3, player: _players[0], toPay: 20),
         RoundEntry(roundNo: 3, player: _players[1], toPay: 20),
-        RoundEntry(roundNo: 3, player: _players[2], toPay: -1)
+        RoundEntry(roundNo: 3, player: _players[2], toPay: 40),
+        RoundEntry(roundNo: 1, player: _players[3], toPay: 40),
+        RoundEntry(roundNo: 1, player: _players[6], toPay: 40),
+        RoundEntry(roundNo: 1, player: _players[7], toPay: -1),
       ],
     ));
     _rounds.add(Round(
@@ -106,7 +125,10 @@ class GameData extends ChangeNotifier {
       entries: [
         RoundEntry(roundNo: 4, player: _players[0], toPay: 80),
         RoundEntry(roundNo: 4, player: _players[1], toPay: 40),
-        RoundEntry(roundNo: 4, player: _players[2], toPay: -1)
+        RoundEntry(roundNo: 4, player: _players[2], toPay: 20),
+        RoundEntry(roundNo: 1, player: _players[3], toPay: -1),
+        RoundEntry(roundNo: 1, player: _players[6], toPay: 40),
+        RoundEntry(roundNo: 1, player: _players[7], toPay: 20),
       ],
     ));
     _rounds.add(Round(
@@ -117,7 +139,10 @@ class GameData extends ChangeNotifier {
       entries: [
         RoundEntry(roundNo: 5, player: _players[0], toPay: -1),
         RoundEntry(roundNo: 5, player: _players[1], toPay: 80),
-        RoundEntry(roundNo: 5, player: _players[2], toPay: 0)
+        RoundEntry(roundNo: 5, player: _players[2], toPay: 0),
+        RoundEntry(roundNo: 1, player: _players[3], toPay: 20),
+        RoundEntry(roundNo: 1, player: _players[6], toPay: 20),
+        RoundEntry(roundNo: 1, player: _players[7], toPay: 40),
       ],
     ));
 

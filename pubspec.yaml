@@ -42,13 +42,13 @@ dependencies:
   intl: ^0.17.0
 
 flutter_native_splash:
-  color: "#FF0000"
+  color: "#FF5252"
 #  background_image: "assets/rajavai.png"
-  image: assets/rajavai.png
+  image: assets/VRV_logo3.png
   android_12:
 #    background_image: "assets/rajavai.png"
-    icon_background_color: "#FF0000"
-    image: assets/rajavai.png
+    icon_background_color: "#FF5252"
+    image: assets/VRV_logo3.png
 #    image_dark: assets/vairajavai.png
 #    icon_background_color_dark: "#121212"
 
@@ -78,6 +78,7 @@ flutter:
 
   # To add assets to your application, add an assets section, like this:
   assets:
+    - assets/
     - assets/images/
   #   - images/a_dot_burr.jpeg
   #   - images/a_dot_ham.jpeg
@@ -93,10 +94,14 @@ flutter:
   # "family" key with the font family name, and a "fonts" key with a
   # list giving the asset and other descriptors for the font. For
   # example:
-  # fonts:
-  #   - family: Schyler
-  #     fonts:
-  #       - asset: fonts/Schyler-Regular.ttf
+  fonts:
+    - family: NotoSansTamil-light
+      fonts:
+        - asset: assets/fonts/NotoSansTamil-light.ttf
+    - family: AnekTamil-Regular
+      fonts:
+        - asset: assets/fonts/AnekTamil-Regular.ttf
+
   #       - asset: fonts/Schyler-Italic.ttf
   #         style: italic
   #   - family: Trajan Pro

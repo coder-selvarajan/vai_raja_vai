@@ -28,10 +28,11 @@ class GameTile extends StatelessWidget {
       // onLongPress: longPressCallback,
       leading: Column(
         mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.end,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
             DateFormat('EE MMMd').format(cutfor.time),
+            style: const TextStyle(fontWeight: FontWeight.bold),
           ),
           const SizedBox(
             height: 5,
@@ -47,7 +48,7 @@ class GameTile extends StatelessWidget {
         children: [
           Text(
             cutfor.place!,
-            style: const TextStyle(fontSize: 18, fontWeight: FontWeight.normal),
+            style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
           ),
           // Text("Started @ " + DateFormat('hh:mm a').format(time)),
           Text(cutfor.players.map((p) => p.shortname).join(', ')),

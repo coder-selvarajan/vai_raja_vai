@@ -47,7 +47,8 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.red,
         // colorSchemeSeed: Colors.red,
       ),
-      home: const Splash(),
+      // home: const MyHomePage(title: "வை ராஜா வை"),
+      home: GamesScreen(),
     );
   }
 }

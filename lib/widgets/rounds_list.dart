@@ -36,48 +36,51 @@ class RoundsList extends StatelessWidget {
               // return the header
               return Column(
                 children: [
-                  Row(
-                    children: [
-                      // const Icon(
-                      //   Icons.onetwothree,
-                      //   size: 45.0,
-                      //   color: Colors.redAccent,
-                      // ),
-                      Text(
-                        "Rounds:",
-                        style: textTheme.titleLarge,
-                      ),
-                      Spacer(),
-                      OutlinedButton(
-                          style: ElevatedButton.styleFrom(
-                            primary: Colors.red[500],
-                          ),
-                          onPressed: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => SettlementScreen(
-                                  cutfor: cutfor,
-                                  rounds: roundsList,
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                    child: Row(
+                      children: [
+                        // const Icon(
+                        //   Icons.onetwothree,
+                        //   size: 45.0,
+                        //   color: Colors.redAccent,
+                        // ),
+                        Text(
+                          "Rounds:",
+                          style: textTheme.titleLarge,
+                        ),
+                        Spacer(),
+                        OutlinedButton(
+                            style: ElevatedButton.styleFrom(
+                              primary: Colors.red[500],
+                            ),
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => SettlementScreen(
+                                    cutfor: cutfor,
+                                    rounds: roundsList,
+                                  ),
                                 ),
-                              ),
-                            );
-                          },
-                          child: Row(
-                            children: [
-                              const Icon(
-                                Icons.currency_rupee_sharp,
-                                size: 20.0,
-                                color: Colors.white,
-                              ),
-                              Text(' Settlement',
-                                  style: TextStyle(
-                                    fontSize: 18.0,
-                                    color: Colors.white,
-                                  )),
-                            ],
-                          )),
-                    ],
+                              );
+                            },
+                            child: Row(
+                              children: [
+                                const Icon(
+                                  Icons.currency_rupee_sharp,
+                                  size: 20.0,
+                                  color: Colors.white,
+                                ),
+                                Text(' Settlement',
+                                    style: TextStyle(
+                                      fontSize: 18.0,
+                                      color: Colors.white,
+                                    )),
+                              ],
+                            )),
+                      ],
+                    ),
                   ),
                   SizedBox(
                     height: 15.0,

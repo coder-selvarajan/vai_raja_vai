@@ -37,6 +37,7 @@ class RoundTile extends StatelessWidget {
         children: [
           Text(
             DateFormat('hh:mm a').format(time),
+            style: const TextStyle(fontWeight: FontWeight.bold),
           ),
           Text(entries
               .map((p) => "${p.player.shortname}${formatAmount(p.toPay)}")
