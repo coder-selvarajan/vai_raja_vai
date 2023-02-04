@@ -67,12 +67,14 @@ class GameData extends ChangeNotifier {
           _players[6],
           _players[7]
         ], //RA, EL, MA, SI, MO, MU
-        place: "Gobi"));
+        place: "Gobi",
+        status: "Created"));
     _games.add(Cutfor(
         id: 2,
         time: DateTime.now(),
         players: [_players[1], _players[3], _players[4]], //EL, SI, NA
-        place: "Nambiyur"));
+        place: "Nambiyur",
+        status: "Created"));
 
     // adding round entries for cutfor 1
     _rounds.add(Round(
@@ -231,13 +233,18 @@ class GameData extends ChangeNotifier {
     notifyListeners();
   }
 
-  void addCutfor(List<Player> players, String place, DateTime time) {
+  void addCutfor(
+      List<Player> players, String place, DateTime time, String status) {
     var cutforId = 1;
     if (_games.length > 1) {
       cutforId = _games.last.id! + 1;
     }
-    _games
-        .add(Cutfor(id: cutforId, time: time, players: players, place: place));
+    _games.add(Cutfor(
+        id: cutforId,
+        time: time,
+        players: players,
+        place: place,
+        status: status));
     notifyListeners();
   }
 

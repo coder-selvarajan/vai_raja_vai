@@ -113,6 +113,27 @@ class _GamesScreenState extends State<GamesScreen> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     const GamesList(),
+                    OutlinedButton(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const PlayersScreen()),
+                        );
+                      },
+                      child: Row(
+                        children: [
+                          Icon(Icons.play_circle_outline),
+                          SizedBox(
+                            width: 10,
+                          ),
+                          Text(" View All Games"),
+                        ],
+                      ),
+                      style: OutlinedButton.styleFrom(
+                        side: BorderSide(width: 1.0, color: Colors.white),
+                      ),
+                    ),
                     SizedBox(
                       height: 10.0,
                     ),
@@ -131,17 +152,26 @@ class _GamesScreenState extends State<GamesScreen> {
                         SizedBox(
                           width: 10,
                         ),
-                        Text('Player List', style: textTheme.titleLarge),
+                        Text(
+                          'Player List',
+                          style: TextStyle(
+                            fontSize: 18.0,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
                         Spacer(),
                         OutlinedButton(
                           onPressed: () {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => const AddPlayer()),
+                                  builder: (context) => const PlayersScreen()),
                             );
                           },
-                          child: Text(" + Add Player"),
+                          child: Text(" Edit / Add Player"),
+                          style: OutlinedButton.styleFrom(
+                            side: BorderSide(width: 1.0, color: Colors.red),
+                          ),
                         ),
                       ],
                     ),

@@ -31,8 +31,14 @@ class Cutfor {
   final DateTime time;
   final List<Player> players;
   final String? place;
+  final String? status;
 
-  Cutfor({this.id, required this.time, required this.players, this.place});
+  Cutfor(
+      {this.id,
+      required this.time,
+      required this.players,
+      this.place,
+      this.status});
 }
 
 class Player {

@@ -160,9 +160,16 @@ class RoundsScreen extends StatelessWidget {
                           SizedBox(
                             width: 10,
                           ),
-                          Text(cutfor.players
-                              .map((p) => p.shortname.toString())
-                              .join(", ")),
+                          Expanded(
+                            child: Text(
+                              cutfor.players
+                                  .map((p) => p.name.toString())
+                                  .join(", "),
+                              softWrap: true,
+                              // maxLines: 1,
+                              // overflow: TextOverflow.ellipsis,
+                            ),
+                          ),
                         ],
                       ),
                       const SizedBox(

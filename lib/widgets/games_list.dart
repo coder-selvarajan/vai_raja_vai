@@ -25,35 +25,38 @@ class GamesList extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                    child: Row(
-                      children: [
-                        Icon(
-                          Icons.currency_rupee,
-                          size: 30.0,
-                          color: Colors.red,
+                  Row(
+                    children: [
+                      Icon(
+                        Icons.currency_rupee,
+                        size: 30.0,
+                        color: Colors.red,
+                      ),
+                      SizedBox(
+                        width: 10,
+                      ),
+                      Text(
+                        "Recent Games:",
+                        style: TextStyle(
+                          fontSize: 18.0,
+                          fontWeight: FontWeight.bold,
                         ),
-                        SizedBox(
-                          width: 10,
+                      ),
+                      Spacer(),
+                      OutlinedButton(
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const AddGame()),
+                          );
+                        },
+                        child: Text(" + Add Game"),
+                        style: OutlinedButton.styleFrom(
+                          side: BorderSide(width: 1.0, color: Colors.red),
                         ),
-                        Text(
-                          "Recent Games:",
-                          style: textTheme.titleLarge,
-                        ),
-                        Spacer(),
-                        OutlinedButton(
-                          onPressed: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => const AddGame()),
-                            );
-                          },
-                          child: Text(" + Add Game"),
-                        ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
                   const SizedBox(
                     height: 20,

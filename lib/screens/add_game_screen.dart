@@ -177,7 +177,8 @@ class _AddGameState extends State<AddGame> {
                       ),
                       onPressed: () {
                         if (place.isNotEmpty && _selected.length > 1) {
-                          provider.addCutfor(_selected, place, gameTime);
+                          provider.addCutfor(
+                              _selected, place, gameTime, "created");
                           Navigator.pop(context);
                         } else {
                           //no players are selected
