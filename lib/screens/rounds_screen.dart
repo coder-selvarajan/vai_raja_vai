@@ -27,20 +27,20 @@ class RoundsScreen extends StatelessWidget {
 
     return Scaffold(
       backgroundColor: Colors.white,
-      floatingActionButton: FloatingActionButton(
-          backgroundColor: Colors.redAccent,
-          child: const Icon(Icons.add),
-          onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => AddRound(
-                  currentCutfor: cutfor,
-                  roundNo: rounds.length + 1,
-                ),
-              ),
-            );
-          }),
+      // floatingActionButton: FloatingActionButton(
+      //     backgroundColor: Colors.redAccent,
+      //     child: const Icon(Icons.add),
+      //     onPressed: () {
+      //       Navigator.push(
+      //         context,
+      //         MaterialPageRoute(
+      //           builder: (context) => AddRound(
+      //             currentCutfor: cutfor,
+      //             roundNo: rounds.length + 1,
+      //           ),
+      //         ),
+      //       );
+      //     }),
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(80), //height of appbar
         child: Container(
@@ -106,7 +106,7 @@ class RoundsScreen extends StatelessWidget {
             children: <Widget>[
               Container(
                 padding: const EdgeInsets.only(
-                    top: 10.0, left: 30.0, right: 30.0, bottom: 20.0),
+                    top: 10.0, left: 30.0, right: 30.0, bottom: 10.0),
                 child: Container(
                   padding: EdgeInsets.all(20.0),
                   decoration: BoxDecoration(
@@ -176,16 +176,16 @@ class RoundsScreen extends StatelessWidget {
                         height: 10,
                       ),
                       Row(
-                        children: const [
+                        children: [
                           Icon(
-                            Icons.info_outline,
+                            Icons.check_circle_outline,
                             size: 25.0,
                             color: Colors.redAccent,
                           ),
                           SizedBox(
                             width: 10,
                           ),
-                          Text("Ongoing.."),
+                          Text("Game ${cutfor.status!}"),
                         ],
                       ),
                     ],
@@ -195,8 +195,81 @@ class RoundsScreen extends StatelessWidget {
               // Expanded(
               //   child: Container(
               Container(
-                padding: EdgeInsets.all(20.0),
-                child: RoundsList(cutfor: cutfor),
+                padding: EdgeInsets.all(10.0),
+                child: Column(
+                  children: [
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        if (cutfor.status! == "Progressing")
+                          OutlinedButton(
+                            style: OutlinedButton.styleFrom(
+                              side: BorderSide(width: 1.5, color: Colors.red),
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(20.0)),
+                            ),
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => AddRound(
+                                    currentCutfor: cutfor,
+                                    roundNo: rounds.length + 1,
+                                  ),
+                                ),
+                              );
+                            },
+                            child: Row(
+                              children: [
+                                Text(' + Add Round',
+                                    style: TextStyle(
+                                        // fontSize: 18.0,
+                                        // color: Colors.white,
+                                        )),
+                              ],
+                            ),
+                          ),
+                        OutlinedButton(
+                          style: OutlinedButton.styleFrom(
+                            side: BorderSide(width: 1.5, color: Colors.red),
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(20.0)),
+                          ),
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => SettlementScreen(
+                                  cutfor: cutfor,
+                                  rounds: rounds,
+                                ),
+                              ),
+                            );
+                          },
+                          child: Row(
+                            children: [
+                              const Icon(
+                                Icons.currency_rupee_sharp,
+                                size: 20.0,
+                                // color: Colors.white,
+                              ),
+                              Text(' View Settlement',
+                                  style: TextStyle(
+                                      // fontSize: 18.0,
+                                      // color: Colors.white,
+                                      )),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                    SizedBox(
+                      height: 20.0,
+                    ),
+                    RoundsList(cutfor: cutfor),
+                  ],
+                ),
               ),
               // ),
             ],

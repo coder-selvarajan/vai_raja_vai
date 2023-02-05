@@ -119,10 +119,7 @@ class DatabaseProvider with ChangeNotifier {
           .then((generatedId) {
         // after inserting in a database. we store it in in-app memory with new expense with generated id
         final file = Player(
-            id: generatedId,
-            name: player.name,
-            shortname: player.shortname,
-            color: player.color);
+            id: generatedId, name: player.name, shortname: player.shortname);
         _players.add(file);
         // notify the listeners about the change in value of '_players'
         notifyListeners();

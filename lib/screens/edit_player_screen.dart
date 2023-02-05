@@ -1,16 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
-import 'package:vai_raja_vai/models/game_data.dart';
 
-class AddPlayer extends StatelessWidget {
-  const AddPlayer({Key? key}) : super(key: key);
+import '../models/game_data.dart';
+import '../models/model.dart';
+
+class EditPlayer extends StatelessWidget {
+  late Player player;
+  EditPlayer({Key? key, required this.player}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    String name = "";
-    String shortname = "";
-    String color = "FF0000";
+    String name = player.name;
+    String shortname = player.shortname;
     final TextTheme textTheme = Theme.of(context).textTheme;
     var provider = Provider.of<GameData>(context);
 
@@ -18,7 +19,7 @@ class AddPlayer extends StatelessWidget {
       backgroundColor: Colors.redAccent,
       appBar: AppBar(
         backgroundColor: Colors.redAccent,
-        title: const Text("New Player"),
+        title: const Text("Edit Player"),
         elevation: 0,
       ),
       body: Column(
@@ -39,7 +40,7 @@ class AddPlayer extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    Text("Who? ", style: textTheme.titleLarge),
+                    Text("Player Name ", style: textTheme.titleLarge),
                     const SizedBox(
                       height: 10,
                     ),
@@ -61,6 +62,7 @@ class AddPlayer extends StatelessWidget {
                           borderRadius: BorderRadius.circular(15.0),
                         ),
                       ),
+                      initialValue: name,
                       onChanged: (value) {
                         name = value;
                         shortname = value.substring(0, 2);
@@ -72,18 +74,10 @@ class AddPlayer extends StatelessWidget {
                         backgroundColor: Colors.red,
                         textStyle:
                             const TextStyle(fontSize: 20, color: Colors.white),
-                        // shape: StadiumBorder(),
-                        // shape: RoundedRectangleBorder(
-                        //     borderRadius: BorderRadius.circular(20.0)),
                       ),
-                      // style: OutlinedButton.styleFrom(
-                      //   side: BorderSide(width: 1.0, color: Colors.red),
-                      //   shape: RoundedRectangleBorder(
-                      //       borderRadius: BorderRadius.circular(20.0)),
-                      // ),
                       onPressed: () {
                         if (name.isNotEmpty) {
-                          provider.addPlayer(name, shortname);
+                          provider.editPlayer(player.id!, name, shortname);
                           Navigator.pop(context);
                         } else {
                           //no players are selected
@@ -93,7 +87,7 @@ class AddPlayer extends StatelessWidget {
                             builder: (BuildContext context) => AlertDialog(
                               title: const Text('Invalid Input:'),
                               content: const Text(
-                                  'Enter the player name and click Save'),
+                                  'Enter the player name and click Update'),
                               actions: <Widget>[
                                 TextButton(
                                   onPressed: () => Navigator.pop(context, 'OK'),
@@ -107,7 +101,7 @@ class AddPlayer extends StatelessWidget {
                       },
                       child: const Padding(
                         padding: EdgeInsets.all(12.0),
-                        child: Text('Save Player'),
+                        child: Text('Update Player'),
                       ),
                     ),
                   ],

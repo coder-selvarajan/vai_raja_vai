@@ -178,7 +178,7 @@ class _AddGameState extends State<AddGame> {
                       onPressed: () {
                         if (place.isNotEmpty && _selected.length > 1) {
                           provider.addCutfor(
-                              _selected, place, gameTime, "created");
+                              _selected, place, gameTime, "Progressing");
                           Navigator.pop(context);
                         } else {
                           //no players are selected
@@ -201,7 +201,7 @@ class _AddGameState extends State<AddGame> {
                         // }
                       },
                       child: const Padding(
-                        padding: EdgeInsets.all(18.0),
+                        padding: EdgeInsets.all(12.0),
                         child: Text('Start Game'),
                       ),
                     ),

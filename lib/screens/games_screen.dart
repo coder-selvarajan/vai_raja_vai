@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:vai_raja_vai/screens/add_game_screen.dart';
 
-import '../widgets/players_list.dart';
-import 'add_player_screen.dart';
+import '../widgets/games_list.dart';
 
-class PlayersScreen extends StatelessWidget {
-  const PlayersScreen({Key? key}) : super(key: key);
+class GamesScreen extends StatelessWidget {
+  const GamesScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final TextTheme textTheme = Theme.of(context).textTheme;
+
     return Scaffold(
       backgroundColor: Colors.white,
       // floatingActionButton: FloatingActionButton(
@@ -16,7 +18,9 @@ class PlayersScreen extends StatelessWidget {
       //     onPressed: () {
       //       Navigator.push(
       //         context,
-      //         MaterialPageRoute(builder: (context) => const AddPlayer()),
+      //         MaterialPageRoute(
+      //           builder: (context) => AddGame(),
+      //         ),
       //       );
       //     }),
       appBar: PreferredSize(
@@ -30,14 +34,14 @@ class PlayersScreen extends StatelessWidget {
                 title: Row(
                   children: const [
                     Icon(
-                      Icons.people,
-                      size: 25.0,
+                      Icons.info_outline,
+                      size: 30.0,
                       color: Colors.white,
                     ),
                     SizedBox(
                       width: 10,
                     ),
-                    Text("Players Info"),
+                    Text("All Games"),
                   ],
                 ),
                 elevation: 0,
@@ -57,18 +61,22 @@ class PlayersScreen extends StatelessWidget {
           ),
         ),
       ),
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          Expanded(
-            child: Container(
-              padding:
-                  const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
-              child: const PlayersList(),
-            ),
+      body: LayoutBuilder(
+          builder: (BuildContext context, BoxConstraints viewportConstraints) {
+        return SingleChildScrollView(
+          physics: ScrollPhysics(),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Container(
+                padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
+                child: GamesList(),
+              ),
+              // ),
+            ],
           ),
-        ],
-      ),
+        );
+      }),
     );
   }
 }

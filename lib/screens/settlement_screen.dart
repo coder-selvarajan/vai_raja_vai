@@ -71,6 +71,7 @@ class _SettlementScreenState extends State<SettlementScreen> {
     for (var i = 0; i < widget.cutfor.players.length; i++) {
       var str = getGainLoss(widget.cutfor.players[i]);
     }
+    playerStatuses.sort((a, b) => b.gainlossAmount.compareTo(a.gainlossAmount));
 
     List<PlayerStatus> gainList = [
       ...playerStatuses.where((element) => element.gainlossAmount > 0).toList()
@@ -115,6 +116,8 @@ class _SettlementScreenState extends State<SettlementScreen> {
         }
       }
     }
+
+    settlementInfoList.sort((a, b) => b.toPay.compareTo(a.toPay));
   }
 
   String getGainLoss(Player player) {
@@ -246,16 +249,16 @@ class _SettlementScreenState extends State<SettlementScreen> {
                               height: 10,
                             ),
                             Row(
-                              children: const [
+                              children: [
                                 Icon(
-                                  Icons.info_outline,
+                                  Icons.check_circle_outline,
                                   size: 25.0,
                                   color: Colors.redAccent,
                                 ),
                                 SizedBox(
                                   width: 10,
                                 ),
-                                Text("Ongoing.."),
+                                Text("Game ${widget.cutfor.status!}"),
                               ],
                             ),
                           ],
@@ -286,7 +289,7 @@ class _SettlementScreenState extends State<SettlementScreen> {
                           return FilterChip(
                             label: Text(
                               "${playerStatus.player.name} ${formatAmount(playerStatus.gainlossAmount)}",
-                              style: textTheme.subtitle1,
+                              style: textTheme.subtitle2,
                             ),
                             selected: false,
                             onSelected: (bool value) {

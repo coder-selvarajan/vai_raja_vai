@@ -48,16 +48,16 @@ class GameTile extends StatelessWidget {
         children: [
           Text(
             cutfor.place!,
-            style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            style: const TextStyle(fontWeight: FontWeight.bold),
           ),
           // Text("Started @ " + DateFormat('hh:mm a').format(time)),
           Text(cutfor.players.map((p) => p.shortname).join(', ')),
-          const Text("Played for 1hr"),
+          Text(cutfor.status!),
         ],
       ),
       trailing: const Icon(
-        Icons.delete,
-        size: 20.0,
+        Icons.chevron_right,
+        size: 30.0,
         color: Colors.red,
       ),
       onTap: () {

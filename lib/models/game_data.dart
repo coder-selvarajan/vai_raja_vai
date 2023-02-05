@@ -12,7 +12,7 @@ class GameData extends ChangeNotifier {
   }
 
   List<Cutfor> get games {
-    return [..._games];
+    return [..._games.reversed];
   }
 
   List<Round> get rounds {
@@ -39,23 +39,22 @@ class GameData extends ChangeNotifier {
       return;
     }
     // adding 5 players
-    _players
-        .add(Player(id: 1, name: "Ramesh", shortname: "RA", color: "FF0000"));
-    _players
-        .add(Player(id: 2, name: "Elango", shortname: "EL", color: "00FF00"));
-    _players
-        .add(Player(id: 3, name: "Manikkam", shortname: "MA", color: "0000FF"));
-    _players.add(Player(id: 4, name: "Siva", shortname: "SI", color: "FF0000"));
-    _players.add(
-        Player(id: 5, name: "Natarajan", shortname: "NA", color: "0000FF"));
-    _players.add(
-        Player(id: 6, name: "Selvarajan", shortname: "SE", color: "0000FF"));
-    _players
-        .add(Player(id: 7, name: "Mohan", shortname: "MO", color: "FF0000"));
-    _players.add(
-        Player(id: 8, name: "Muthusamy", shortname: "MU", color: "0000FF"));
+    _players.add(Player(id: 1, name: "Ramesh", shortname: "RA"));
+    _players.add(Player(id: 2, name: "Elango", shortname: "EL"));
+    _players.add(Player(id: 3, name: "Mohan", shortname: "MO"));
+    _players.add(Player(id: 4, name: "Manikkam", shortname: "MA"));
+    _players.add(Player(id: 5, name: "Thambi", shortname: "TH"));
+    _players.add(Player(id: 6, name: "Selvarajan", shortname: "SE"));
+    _players.add(Player(id: 7, name: "Siva", shortname: "SI"));
+    _players.add(Player(id: 8, name: "Muthusamy", shortname: "MU"));
 
     // adding 2 cutfors..
+    _games.add(Cutfor(
+        id: 2,
+        time: DateTime.now(),
+        players: [_players[1], _players[3], _players[4]], //EL, SI, NA
+        place: "Nambiyur",
+        status: "Completed"));
     _games.add(Cutfor(
         id: 1,
         time: DateTime.now(),
@@ -68,13 +67,7 @@ class GameData extends ChangeNotifier {
           _players[7]
         ], //RA, EL, MA, SI, MO, MU
         place: "Gobi",
-        status: "Created"));
-    _games.add(Cutfor(
-        id: 2,
-        time: DateTime.now(),
-        players: [_players[1], _players[3], _players[4]], //EL, SI, NA
-        place: "Nambiyur",
-        status: "Created"));
+        status: "Progressing"));
 
     // adding round entries for cutfor 1
     _rounds.add(Round(
@@ -97,12 +90,12 @@ class GameData extends ChangeNotifier {
       roundNo: 2,
       time: DateTime.now(),
       entries: [
-        RoundEntry(roundNo: 2, player: _players[0], toPay: 20),
-        RoundEntry(roundNo: 2, player: _players[1], toPay: 80),
+        RoundEntry(roundNo: 2, player: _players[0], toPay: -1),
+        RoundEntry(roundNo: 2, player: _players[1], toPay: 0),
         RoundEntry(roundNo: 2, player: _players[2], toPay: 20),
-        RoundEntry(roundNo: 1, player: _players[3], toPay: -1),
-        RoundEntry(roundNo: 1, player: _players[6], toPay: 80),
-        RoundEntry(roundNo: 1, player: _players[7], toPay: 40),
+        RoundEntry(roundNo: 2, player: _players[3], toPay: 20),
+        RoundEntry(roundNo: 2, player: _players[6], toPay: 20),
+        RoundEntry(roundNo: 2, player: _players[7], toPay: 40),
       ],
     ));
     _rounds.add(Round(
@@ -114,9 +107,9 @@ class GameData extends ChangeNotifier {
         RoundEntry(roundNo: 3, player: _players[0], toPay: 20),
         RoundEntry(roundNo: 3, player: _players[1], toPay: 20),
         RoundEntry(roundNo: 3, player: _players[2], toPay: 40),
-        RoundEntry(roundNo: 1, player: _players[3], toPay: 40),
-        RoundEntry(roundNo: 1, player: _players[6], toPay: 40),
-        RoundEntry(roundNo: 1, player: _players[7], toPay: -1),
+        RoundEntry(roundNo: 3, player: _players[3], toPay: 40),
+        RoundEntry(roundNo: 3, player: _players[6], toPay: 40),
+        RoundEntry(roundNo: 3, player: _players[7], toPay: -1),
       ],
     ));
     _rounds.add(Round(
@@ -128,9 +121,9 @@ class GameData extends ChangeNotifier {
         RoundEntry(roundNo: 4, player: _players[0], toPay: 80),
         RoundEntry(roundNo: 4, player: _players[1], toPay: 40),
         RoundEntry(roundNo: 4, player: _players[2], toPay: 20),
-        RoundEntry(roundNo: 1, player: _players[3], toPay: -1),
-        RoundEntry(roundNo: 1, player: _players[6], toPay: 40),
-        RoundEntry(roundNo: 1, player: _players[7], toPay: 20),
+        RoundEntry(roundNo: 4, player: _players[3], toPay: -1),
+        RoundEntry(roundNo: 4, player: _players[6], toPay: 40),
+        RoundEntry(roundNo: 4, player: _players[7], toPay: 20),
       ],
     ));
     _rounds.add(Round(
@@ -140,11 +133,11 @@ class GameData extends ChangeNotifier {
       time: DateTime.now(),
       entries: [
         RoundEntry(roundNo: 5, player: _players[0], toPay: -1),
-        RoundEntry(roundNo: 5, player: _players[1], toPay: 80),
+        RoundEntry(roundNo: 5, player: _players[1], toPay: 40),
         RoundEntry(roundNo: 5, player: _players[2], toPay: 0),
-        RoundEntry(roundNo: 1, player: _players[3], toPay: 20),
-        RoundEntry(roundNo: 1, player: _players[6], toPay: 20),
-        RoundEntry(roundNo: 1, player: _players[7], toPay: 40),
+        RoundEntry(roundNo: 5, player: _players[3], toPay: 20),
+        RoundEntry(roundNo: 5, player: _players[6], toPay: 20),
+        RoundEntry(roundNo: 5, player: _players[7], toPay: 40),
       ],
     ));
 
@@ -228,8 +221,16 @@ class GameData extends ChangeNotifier {
     ));
   }
 
-  void addPlayer(String name, String shortname, String color) {
-    _players.add(Player(name: name, shortname: shortname, color: color));
+  void addPlayer(String name, String shortname) {
+    _players.add(Player(name: name, shortname: shortname));
+    notifyListeners();
+  }
+
+  void editPlayer(int playerId, String name, String shortname) {
+    Player player = _players.firstWhere((element) => element.id == playerId);
+    player.name = name;
+    player.shortname = shortname;
+
     notifyListeners();
   }
 
@@ -255,6 +256,14 @@ class GameData extends ChangeNotifier {
         roundNo: roundNo,
         time: DateTime.now(),
         entries: entries));
+
+    notifyListeners();
+  }
+
+  void editRound(int roundId, List<RoundEntry> entries) {
+    Round round = _rounds.firstWhere((element) => element.id == roundId);
+    round.entries = entries;
+    round.time = DateTime.now();
 
     notifyListeners();
   }

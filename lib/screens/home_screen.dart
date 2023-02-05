@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:vai_raja_vai/screens/add_game_screen.dart';
 import 'package:vai_raja_vai/screens/add_player_screen.dart';
+import 'package:vai_raja_vai/screens/games_screen.dart';
 import 'package:vai_raja_vai/screens/players_screen.dart';
 import 'package:vai_raja_vai/widgets/recent_games.dart';
 
@@ -59,7 +60,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           ),
                         ),
                         SizedBox(
-                          height: 5,
+                          height: 2,
                         ),
                         Text(
                           "Money Splitter for Rummy Game",
@@ -107,7 +108,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ),
               child: Padding(
-                padding: const EdgeInsets.only(top: 20.0),
+                padding: const EdgeInsets.only(top: 10.0),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -118,12 +119,13 @@ class _HomeScreenState extends State<HomeScreen> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => const PlayersScreen()),
+                              builder: (context) => const GamesScreen()),
                         );
                       },
                       child: Row(
                         children: [
-                          Icon(Icons.play_circle_outline),
+                          // Icon(Icons.play_circle_outline),
+                          Icon(Icons.remove_red_eye),
                           SizedBox(
                             width: 10,
                           ),
@@ -153,7 +155,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           width: 10,
                         ),
                         Text(
-                          'Player List',
+                          'Players',
                           style: TextStyle(
                             fontSize: 16.0,
                             fontWeight: FontWeight.bold,
@@ -168,9 +170,15 @@ class _HomeScreenState extends State<HomeScreen> {
                                   builder: (context) => const PlayersScreen()),
                             );
                           },
-                          child: Text(" Edit / Add Player"),
+                          child: Text(
+                            " Add / Edit Player",
+                            // style: TextStyle(color: Colors.white),
+                          ),
                           style: OutlinedButton.styleFrom(
-                            side: BorderSide(width: 1.0, color: Colors.red),
+                            // backgroundColor: Colors.redAccent,
+                            side: BorderSide(width: 1.5, color: Colors.red),
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(20.0)),
                           ),
                         ),
                       ],
@@ -188,19 +196,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         );
                       }).toList(),
                     ),
-                    // const SizedBox(height: 10.0),
-                    // ElevatedButton(
-                    //   onPressed: () {
-                    //     Navigator.push(
-                    //       context,
-                    //       MaterialPageRoute(
-                    //           builder: (context) => const AddGame()),
-                    //     );
-                    //   },
-                    //   child: Text("Add Player"),
-                    // ),
-
-                    // Text('Selected : ${_filters.join(', ')}'),
+                    const SizedBox(height: 30.0),
                   ],
                 ),
               ),

@@ -9,36 +9,29 @@ import '../models/model.dart';
 
 List<String> amountList = <String>['Win', '0', '20', '40', '80'];
 
-class AddRound extends StatefulWidget {
-  final Cutfor currentCutfor;
-  final int roundNo;
-  const AddRound({Key? key, required this.currentCutfor, required this.roundNo})
-      : super(key: key);
+class EditRound extends StatefulWidget {
+  // final Cutfor currentCutfor;
+  final Round round;
+  // final int roundNo;
+  const EditRound({Key? key, required this.round}) : super(key: key);
 
   @override
-  State<AddRound> createState() => _AddRoundState();
+  State<EditRound> createState() => _EditRoundState();
 }
 
-class _AddRoundState extends State<AddRound> {
-  DateTime roundTime = DateTime.now();
-  late Timer _timer;
+class _EditRoundState extends State<EditRound> {
   late List<String> selectedValue = [];
 
   @override
   void initState() {
-    _timer = Timer.periodic(
-      const Duration(microseconds: 5000),
-      (Timer t) => setState(() {
-        roundTime = DateTime.now();
-      }),
-    );
-    selectedValue = widget.currentCutfor.players.map((e) => "0").toList();
+    selectedValue = widget.round.entries
+        .map((e) => (e.toPay == -1 ? "Win" : e.toPay.toString()))
+        .toList();
     super.initState();
   }
 
   @override
   void dispose() {
-    _timer.cancel();
     super.dispose();
   }
 
@@ -59,7 +52,7 @@ class _AddRoundState extends State<AddRound> {
             children: [
               AppBar(
                 backgroundColor: Colors.redAccent,
-                title: const Text("New Round"),
+                title: const Text("Edit Round"),
                 elevation: 0,
               ),
               Expanded(
@@ -97,7 +90,7 @@ class _AddRoundState extends State<AddRound> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          Text("Round No: ${widget.roundNo}",
+                          Text("Round No: ${widget.round.roundNo}",
                               style: textTheme.headline6),
                           const SizedBox(height: 5.0),
                           Row(
@@ -112,7 +105,7 @@ class _AddRoundState extends State<AddRound> {
                                 width: 10,
                               ),
                               Text(DateFormat('EEEE, MMM-dd  -  hh:mm a')
-                                  .format(roundTime)),
+                                  .format(widget.round.time)),
                             ],
                           ),
                         ],
@@ -135,7 +128,7 @@ class _AddRoundState extends State<AddRound> {
                       padding: EdgeInsets.only(bottom: 10.0),
                       physics: NeverScrollableScrollPhysics(),
                       shrinkWrap: true,
-                      itemCount: widget.currentCutfor.players.length,
+                      itemCount: widget.round.entries.length,
                       itemBuilder: (BuildContext context, int index) {
                         return Container(
                           height: 45,
@@ -144,7 +137,7 @@ class _AddRoundState extends State<AddRound> {
                             child: Row(
                               children: [
                                 Text(
-                                  widget.currentCutfor.players[index].name,
+                                  widget.round.entries[index].player.name,
                                   style: TextStyle(fontSize: 16.0),
                                 ),
                                 Spacer(),
@@ -198,18 +191,16 @@ class _AddRoundState extends State<AddRound> {
                         if (true) {
                           List<RoundEntry> entries = [];
                           for (var i = 0;
-                              i < widget.currentCutfor.players.length;
+                              i < widget.round.entries.length;
                               i++) {
                             entries.add(RoundEntry(
-                                roundNo: widget.roundNo,
-                                player: widget.currentCutfor.players[i],
+                                roundNo: widget.round.roundNo,
+                                player: widget.round.entries[i].player,
                                 toPay: int.parse((selectedValue[i] == "Win"
                                     ? "-1"
                                     : selectedValue[i]))));
                           }
-
-                          provider.addRound(widget.currentCutfor.id!, entries,
-                              widget.roundNo);
+                          provider.editRound(widget.round.id!, entries);
                           Navigator.pop(context);
                         } else {
                           //no players are selected
@@ -233,7 +224,7 @@ class _AddRoundState extends State<AddRound> {
                       },
                       child: const Padding(
                         padding: EdgeInsets.all(12.0),
-                        child: Text('Save Round'),
+                        child: Text('Update Round'),
                       ),
                     ),
                   ],

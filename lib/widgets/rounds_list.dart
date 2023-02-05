@@ -37,7 +37,7 @@ class RoundsList extends StatelessWidget {
               return Column(
                 children: [
                   Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                    padding: const EdgeInsets.only(left: 20.0),
                     child: Row(
                       children: [
                         // const Icon(
@@ -45,58 +45,55 @@ class RoundsList extends StatelessWidget {
                         //   size: 45.0,
                         //   color: Colors.redAccent,
                         // ),
-                        Text(
-                          "Rounds:",
-                          style: textTheme.titleLarge,
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              "Rounds Played:",
+                              // style: textTheme.titleMedium,
+                              style: TextStyle(fontWeight: FontWeight.bold),
+                            ),
+                            SizedBox(
+                              height: 5,
+                            ),
+                            Text(
+                              "(Click on the round to edit)",
+                              style: TextStyle(color: Colors.grey),
+                            ),
+                          ],
                         ),
                         Spacer(),
                         OutlinedButton(
-                            style: ElevatedButton.styleFrom(
-                              primary: Colors.red[500],
-                            ),
-                            onPressed: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => SettlementScreen(
-                                    cutfor: cutfor,
-                                    rounds: roundsList,
-                                  ),
+                          style: OutlinedButton.styleFrom(
+                            side: BorderSide(width: 1.0, color: Colors.white),
+                          ),
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => SettlementScreen(
+                                  cutfor: cutfor,
+                                  rounds: roundsList,
                                 ),
-                              );
-                            },
-                            child: Row(
-                              children: [
-                                const Icon(
-                                  Icons.currency_rupee_sharp,
-                                  size: 20.0,
-                                  color: Colors.white,
-                                ),
-                                Text(' Settlement',
-                                    style: TextStyle(
-                                      fontSize: 18.0,
-                                      color: Colors.white,
-                                    )),
-                              ],
-                            )),
+                              ),
+                            );
+                          },
+                          child: Row(
+                            children: [Icon(Icons.arrow_upward)],
+                          ),
+                        ),
                       ],
                     ),
                   ),
                   SizedBox(
                     height: 15.0,
                   ),
-                  RoundTile(
-                      roundno: round.roundNo,
-                      time: round.time,
-                      entries: round.entries),
+                  RoundTile(round: round),
                 ],
               );
             }
 
-            return RoundTile(
-                roundno: round.roundNo,
-                time: round.time,
-                entries: round.entries);
+            return RoundTile(round: round);
           },
           separatorBuilder: (_, id) => const Divider(
             color: Colors.black,

@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:vai_raja_vai/widgets/game_tile.dart';
+
 import '../models/game_data.dart';
 import '../screens/add_game_screen.dart';
+import 'game_tile.dart';
 
-class RecentGames extends StatelessWidget {
-  const RecentGames({Key? key}) : super(key: key);
+class GamesList extends StatelessWidget {
+  const GamesList({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -14,10 +15,9 @@ class RecentGames extends StatelessWidget {
     return Consumer<GameData>(
       builder: (context, gameData, child) {
         return ListView.separated(
-          padding: EdgeInsets.only(bottom: 10.0, left: 0, right: 0),
           physics: NeverScrollableScrollPhysics(),
           shrinkWrap: true,
-          itemCount: gameData.games.length > 3 ? 3 : gameData.games.length,
+          itemCount: gameData.gameCount,
           itemBuilder: (context, index) {
             final cutfor = gameData.games[index];
             if (index == 0) {
@@ -28,22 +28,23 @@ class RecentGames extends StatelessWidget {
                 children: [
                   Row(
                     children: [
-                      Icon(
-                        Icons.currency_rupee,
-                        size: 30.0,
-                        color: Colors.red,
-                      ),
-                      SizedBox(
-                        width: 10,
-                      ),
+                      // Icon(
+                      //   Icons.currency_rupee,
+                      //   size: 30.0,
+                      //   color: Colors.red,
+                      // ),
+                      // SizedBox(
+                      //   width: 10,
+                      // ),
                       Text(
-                        "Recent Games",
+                        "Games Played:",
                         style: TextStyle(
                           fontSize: 16.0,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
                       Spacer(),
+
                       OutlinedButton(
                         onPressed: () {
                           Navigator.push(
@@ -66,7 +67,7 @@ class RecentGames extends StatelessWidget {
                     ],
                   ),
                   const SizedBox(
-                    height: 15,
+                    height: 20,
                   ),
                   GameTile(cutfor: cutfor),
                 ],

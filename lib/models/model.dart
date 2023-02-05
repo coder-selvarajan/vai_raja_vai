@@ -2,8 +2,8 @@ class Round {
   int? id;
   final int cutforId;
   final int roundNo;
-  final DateTime time;
-  final List<RoundEntry> entries;
+  DateTime time;
+  List<RoundEntry> entries;
 
   Round(
       {this.id,
@@ -43,35 +43,28 @@ class Cutfor {
 
 class Player {
   int? id;
-  final String name;
-  final String shortname;
-  final String color;
+  String name;
+  String shortname;
 
-  Player(
-      {this.id,
-      required this.name,
-      required this.shortname,
-      required this.color});
+  Player({this.id, required this.name, required this.shortname});
 
   //to sqlite
   Map<String, dynamic> toMap() => {
         //id is auto generated
         'name': name,
         'shortname': shortname,
-        'color': color,
       };
   //from sqlite
   factory Player.fromString(Map<String, dynamic> value) => Player(
         id: value['id'],
         name: value['name'],
         shortname: value['shortname'],
-        color: value['color'],
       );
 
   //for debugging
   @override
   String toString() {
-    return 'Player(id: $id, name: $name, shortname: $shortname, color: $color';
+    return 'Player(id: $id, name: $name, shortname: $shortname';
   }
 }
 
