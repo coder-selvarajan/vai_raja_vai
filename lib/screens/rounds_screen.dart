@@ -8,7 +8,7 @@ import 'package:vai_raja_vai/screens/settlement_screen.dart';
 import 'package:vai_raja_vai/widgets/rounds_list.dart';
 
 import '../models/game_data.dart';
-import '../widgets/games_list.dart';
+import '../widgets/recent_games.dart';
 import 'add_game_screen.dart';
 
 class RoundsScreen extends StatelessWidget {

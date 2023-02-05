@@ -4,8 +4,8 @@ import 'package:vai_raja_vai/widgets/game_tile.dart';
 import '../models/game_data.dart';
 import '../screens/add_game_screen.dart';
 
-class GamesList extends StatelessWidget {
-  const GamesList({Key? key}) : super(key: key);
+class RecentGames extends StatelessWidget {
+  const RecentGames({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -36,9 +36,9 @@ class GamesList extends StatelessWidget {
                         width: 10,
                       ),
                       Text(
-                        "Recent Games:",
+                        "Recent Games",
                         style: TextStyle(
-                          fontSize: 18.0,
+                          fontSize: 16.0,
                           fontWeight: FontWeight.bold,
                         ),
                       ),

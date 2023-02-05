@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:flutter/services.dart';
 import 'package:vai_raja_vai/models/game_data.dart';
 import 'package:vai_raja_vai/screens/PlayerListOld.dart';
-import 'package:vai_raja_vai/screens/games_screen.dart';
+import 'package:vai_raja_vai/screens/home_screen.dart';
 import 'package:vai_raja_vai/screens/players_screen.dart';
 import 'package:vai_raja_vai/splash.dart';
 import './models/model.dart';
@@ -48,7 +48,7 @@ class MyApp extends StatelessWidget {
         // colorSchemeSeed: Colors.red,
       ),
       // home: const MyHomePage(title: "வை ராஜா வை"),
-      home: GamesScreen(),
+      home: HomeScreen(),
     );
   }
 }
@@ -138,7 +138,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => const GamesScreen()),
+                  MaterialPageRoute(builder: (context) => const HomeScreen()),
                 );
               },
               child: const Text('Goto Games Home'),

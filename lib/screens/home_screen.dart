@@ -3,19 +3,19 @@ import 'package:provider/provider.dart';
 import 'package:vai_raja_vai/screens/add_game_screen.dart';
 import 'package:vai_raja_vai/screens/add_player_screen.dart';
 import 'package:vai_raja_vai/screens/players_screen.dart';
-import 'package:vai_raja_vai/widgets/games_list.dart';
+import 'package:vai_raja_vai/widgets/recent_games.dart';
 
 import '../models/game_data.dart';
 import '../models/model.dart';
 
-class GamesScreen extends StatefulWidget {
-  const GamesScreen({Key? key}) : super(key: key);
+class HomeScreen extends StatefulWidget {
+  const HomeScreen({Key? key}) : super(key: key);
 
   @override
-  State<GamesScreen> createState() => _GamesScreenState();
+  State<HomeScreen> createState() => _HomeScreenState();
 }
 
-class _GamesScreenState extends State<GamesScreen> {
+class _HomeScreenState extends State<HomeScreen> {
   final List<Player> _selected = <Player>[];
 
   @override
@@ -112,7 +112,7 @@ class _GamesScreenState extends State<GamesScreen> {
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const GamesList(),
+                    const RecentGames(),
                     OutlinedButton(
                       onPressed: () {
                         Navigator.push(
@@ -155,7 +155,7 @@ class _GamesScreenState extends State<GamesScreen> {
                         Text(
                           'Player List',
                           style: TextStyle(
-                            fontSize: 18.0,
+                            fontSize: 16.0,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
