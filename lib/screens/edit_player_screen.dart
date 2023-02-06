@@ -2,16 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../models/game_data.dart';
+import '../models/isar_service.dart';
 import '../models/model.dart';
+import '../models/player.dart';
 
 class EditPlayer extends StatelessWidget {
-  late Player player;
+  late PlayerX player;
   EditPlayer({Key? key, required this.player}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     String name = player.name;
-    String shortname = player.shortname;
+    String shortname = player.name;
     final TextTheme textTheme = Theme.of(context).textTheme;
     var provider = Provider.of<GameData>(context);
 
@@ -77,7 +79,9 @@ class EditPlayer extends StatelessWidget {
                       ),
                       onPressed: () {
                         if (name.isNotEmpty) {
-                          provider.editPlayer(player.id!, name, shortname);
+                          // provider.editPlayer(player.id!, name, shortname);
+                          player.name = name;
+                          IsarService().savePlayer(player);
                           Navigator.pop(context);
                         } else {
                           //no players are selected

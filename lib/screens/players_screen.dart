@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 
+import '../models/isar_service.dart';
 import '../widgets/players_list.dart';
 import 'add_player_screen.dart';
 
 class PlayersScreen extends StatelessWidget {
-  const PlayersScreen({Key? key}) : super(key: key);
+  PlayersScreen({Key? key}) : super(key: key);
+
+  final isarService = IsarService();
 
   @override
   Widget build(BuildContext context) {
@@ -64,7 +67,9 @@ class PlayersScreen extends StatelessWidget {
             child: Container(
               padding:
                   const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
-              child: const PlayersList(),
+              child: PlayersList(
+                isarService: isarService,
+              ),
             ),
           ),
         ],

@@ -3,9 +3,12 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
+import 'package:vai_raja_vai/models/game.dart';
+import 'package:vai_raja_vai/models/isar_service.dart';
 import 'package:vai_raja_vai/models/model.dart';
 
 import '../models/game_data.dart';
+import '../models/player.dart';
 
 class AddGame extends StatefulWidget {
   const AddGame({Key? key}) : super(key: key);
@@ -16,6 +19,8 @@ class AddGame extends StatefulWidget {
 
 class _AddGameState extends State<AddGame> {
   final List<Player> _selected = <Player>[];
+  final List<String> selectedPlayers = <String>[];
+  late List<PlayerX> players = [];
 
   String place = "";
   DateTime gameTime = DateTime.now();
@@ -31,6 +36,12 @@ class _AddGameState extends State<AddGame> {
     );
 
     super.initState();
+
+    getPlayersList();
+  }
+
+  Future<void> getPlayersList() async {
+    players = await IsarService().getPlayers();
   }
 
   @override
@@ -129,19 +140,21 @@ class _AddGameState extends State<AddGame> {
                     const SizedBox(height: 5.0),
                     Wrap(
                       spacing: 5.0,
-                      children: provider.players.map((Player player) {
+                      // children: provider.players.map((Player player) {
+                      children: players.map((PlayerX player) {
                         return FilterChip(
                           label: Text(player.name),
-                          selected: _selected.contains(player),
+                          selected: selectedPlayers.contains(player.name),
                           onSelected: (bool value) {
                             setState(() {
                               if (value) {
-                                if (!_selected.contains(player)) {
-                                  _selected.add(player);
+                                if (!selectedPlayers.contains(player.name)) {
+                                  selectedPlayers.add(player.name);
                                 }
                               } else {
-                                _selected.removeWhere((Player filterPlayer) {
-                                  return filterPlayer == player;
+                                selectedPlayers
+                                    .removeWhere((String filterPlayer) {
+                                  return filterPlayer == player.name;
                                 });
                               }
                             });
@@ -176,9 +189,17 @@ class _AddGameState extends State<AddGame> {
                             const TextStyle(fontSize: 20, color: Colors.white),
                       ),
                       onPressed: () {
-                        if (place.isNotEmpty && _selected.length > 1) {
-                          provider.addCutfor(
-                              _selected, place, gameTime, "Progressing");
+                        if (place.isNotEmpty && selectedPlayers.length > 1) {
+                          // provider.addCutfor(
+                          //     _selected, place, gameTime, "Progressing");
+
+                          IsarService().saveGame(GameX()
+                            ..players = selectedPlayers
+                            ..place = place
+                            ..time = gameTime
+                            ..status = Status.Progressing
+                            ..rounds = null);
+
                           Navigator.pop(context);
                         } else {
                           //no players are selected

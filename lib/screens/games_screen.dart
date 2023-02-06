@@ -12,17 +12,6 @@ class GamesScreen extends StatelessWidget {
 
     return Scaffold(
       backgroundColor: Colors.white,
-      // floatingActionButton: FloatingActionButton(
-      //     backgroundColor: Colors.redAccent,
-      //     child: const Icon(Icons.add),
-      //     onPressed: () {
-      //       Navigator.push(
-      //         context,
-      //         MaterialPageRoute(
-      //           builder: (context) => AddGame(),
-      //         ),
-      //       );
-      //     }),
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(80), //height of appbar
         child: Container(

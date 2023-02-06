@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:vai_raja_vai/main.dart';
+import 'package:vai_raja_vai/screens/home_screen.dart';
 
 class Splash extends StatefulWidget {
   const Splash({Key? key}) : super(key: key);
@@ -19,8 +20,7 @@ class _SplashState extends State<Splash> {
         const Duration(milliseconds: 2000),
         () => Navigator.pushReplacement(
               context,
-              MaterialPageRoute(
-                  builder: (context) => const MyHomePage(title: "வை ராஜா வை")),
+              MaterialPageRoute(builder: (context) => const HomeScreen()),
             ));
   }
 
