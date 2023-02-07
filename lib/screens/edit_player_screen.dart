@@ -5,7 +5,7 @@ import '../models/isar_service.dart';
 import '../models/player.dart';
 
 class EditPlayer extends StatelessWidget {
-  late PlayerX player;
+  late Player player;
   EditPlayer({Key? key, required this.player}) : super(key: key);
 
   @override
@@ -68,42 +68,65 @@ class EditPlayer extends StatelessWidget {
                       },
                     ),
                     const SizedBox(height: 30.0),
-                    ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.red,
-                        textStyle:
-                            const TextStyle(fontSize: 20, color: Colors.white),
-                      ),
-                      onPressed: () {
-                        if (name.isNotEmpty) {
-                          // provider.editPlayer(player.id!, name, shortname);
-                          player.name = name;
-                          IsarService().savePlayer(player);
-                          Navigator.pop(context);
-                        } else {
-                          //no players are selected
-                          //display alert here
-                          showDialog<String>(
-                            context: context,
-                            builder: (BuildContext context) => AlertDialog(
-                              title: const Text('Invalid Input:'),
-                              content: const Text(
-                                  'Enter the player name and click Update'),
-                              actions: <Widget>[
-                                TextButton(
-                                  onPressed: () => Navigator.pop(context, 'OK'),
-                                  child: const Text('OK'),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.red,
+                            textStyle: const TextStyle(
+                                fontSize: 18, color: Colors.white),
+                          ),
+                          onPressed: () {
+                            if (name.isNotEmpty) {
+                              // provider.editPlayer(player.id!, name, shortname);
+                              player.name = name;
+                              IsarService().savePlayer(player);
+                              Navigator.pop(context);
+                            } else {
+                              //no players are selected
+                              //display alert here
+                              showDialog<String>(
+                                context: context,
+                                builder: (BuildContext context) => AlertDialog(
+                                  title: const Text('Invalid Input:'),
+                                  content: const Text(
+                                      'Enter the player name and click Update'),
+                                  actions: <Widget>[
+                                    TextButton(
+                                      onPressed: () =>
+                                          Navigator.pop(context, 'OK'),
+                                      child: const Text('OK'),
+                                    ),
+                                  ],
                                 ),
-                              ],
-                            ),
-                          );
-                        }
-                        // }
-                      },
-                      child: const Padding(
-                        padding: EdgeInsets.all(12.0),
-                        child: Text('Update Player'),
-                      ),
+                              );
+                            }
+                            // }
+                          },
+                          child: const Padding(
+                            padding: EdgeInsets.symmetric(
+                                vertical: 12.0, horizontal: 5.0),
+                            child: Text('Update Player'),
+                          ),
+                        ),
+                        ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.red,
+                            textStyle: const TextStyle(
+                                fontSize: 18, color: Colors.white),
+                          ),
+                          onPressed: () {
+                            IsarService().deletePlayer(player);
+                            Navigator.pop(context);
+                          },
+                          child: const Padding(
+                            padding: EdgeInsets.symmetric(
+                                vertical: 12.0, horizontal: 5.0),
+                            child: Text('Delete Player'),
+                          ),
+                        ),
+                      ],
                     ),
                   ],
                 ),

@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 import '../models/game.dart';
 import '../models/isar_service.dart';
 import '../screens/add_game_screen.dart';
-import 'game_tile2.dart';
+import 'game_tile.dart';
 
 class GamesList extends StatelessWidget {
   const GamesList({Key? key}) : super(key: key);
@@ -12,8 +12,8 @@ class GamesList extends StatelessWidget {
   Widget build(BuildContext context) {
     final TextTheme textTheme = Theme.of(context).textTheme;
 
-    return StreamBuilder<List<GameX>>(
-        stream: IsarService().getAllGames(),
+    return StreamBuilder<List<Game>>(
+        stream: IsarService().streamGames(),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             final games = snapshot.data;
@@ -59,46 +59,58 @@ class GamesList extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Row(
-                        children: [
-                          Text(
-                            "Games Played:",
-                            style: TextStyle(
-                              fontSize: 16.0,
-                              fontWeight: FontWeight.bold,
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                        child: Row(
+                          children: [
+                            Text(
+                              "Games Played:",
+                              style: TextStyle(
+                                fontSize: 18.0,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.black87,
+                              ),
                             ),
-                          ),
-                          Spacer(),
-                          OutlinedButton(
-                            onPressed: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => const AddGame()),
-                              );
-                            },
-                            child: Text(
-                              "New Game",
-                              // style: TextStyle(color: Colors.white),
+                            Spacer(),
+                            OutlinedButton(
+                              onPressed: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => const AddGame()),
+                                );
+                              },
+                              child: Row(
+                                children: [
+                                  Icon(
+                                    Icons.add,
+                                    color: Colors.white,
+                                  ),
+                                  Text(
+                                    " New Game",
+                                    style: TextStyle(color: Colors.white),
+                                  ),
+                                ],
+                              ),
+                              style: OutlinedButton.styleFrom(
+                                backgroundColor: Colors.redAccent,
+                                side: BorderSide(width: 1.5, color: Colors.red),
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(20.0)),
+                              ),
                             ),
-                            style: OutlinedButton.styleFrom(
-                              // backgroundColor: Colors.redAccent,
-                              side: BorderSide(width: 1.5, color: Colors.red),
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(20.0)),
-                            ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
                       const SizedBox(
                         height: 20,
                       ),
-                      GameTileX(game: cutfor),
+                      GameTile(game: cutfor),
                     ],
                   );
                 }
 
-                return GameTileX(game: cutfor);
+                return GameTile(game: cutfor);
               },
               separatorBuilder: (_, id) => const Divider(
                 color: Colors.black,

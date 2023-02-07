@@ -12,7 +12,7 @@ class IsarService {
   Future<Isar> openDB() async {
     if (Isar.instanceNames.isEmpty) {
       return await Isar.open(
-        [PlayerXSchema, GameXSchema],
+        [PlayerSchema, GameSchema],
         inspector: true,
       );
     }
@@ -20,48 +20,64 @@ class IsarService {
     return Future.value(Isar.getInstance());
   }
 
-  Future<void> savePlayer(PlayerX newPlayer) async {
+  Future<void> savePlayer(Player newPlayer) async {
     final isar = await db;
-    isar.writeTxnSync<int>(() => isar.playerXs.putSync(newPlayer));
+    isar.writeTxnSync<int>(() => isar.players.putSync(newPlayer));
   }
 
-  Future<void> saveGame(GameX newGame) async {
+  Future<void> deletePlayer(Player player) async {
     final isar = await db;
-    isar.writeTxnSync<int>(() => isar.gameXs.putSync(newGame));
+    await isar.writeTxn(() async {
+      final success = await isar.players.delete(player.id);
+      // print('Recipe deleted: $success');
+    });
   }
 
-  Stream<List<PlayerX>> getAllPlayers() async* {
+  Future<void> saveGame(Game newGame) async {
     final isar = await db;
-    yield* isar.playerXs.where().watch(fireImmediately: true);
+    isar.writeTxnSync<int>(() => isar.games.putSync(newGame));
   }
 
-  Future<List<PlayerX>> getPlayers() async {
+  Future<void> deleteGame(Id gameId) async {
     final isar = await db;
-    return await isar.playerXs.where().findAll();
+    await isar.writeTxn(() async {
+      final success = await isar.games.delete(gameId);
+      // print('Recipe deleted: $success');
+    });
   }
 
-  Stream<List<GameX>> getAllGames() async* {
+  Stream<List<Player>> streamPlayers() async* {
     final isar = await db;
-    yield* isar.gameXs.where().sortByTimeDesc().watch(fireImmediately: true);
+    yield* isar.players.where().watch(fireImmediately: true);
   }
 
-  Stream<List<GameX>> getRecentGames() async* {
+  Future<List<Player>> getPlayersList() async {
     final isar = await db;
-    yield* isar.gameXs
+    return await isar.players.where().findAll();
+  }
+
+  Future<int> getPlayersCount() async {
+    final isar = await db;
+    return await isar.players.count();
+  }
+
+  Stream<List<Game>> streamGames() async* {
+    final isar = await db;
+    yield* isar.games.where().sortByTimeDesc().watch(fireImmediately: true);
+  }
+
+  Stream<List<Game>> streamRecentGames() async* {
+    final isar = await db;
+    yield* isar.games
         .where()
         .sortByTimeDesc()
-        .limit(2)
+        .limit(3)
         .watch(fireImmediately: true);
   }
 
-  Future<List<GameX>> getGames() async {
+  Stream<List<Game>> getGameById(Id id) async* {
     final isar = await db;
-    return await isar.gameXs.where().findAll();
-  }
-
-  Stream<List<GameX>> getGame(Id id) async* {
-    final isar = await db;
-    yield* isar.gameXs
+    yield* isar.games
         .filter()
         .idEqualTo(id.toInt())
         .watch(fireImmediately: true);

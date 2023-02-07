@@ -9,13 +9,13 @@ part of 'game.dart';
 // coverage:ignore-file
 // ignore_for_file: duplicate_ignore, non_constant_identifier_names, constant_identifier_names, invalid_use_of_protected_member, unnecessary_cast, prefer_const_constructors, lines_longer_than_80_chars, require_trailing_commas, inference_failure_on_function_invocation, unnecessary_parenthesis, unnecessary_raw_strings, unnecessary_null_checks, join_return_with_assignment, prefer_final_locals, avoid_js_rounded_ints, avoid_positional_boolean_parameters
 
-extension GetGameXCollection on Isar {
-  IsarCollection<GameX> get gameXs => this.collection();
+extension GetGameCollection on Isar {
+  IsarCollection<Game> get games => this.collection();
 }
 
-const GameXSchema = CollectionSchema(
-  name: r'GameX',
-  id: 2967153125759154819,
+const GameSchema = CollectionSchema(
+  name: r'Game',
+  id: -6261407721091271860,
   properties: {
     r'place': PropertySchema(
       id: 0,
@@ -31,13 +31,13 @@ const GameXSchema = CollectionSchema(
       id: 2,
       name: r'rounds',
       type: IsarType.objectList,
-      target: r'RoundX',
+      target: r'Round',
     ),
     r'status': PropertySchema(
       id: 3,
       name: r'status',
       type: IsarType.string,
-      enumMap: _GameXstatusEnumValueMap,
+      enumMap: _GamestatusEnumValueMap,
     ),
     r'time': PropertySchema(
       id: 4,
@@ -45,22 +45,22 @@ const GameXSchema = CollectionSchema(
       type: IsarType.dateTime,
     )
   },
-  estimateSize: _gameXEstimateSize,
-  serialize: _gameXSerialize,
-  deserialize: _gameXDeserialize,
-  deserializeProp: _gameXDeserializeProp,
+  estimateSize: _gameEstimateSize,
+  serialize: _gameSerialize,
+  deserialize: _gameDeserialize,
+  deserializeProp: _gameDeserializeProp,
   idName: r'id',
   indexes: {},
   links: {},
-  embeddedSchemas: {r'RoundX': RoundXSchema, r'RoundEntryX': RoundEntryXSchema},
-  getId: _gameXGetId,
-  getLinks: _gameXGetLinks,
-  attach: _gameXAttach,
+  embeddedSchemas: {r'Round': RoundSchema, r'RoundEntry': RoundEntrySchema},
+  getId: _gameGetId,
+  getLinks: _gameGetLinks,
+  attach: _gameAttach,
   version: '3.0.5',
 );
 
-int _gameXEstimateSize(
-  GameX object,
+int _gameEstimateSize(
+  Game object,
   List<int> offsets,
   Map<Type, List<int>> allOffsets,
 ) {
@@ -83,10 +83,10 @@ int _gameXEstimateSize(
     if (list != null) {
       bytesCount += 3 + list.length * 3;
       {
-        final offsets = allOffsets[RoundX]!;
+        final offsets = allOffsets[Round]!;
         for (var i = 0; i < list.length; i++) {
           final value = list[i];
-          bytesCount += RoundXSchema.estimateSize(value, offsets, allOffsets);
+          bytesCount += RoundSchema.estimateSize(value, offsets, allOffsets);
         }
       }
     }
@@ -100,46 +100,46 @@ int _gameXEstimateSize(
   return bytesCount;
 }
 
-void _gameXSerialize(
-  GameX object,
+void _gameSerialize(
+  Game object,
   IsarWriter writer,
   List<int> offsets,
   Map<Type, List<int>> allOffsets,
 ) {
   writer.writeString(offsets[0], object.place);
   writer.writeStringList(offsets[1], object.players);
-  writer.writeObjectList<RoundX>(
+  writer.writeObjectList<Round>(
     offsets[2],
     allOffsets,
-    RoundXSchema.serialize,
+    RoundSchema.serialize,
     object.rounds,
   );
   writer.writeString(offsets[3], object.status?.name);
   writer.writeDateTime(offsets[4], object.time);
 }
 
-GameX _gameXDeserialize(
+Game _gameDeserialize(
   Id id,
   IsarReader reader,
   List<int> offsets,
   Map<Type, List<int>> allOffsets,
 ) {
-  final object = GameX();
+  final object = Game();
   object.id = id;
   object.place = reader.readStringOrNull(offsets[0]);
   object.players = reader.readStringList(offsets[1]) ?? [];
-  object.rounds = reader.readObjectList<RoundX>(
+  object.rounds = reader.readObjectList<Round>(
     offsets[2],
-    RoundXSchema.deserialize,
+    RoundSchema.deserialize,
     allOffsets,
-    RoundX(),
+    Round(),
   );
-  object.status = _GameXstatusValueEnumMap[reader.readStringOrNull(offsets[3])];
+  object.status = _GamestatusValueEnumMap[reader.readStringOrNull(offsets[3])];
   object.time = reader.readDateTime(offsets[4]);
   return object;
 }
 
-P _gameXDeserializeProp<P>(
+P _gameDeserializeProp<P>(
   IsarReader reader,
   int propertyId,
   int offset,
@@ -151,14 +151,14 @@ P _gameXDeserializeProp<P>(
     case 1:
       return (reader.readStringList(offset) ?? []) as P;
     case 2:
-      return (reader.readObjectList<RoundX>(
+      return (reader.readObjectList<Round>(
         offset,
-        RoundXSchema.deserialize,
+        RoundSchema.deserialize,
         allOffsets,
-        RoundX(),
+        Round(),
       )) as P;
     case 3:
-      return (_GameXstatusValueEnumMap[reader.readStringOrNull(offset)]) as P;
+      return (_GamestatusValueEnumMap[reader.readStringOrNull(offset)]) as P;
     case 4:
       return (reader.readDateTime(offset)) as P;
     default:
@@ -166,37 +166,37 @@ P _gameXDeserializeProp<P>(
   }
 }
 
-const _GameXstatusEnumValueMap = {
+const _GamestatusEnumValueMap = {
   r'Progressing': r'Progressing',
   r'Completed': r'Completed',
 };
-const _GameXstatusValueEnumMap = {
+const _GamestatusValueEnumMap = {
   r'Progressing': Status.Progressing,
   r'Completed': Status.Completed,
 };
 
-Id _gameXGetId(GameX object) {
+Id _gameGetId(Game object) {
   return object.id;
 }
 
-List<IsarLinkBase<dynamic>> _gameXGetLinks(GameX object) {
+List<IsarLinkBase<dynamic>> _gameGetLinks(Game object) {
   return [];
 }
 
-void _gameXAttach(IsarCollection<dynamic> col, Id id, GameX object) {
+void _gameAttach(IsarCollection<dynamic> col, Id id, Game object) {
   object.id = id;
 }
 
-extension GameXQueryWhereSort on QueryBuilder<GameX, GameX, QWhere> {
-  QueryBuilder<GameX, GameX, QAfterWhere> anyId() {
+extension GameQueryWhereSort on QueryBuilder<Game, Game, QWhere> {
+  QueryBuilder<Game, Game, QAfterWhere> anyId() {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(const IdWhereClause.any());
     });
   }
 }
 
-extension GameXQueryWhere on QueryBuilder<GameX, GameX, QWhereClause> {
-  QueryBuilder<GameX, GameX, QAfterWhereClause> idEqualTo(Id id) {
+extension GameQueryWhere on QueryBuilder<Game, Game, QWhereClause> {
+  QueryBuilder<Game, Game, QAfterWhereClause> idEqualTo(Id id) {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(IdWhereClause.between(
         lower: id,
@@ -205,7 +205,7 @@ extension GameXQueryWhere on QueryBuilder<GameX, GameX, QWhereClause> {
     });
   }
 
-  QueryBuilder<GameX, GameX, QAfterWhereClause> idNotEqualTo(Id id) {
+  QueryBuilder<Game, Game, QAfterWhereClause> idNotEqualTo(Id id) {
     return QueryBuilder.apply(this, (query) {
       if (query.whereSort == Sort.asc) {
         return query
@@ -227,7 +227,7 @@ extension GameXQueryWhere on QueryBuilder<GameX, GameX, QWhereClause> {
     });
   }
 
-  QueryBuilder<GameX, GameX, QAfterWhereClause> idGreaterThan(Id id,
+  QueryBuilder<Game, Game, QAfterWhereClause> idGreaterThan(Id id,
       {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(
@@ -236,7 +236,7 @@ extension GameXQueryWhere on QueryBuilder<GameX, GameX, QWhereClause> {
     });
   }
 
-  QueryBuilder<GameX, GameX, QAfterWhereClause> idLessThan(Id id,
+  QueryBuilder<Game, Game, QAfterWhereClause> idLessThan(Id id,
       {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(
@@ -245,7 +245,7 @@ extension GameXQueryWhere on QueryBuilder<GameX, GameX, QWhereClause> {
     });
   }
 
-  QueryBuilder<GameX, GameX, QAfterWhereClause> idBetween(
+  QueryBuilder<Game, Game, QAfterWhereClause> idBetween(
     Id lowerId,
     Id upperId, {
     bool includeLower = true,
@@ -262,8 +262,8 @@ extension GameXQueryWhere on QueryBuilder<GameX, GameX, QWhereClause> {
   }
 }
 
-extension GameXQueryFilter on QueryBuilder<GameX, GameX, QFilterCondition> {
-  QueryBuilder<GameX, GameX, QAfterFilterCondition> idEqualTo(Id value) {
+extension GameQueryFilter on QueryBuilder<Game, Game, QFilterCondition> {
+  QueryBuilder<Game, Game, QAfterFilterCondition> idEqualTo(Id value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
         property: r'id',
@@ -272,7 +272,7 @@ extension GameXQueryFilter on QueryBuilder<GameX, GameX, QFilterCondition> {
     });
   }
 
-  QueryBuilder<GameX, GameX, QAfterFilterCondition> idGreaterThan(
+  QueryBuilder<Game, Game, QAfterFilterCondition> idGreaterThan(
     Id value, {
     bool include = false,
   }) {
@@ -285,7 +285,7 @@ extension GameXQueryFilter on QueryBuilder<GameX, GameX, QFilterCondition> {
     });
   }
 
-  QueryBuilder<GameX, GameX, QAfterFilterCondition> idLessThan(
+  QueryBuilder<Game, Game, QAfterFilterCondition> idLessThan(
     Id value, {
     bool include = false,
   }) {
@@ -298,7 +298,7 @@ extension GameXQueryFilter on QueryBuilder<GameX, GameX, QFilterCondition> {
     });
   }
 
-  QueryBuilder<GameX, GameX, QAfterFilterCondition> idBetween(
+  QueryBuilder<Game, Game, QAfterFilterCondition> idBetween(
     Id lower,
     Id upper, {
     bool includeLower = true,
@@ -315,7 +315,7 @@ extension GameXQueryFilter on QueryBuilder<GameX, GameX, QFilterCondition> {
     });
   }
 
-  QueryBuilder<GameX, GameX, QAfterFilterCondition> placeIsNull() {
+  QueryBuilder<Game, Game, QAfterFilterCondition> placeIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(const FilterCondition.isNull(
         property: r'place',
@@ -323,7 +323,7 @@ extension GameXQueryFilter on QueryBuilder<GameX, GameX, QFilterCondition> {
     });
   }
 
-  QueryBuilder<GameX, GameX, QAfterFilterCondition> placeIsNotNull() {
+  QueryBuilder<Game, Game, QAfterFilterCondition> placeIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(const FilterCondition.isNotNull(
         property: r'place',
@@ -331,7 +331,7 @@ extension GameXQueryFilter on QueryBuilder<GameX, GameX, QFilterCondition> {
     });
   }
 
-  QueryBuilder<GameX, GameX, QAfterFilterCondition> placeEqualTo(
+  QueryBuilder<Game, Game, QAfterFilterCondition> placeEqualTo(
     String? value, {
     bool caseSensitive = true,
   }) {
@@ -344,7 +344,7 @@ extension GameXQueryFilter on QueryBuilder<GameX, GameX, QFilterCondition> {
     });
   }
 
-  QueryBuilder<GameX, GameX, QAfterFilterCondition> placeGreaterThan(
+  QueryBuilder<Game, Game, QAfterFilterCondition> placeGreaterThan(
     String? value, {
     bool include = false,
     bool caseSensitive = true,
@@ -359,7 +359,7 @@ extension GameXQueryFilter on QueryBuilder<GameX, GameX, QFilterCondition> {
     });
   }
 
-  QueryBuilder<GameX, GameX, QAfterFilterCondition> placeLessThan(
+  QueryBuilder<Game, Game, QAfterFilterCondition> placeLessThan(
     String? value, {
     bool include = false,
     bool caseSensitive = true,
@@ -374,7 +374,7 @@ extension GameXQueryFilter on QueryBuilder<GameX, GameX, QFilterCondition> {
     });
   }
 
-  QueryBuilder<GameX, GameX, QAfterFilterCondition> placeBetween(
+  QueryBuilder<Game, Game, QAfterFilterCondition> placeBetween(
     String? lower,
     String? upper, {
     bool includeLower = true,
@@ -393,7 +393,7 @@ extension GameXQueryFilter on QueryBuilder<GameX, GameX, QFilterCondition> {
     });
   }
 
-  QueryBuilder<GameX, GameX, QAfterFilterCondition> placeStartsWith(
+  QueryBuilder<Game, Game, QAfterFilterCondition> placeStartsWith(
     String value, {
     bool caseSensitive = true,
   }) {
@@ -406,7 +406,7 @@ extension GameXQueryFilter on QueryBuilder<GameX, GameX, QFilterCondition> {
     });
   }
 
-  QueryBuilder<GameX, GameX, QAfterFilterCondition> placeEndsWith(
+  QueryBuilder<Game, Game, QAfterFilterCondition> placeEndsWith(
     String value, {
     bool caseSensitive = true,
   }) {
@@ -419,7 +419,7 @@ extension GameXQueryFilter on QueryBuilder<GameX, GameX, QFilterCondition> {
     });
   }
 
-  QueryBuilder<GameX, GameX, QAfterFilterCondition> placeContains(String value,
+  QueryBuilder<Game, Game, QAfterFilterCondition> placeContains(String value,
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.contains(
@@ -430,7 +430,7 @@ extension GameXQueryFilter on QueryBuilder<GameX, GameX, QFilterCondition> {
     });
   }
 
-  QueryBuilder<GameX, GameX, QAfterFilterCondition> placeMatches(String pattern,
+  QueryBuilder<Game, Game, QAfterFilterCondition> placeMatches(String pattern,
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.matches(
@@ -441,7 +441,7 @@ extension GameXQueryFilter on QueryBuilder<GameX, GameX, QFilterCondition> {
     });
   }
 
-  QueryBuilder<GameX, GameX, QAfterFilterCondition> placeIsEmpty() {
+  QueryBuilder<Game, Game, QAfterFilterCondition> placeIsEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
         property: r'place',
@@ -450,7 +450,7 @@ extension GameXQueryFilter on QueryBuilder<GameX, GameX, QFilterCondition> {
     });
   }
 
-  QueryBuilder<GameX, GameX, QAfterFilterCondition> placeIsNotEmpty() {
+  QueryBuilder<Game, Game, QAfterFilterCondition> placeIsNotEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.greaterThan(
         property: r'place',
@@ -459,7 +459,7 @@ extension GameXQueryFilter on QueryBuilder<GameX, GameX, QFilterCondition> {
     });
   }
 
-  QueryBuilder<GameX, GameX, QAfterFilterCondition> playersElementEqualTo(
+  QueryBuilder<Game, Game, QAfterFilterCondition> playersElementEqualTo(
     String value, {
     bool caseSensitive = true,
   }) {
@@ -472,7 +472,7 @@ extension GameXQueryFilter on QueryBuilder<GameX, GameX, QFilterCondition> {
     });
   }
 
-  QueryBuilder<GameX, GameX, QAfterFilterCondition> playersElementGreaterThan(
+  QueryBuilder<Game, Game, QAfterFilterCondition> playersElementGreaterThan(
     String value, {
     bool include = false,
     bool caseSensitive = true,
@@ -487,7 +487,7 @@ extension GameXQueryFilter on QueryBuilder<GameX, GameX, QFilterCondition> {
     });
   }
 
-  QueryBuilder<GameX, GameX, QAfterFilterCondition> playersElementLessThan(
+  QueryBuilder<Game, Game, QAfterFilterCondition> playersElementLessThan(
     String value, {
     bool include = false,
     bool caseSensitive = true,
@@ -502,7 +502,7 @@ extension GameXQueryFilter on QueryBuilder<GameX, GameX, QFilterCondition> {
     });
   }
 
-  QueryBuilder<GameX, GameX, QAfterFilterCondition> playersElementBetween(
+  QueryBuilder<Game, Game, QAfterFilterCondition> playersElementBetween(
     String lower,
     String upper, {
     bool includeLower = true,
@@ -521,7 +521,7 @@ extension GameXQueryFilter on QueryBuilder<GameX, GameX, QFilterCondition> {
     });
   }
 
-  QueryBuilder<GameX, GameX, QAfterFilterCondition> playersElementStartsWith(
+  QueryBuilder<Game, Game, QAfterFilterCondition> playersElementStartsWith(
     String value, {
     bool caseSensitive = true,
   }) {
@@ -534,7 +534,7 @@ extension GameXQueryFilter on QueryBuilder<GameX, GameX, QFilterCondition> {
     });
   }
 
-  QueryBuilder<GameX, GameX, QAfterFilterCondition> playersElementEndsWith(
+  QueryBuilder<Game, Game, QAfterFilterCondition> playersElementEndsWith(
     String value, {
     bool caseSensitive = true,
   }) {
@@ -547,7 +547,7 @@ extension GameXQueryFilter on QueryBuilder<GameX, GameX, QFilterCondition> {
     });
   }
 
-  QueryBuilder<GameX, GameX, QAfterFilterCondition> playersElementContains(
+  QueryBuilder<Game, Game, QAfterFilterCondition> playersElementContains(
       String value,
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
@@ -559,7 +559,7 @@ extension GameXQueryFilter on QueryBuilder<GameX, GameX, QFilterCondition> {
     });
   }
 
-  QueryBuilder<GameX, GameX, QAfterFilterCondition> playersElementMatches(
+  QueryBuilder<Game, Game, QAfterFilterCondition> playersElementMatches(
       String pattern,
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
@@ -571,7 +571,7 @@ extension GameXQueryFilter on QueryBuilder<GameX, GameX, QFilterCondition> {
     });
   }
 
-  QueryBuilder<GameX, GameX, QAfterFilterCondition> playersElementIsEmpty() {
+  QueryBuilder<Game, Game, QAfterFilterCondition> playersElementIsEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
         property: r'players',
@@ -580,7 +580,7 @@ extension GameXQueryFilter on QueryBuilder<GameX, GameX, QFilterCondition> {
     });
   }
 
-  QueryBuilder<GameX, GameX, QAfterFilterCondition> playersElementIsNotEmpty() {
+  QueryBuilder<Game, Game, QAfterFilterCondition> playersElementIsNotEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.greaterThan(
         property: r'players',
@@ -589,7 +589,7 @@ extension GameXQueryFilter on QueryBuilder<GameX, GameX, QFilterCondition> {
     });
   }
 
-  QueryBuilder<GameX, GameX, QAfterFilterCondition> playersLengthEqualTo(
+  QueryBuilder<Game, Game, QAfterFilterCondition> playersLengthEqualTo(
       int length) {
     return QueryBuilder.apply(this, (query) {
       return query.listLength(
@@ -602,7 +602,7 @@ extension GameXQueryFilter on QueryBuilder<GameX, GameX, QFilterCondition> {
     });
   }
 
-  QueryBuilder<GameX, GameX, QAfterFilterCondition> playersIsEmpty() {
+  QueryBuilder<Game, Game, QAfterFilterCondition> playersIsEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.listLength(
         r'players',
@@ -614,7 +614,7 @@ extension GameXQueryFilter on QueryBuilder<GameX, GameX, QFilterCondition> {
     });
   }
 
-  QueryBuilder<GameX, GameX, QAfterFilterCondition> playersIsNotEmpty() {
+  QueryBuilder<Game, Game, QAfterFilterCondition> playersIsNotEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.listLength(
         r'players',
@@ -626,7 +626,7 @@ extension GameXQueryFilter on QueryBuilder<GameX, GameX, QFilterCondition> {
     });
   }
 
-  QueryBuilder<GameX, GameX, QAfterFilterCondition> playersLengthLessThan(
+  QueryBuilder<Game, Game, QAfterFilterCondition> playersLengthLessThan(
     int length, {
     bool include = false,
   }) {
@@ -641,7 +641,7 @@ extension GameXQueryFilter on QueryBuilder<GameX, GameX, QFilterCondition> {
     });
   }
 
-  QueryBuilder<GameX, GameX, QAfterFilterCondition> playersLengthGreaterThan(
+  QueryBuilder<Game, Game, QAfterFilterCondition> playersLengthGreaterThan(
     int length, {
     bool include = false,
   }) {
@@ -656,7 +656,7 @@ extension GameXQueryFilter on QueryBuilder<GameX, GameX, QFilterCondition> {
     });
   }
 
-  QueryBuilder<GameX, GameX, QAfterFilterCondition> playersLengthBetween(
+  QueryBuilder<Game, Game, QAfterFilterCondition> playersLengthBetween(
     int lower,
     int upper, {
     bool includeLower = true,
@@ -673,7 +673,7 @@ extension GameXQueryFilter on QueryBuilder<GameX, GameX, QFilterCondition> {
     });
   }
 
-  QueryBuilder<GameX, GameX, QAfterFilterCondition> roundsIsNull() {
+  QueryBuilder<Game, Game, QAfterFilterCondition> roundsIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(const FilterCondition.isNull(
         property: r'rounds',
@@ -681,7 +681,7 @@ extension GameXQueryFilter on QueryBuilder<GameX, GameX, QFilterCondition> {
     });
   }
 
-  QueryBuilder<GameX, GameX, QAfterFilterCondition> roundsIsNotNull() {
+  QueryBuilder<Game, Game, QAfterFilterCondition> roundsIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(const FilterCondition.isNotNull(
         property: r'rounds',
@@ -689,7 +689,7 @@ extension GameXQueryFilter on QueryBuilder<GameX, GameX, QFilterCondition> {
     });
   }
 
-  QueryBuilder<GameX, GameX, QAfterFilterCondition> roundsLengthEqualTo(
+  QueryBuilder<Game, Game, QAfterFilterCondition> roundsLengthEqualTo(
       int length) {
     return QueryBuilder.apply(this, (query) {
       return query.listLength(
@@ -702,7 +702,7 @@ extension GameXQueryFilter on QueryBuilder<GameX, GameX, QFilterCondition> {
     });
   }
 
-  QueryBuilder<GameX, GameX, QAfterFilterCondition> roundsIsEmpty() {
+  QueryBuilder<Game, Game, QAfterFilterCondition> roundsIsEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.listLength(
         r'rounds',
@@ -714,7 +714,7 @@ extension GameXQueryFilter on QueryBuilder<GameX, GameX, QFilterCondition> {
     });
   }
 
-  QueryBuilder<GameX, GameX, QAfterFilterCondition> roundsIsNotEmpty() {
+  QueryBuilder<Game, Game, QAfterFilterCondition> roundsIsNotEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.listLength(
         r'rounds',
@@ -726,7 +726,7 @@ extension GameXQueryFilter on QueryBuilder<GameX, GameX, QFilterCondition> {
     });
   }
 
-  QueryBuilder<GameX, GameX, QAfterFilterCondition> roundsLengthLessThan(
+  QueryBuilder<Game, Game, QAfterFilterCondition> roundsLengthLessThan(
     int length, {
     bool include = false,
   }) {
@@ -741,7 +741,7 @@ extension GameXQueryFilter on QueryBuilder<GameX, GameX, QFilterCondition> {
     });
   }
 
-  QueryBuilder<GameX, GameX, QAfterFilterCondition> roundsLengthGreaterThan(
+  QueryBuilder<Game, Game, QAfterFilterCondition> roundsLengthGreaterThan(
     int length, {
     bool include = false,
   }) {
@@ -756,7 +756,7 @@ extension GameXQueryFilter on QueryBuilder<GameX, GameX, QFilterCondition> {
     });
   }
 
-  QueryBuilder<GameX, GameX, QAfterFilterCondition> roundsLengthBetween(
+  QueryBuilder<Game, Game, QAfterFilterCondition> roundsLengthBetween(
     int lower,
     int upper, {
     bool includeLower = true,
@@ -773,7 +773,7 @@ extension GameXQueryFilter on QueryBuilder<GameX, GameX, QFilterCondition> {
     });
   }
 
-  QueryBuilder<GameX, GameX, QAfterFilterCondition> statusIsNull() {
+  QueryBuilder<Game, Game, QAfterFilterCondition> statusIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(const FilterCondition.isNull(
         property: r'status',
@@ -781,7 +781,7 @@ extension GameXQueryFilter on QueryBuilder<GameX, GameX, QFilterCondition> {
     });
   }
 
-  QueryBuilder<GameX, GameX, QAfterFilterCondition> statusIsNotNull() {
+  QueryBuilder<Game, Game, QAfterFilterCondition> statusIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(const FilterCondition.isNotNull(
         property: r'status',
@@ -789,7 +789,7 @@ extension GameXQueryFilter on QueryBuilder<GameX, GameX, QFilterCondition> {
     });
   }
 
-  QueryBuilder<GameX, GameX, QAfterFilterCondition> statusEqualTo(
+  QueryBuilder<Game, Game, QAfterFilterCondition> statusEqualTo(
     Status? value, {
     bool caseSensitive = true,
   }) {
@@ -802,7 +802,7 @@ extension GameXQueryFilter on QueryBuilder<GameX, GameX, QFilterCondition> {
     });
   }
 
-  QueryBuilder<GameX, GameX, QAfterFilterCondition> statusGreaterThan(
+  QueryBuilder<Game, Game, QAfterFilterCondition> statusGreaterThan(
     Status? value, {
     bool include = false,
     bool caseSensitive = true,
@@ -817,7 +817,7 @@ extension GameXQueryFilter on QueryBuilder<GameX, GameX, QFilterCondition> {
     });
   }
 
-  QueryBuilder<GameX, GameX, QAfterFilterCondition> statusLessThan(
+  QueryBuilder<Game, Game, QAfterFilterCondition> statusLessThan(
     Status? value, {
     bool include = false,
     bool caseSensitive = true,
@@ -832,7 +832,7 @@ extension GameXQueryFilter on QueryBuilder<GameX, GameX, QFilterCondition> {
     });
   }
 
-  QueryBuilder<GameX, GameX, QAfterFilterCondition> statusBetween(
+  QueryBuilder<Game, Game, QAfterFilterCondition> statusBetween(
     Status? lower,
     Status? upper, {
     bool includeLower = true,
@@ -851,7 +851,7 @@ extension GameXQueryFilter on QueryBuilder<GameX, GameX, QFilterCondition> {
     });
   }
 
-  QueryBuilder<GameX, GameX, QAfterFilterCondition> statusStartsWith(
+  QueryBuilder<Game, Game, QAfterFilterCondition> statusStartsWith(
     String value, {
     bool caseSensitive = true,
   }) {
@@ -864,7 +864,7 @@ extension GameXQueryFilter on QueryBuilder<GameX, GameX, QFilterCondition> {
     });
   }
 
-  QueryBuilder<GameX, GameX, QAfterFilterCondition> statusEndsWith(
+  QueryBuilder<Game, Game, QAfterFilterCondition> statusEndsWith(
     String value, {
     bool caseSensitive = true,
   }) {
@@ -877,7 +877,7 @@ extension GameXQueryFilter on QueryBuilder<GameX, GameX, QFilterCondition> {
     });
   }
 
-  QueryBuilder<GameX, GameX, QAfterFilterCondition> statusContains(String value,
+  QueryBuilder<Game, Game, QAfterFilterCondition> statusContains(String value,
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.contains(
@@ -888,8 +888,7 @@ extension GameXQueryFilter on QueryBuilder<GameX, GameX, QFilterCondition> {
     });
   }
 
-  QueryBuilder<GameX, GameX, QAfterFilterCondition> statusMatches(
-      String pattern,
+  QueryBuilder<Game, Game, QAfterFilterCondition> statusMatches(String pattern,
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.matches(
@@ -900,7 +899,7 @@ extension GameXQueryFilter on QueryBuilder<GameX, GameX, QFilterCondition> {
     });
   }
 
-  QueryBuilder<GameX, GameX, QAfterFilterCondition> statusIsEmpty() {
+  QueryBuilder<Game, Game, QAfterFilterCondition> statusIsEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
         property: r'status',
@@ -909,7 +908,7 @@ extension GameXQueryFilter on QueryBuilder<GameX, GameX, QFilterCondition> {
     });
   }
 
-  QueryBuilder<GameX, GameX, QAfterFilterCondition> statusIsNotEmpty() {
+  QueryBuilder<Game, Game, QAfterFilterCondition> statusIsNotEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.greaterThan(
         property: r'status',
@@ -918,8 +917,7 @@ extension GameXQueryFilter on QueryBuilder<GameX, GameX, QFilterCondition> {
     });
   }
 
-  QueryBuilder<GameX, GameX, QAfterFilterCondition> timeEqualTo(
-      DateTime value) {
+  QueryBuilder<Game, Game, QAfterFilterCondition> timeEqualTo(DateTime value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
         property: r'time',
@@ -928,7 +926,7 @@ extension GameXQueryFilter on QueryBuilder<GameX, GameX, QFilterCondition> {
     });
   }
 
-  QueryBuilder<GameX, GameX, QAfterFilterCondition> timeGreaterThan(
+  QueryBuilder<Game, Game, QAfterFilterCondition> timeGreaterThan(
     DateTime value, {
     bool include = false,
   }) {
@@ -941,7 +939,7 @@ extension GameXQueryFilter on QueryBuilder<GameX, GameX, QFilterCondition> {
     });
   }
 
-  QueryBuilder<GameX, GameX, QAfterFilterCondition> timeLessThan(
+  QueryBuilder<Game, Game, QAfterFilterCondition> timeLessThan(
     DateTime value, {
     bool include = false,
   }) {
@@ -954,7 +952,7 @@ extension GameXQueryFilter on QueryBuilder<GameX, GameX, QFilterCondition> {
     });
   }
 
-  QueryBuilder<GameX, GameX, QAfterFilterCondition> timeBetween(
+  QueryBuilder<Game, Game, QAfterFilterCondition> timeBetween(
     DateTime lower,
     DateTime upper, {
     bool includeLower = true,
@@ -972,165 +970,165 @@ extension GameXQueryFilter on QueryBuilder<GameX, GameX, QFilterCondition> {
   }
 }
 
-extension GameXQueryObject on QueryBuilder<GameX, GameX, QFilterCondition> {
-  QueryBuilder<GameX, GameX, QAfterFilterCondition> roundsElement(
-      FilterQuery<RoundX> q) {
+extension GameQueryObject on QueryBuilder<Game, Game, QFilterCondition> {
+  QueryBuilder<Game, Game, QAfterFilterCondition> roundsElement(
+      FilterQuery<Round> q) {
     return QueryBuilder.apply(this, (query) {
       return query.object(q, r'rounds');
     });
   }
 }
 
-extension GameXQueryLinks on QueryBuilder<GameX, GameX, QFilterCondition> {}
+extension GameQueryLinks on QueryBuilder<Game, Game, QFilterCondition> {}
 
-extension GameXQuerySortBy on QueryBuilder<GameX, GameX, QSortBy> {
-  QueryBuilder<GameX, GameX, QAfterSortBy> sortByPlace() {
+extension GameQuerySortBy on QueryBuilder<Game, Game, QSortBy> {
+  QueryBuilder<Game, Game, QAfterSortBy> sortByPlace() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'place', Sort.asc);
     });
   }
 
-  QueryBuilder<GameX, GameX, QAfterSortBy> sortByPlaceDesc() {
+  QueryBuilder<Game, Game, QAfterSortBy> sortByPlaceDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'place', Sort.desc);
     });
   }
 
-  QueryBuilder<GameX, GameX, QAfterSortBy> sortByStatus() {
+  QueryBuilder<Game, Game, QAfterSortBy> sortByStatus() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'status', Sort.asc);
     });
   }
 
-  QueryBuilder<GameX, GameX, QAfterSortBy> sortByStatusDesc() {
+  QueryBuilder<Game, Game, QAfterSortBy> sortByStatusDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'status', Sort.desc);
     });
   }
 
-  QueryBuilder<GameX, GameX, QAfterSortBy> sortByTime() {
+  QueryBuilder<Game, Game, QAfterSortBy> sortByTime() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'time', Sort.asc);
     });
   }
 
-  QueryBuilder<GameX, GameX, QAfterSortBy> sortByTimeDesc() {
+  QueryBuilder<Game, Game, QAfterSortBy> sortByTimeDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'time', Sort.desc);
     });
   }
 }
 
-extension GameXQuerySortThenBy on QueryBuilder<GameX, GameX, QSortThenBy> {
-  QueryBuilder<GameX, GameX, QAfterSortBy> thenById() {
+extension GameQuerySortThenBy on QueryBuilder<Game, Game, QSortThenBy> {
+  QueryBuilder<Game, Game, QAfterSortBy> thenById() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'id', Sort.asc);
     });
   }
 
-  QueryBuilder<GameX, GameX, QAfterSortBy> thenByIdDesc() {
+  QueryBuilder<Game, Game, QAfterSortBy> thenByIdDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'id', Sort.desc);
     });
   }
 
-  QueryBuilder<GameX, GameX, QAfterSortBy> thenByPlace() {
+  QueryBuilder<Game, Game, QAfterSortBy> thenByPlace() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'place', Sort.asc);
     });
   }
 
-  QueryBuilder<GameX, GameX, QAfterSortBy> thenByPlaceDesc() {
+  QueryBuilder<Game, Game, QAfterSortBy> thenByPlaceDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'place', Sort.desc);
     });
   }
 
-  QueryBuilder<GameX, GameX, QAfterSortBy> thenByStatus() {
+  QueryBuilder<Game, Game, QAfterSortBy> thenByStatus() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'status', Sort.asc);
     });
   }
 
-  QueryBuilder<GameX, GameX, QAfterSortBy> thenByStatusDesc() {
+  QueryBuilder<Game, Game, QAfterSortBy> thenByStatusDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'status', Sort.desc);
     });
   }
 
-  QueryBuilder<GameX, GameX, QAfterSortBy> thenByTime() {
+  QueryBuilder<Game, Game, QAfterSortBy> thenByTime() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'time', Sort.asc);
     });
   }
 
-  QueryBuilder<GameX, GameX, QAfterSortBy> thenByTimeDesc() {
+  QueryBuilder<Game, Game, QAfterSortBy> thenByTimeDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'time', Sort.desc);
     });
   }
 }
 
-extension GameXQueryWhereDistinct on QueryBuilder<GameX, GameX, QDistinct> {
-  QueryBuilder<GameX, GameX, QDistinct> distinctByPlace(
+extension GameQueryWhereDistinct on QueryBuilder<Game, Game, QDistinct> {
+  QueryBuilder<Game, Game, QDistinct> distinctByPlace(
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'place', caseSensitive: caseSensitive);
     });
   }
 
-  QueryBuilder<GameX, GameX, QDistinct> distinctByPlayers() {
+  QueryBuilder<Game, Game, QDistinct> distinctByPlayers() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'players');
     });
   }
 
-  QueryBuilder<GameX, GameX, QDistinct> distinctByStatus(
+  QueryBuilder<Game, Game, QDistinct> distinctByStatus(
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'status', caseSensitive: caseSensitive);
     });
   }
 
-  QueryBuilder<GameX, GameX, QDistinct> distinctByTime() {
+  QueryBuilder<Game, Game, QDistinct> distinctByTime() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'time');
     });
   }
 }
 
-extension GameXQueryProperty on QueryBuilder<GameX, GameX, QQueryProperty> {
-  QueryBuilder<GameX, int, QQueryOperations> idProperty() {
+extension GameQueryProperty on QueryBuilder<Game, Game, QQueryProperty> {
+  QueryBuilder<Game, int, QQueryOperations> idProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'id');
     });
   }
 
-  QueryBuilder<GameX, String?, QQueryOperations> placeProperty() {
+  QueryBuilder<Game, String?, QQueryOperations> placeProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'place');
     });
   }
 
-  QueryBuilder<GameX, List<String>, QQueryOperations> playersProperty() {
+  QueryBuilder<Game, List<String>, QQueryOperations> playersProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'players');
     });
   }
 
-  QueryBuilder<GameX, List<RoundX>?, QQueryOperations> roundsProperty() {
+  QueryBuilder<Game, List<Round>?, QQueryOperations> roundsProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'rounds');
     });
   }
 
-  QueryBuilder<GameX, Status?, QQueryOperations> statusProperty() {
+  QueryBuilder<Game, Status?, QQueryOperations> statusProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'status');
     });
   }
 
-  QueryBuilder<GameX, DateTime, QQueryOperations> timeProperty() {
+  QueryBuilder<Game, DateTime, QQueryOperations> timeProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'time');
     });
@@ -1144,15 +1142,15 @@ extension GameXQueryProperty on QueryBuilder<GameX, GameX, QQueryProperty> {
 // coverage:ignore-file
 // ignore_for_file: duplicate_ignore, non_constant_identifier_names, constant_identifier_names, invalid_use_of_protected_member, unnecessary_cast, prefer_const_constructors, lines_longer_than_80_chars, require_trailing_commas, inference_failure_on_function_invocation, unnecessary_parenthesis, unnecessary_raw_strings, unnecessary_null_checks, join_return_with_assignment, prefer_final_locals, avoid_js_rounded_ints, avoid_positional_boolean_parameters
 
-const RoundXSchema = Schema(
-  name: r'RoundX',
-  id: 8431106458718067381,
+const RoundSchema = Schema(
+  name: r'Round',
+  id: 8762410198825043196,
   properties: {
     r'entries': PropertySchema(
       id: 0,
       name: r'entries',
       type: IsarType.objectList,
-      target: r'RoundEntryX',
+      target: r'RoundEntry',
     ),
     r'roundNo': PropertySchema(
       id: 1,
@@ -1165,57 +1163,57 @@ const RoundXSchema = Schema(
       type: IsarType.dateTime,
     )
   },
-  estimateSize: _roundXEstimateSize,
-  serialize: _roundXSerialize,
-  deserialize: _roundXDeserialize,
-  deserializeProp: _roundXDeserializeProp,
+  estimateSize: _roundEstimateSize,
+  serialize: _roundSerialize,
+  deserialize: _roundDeserialize,
+  deserializeProp: _roundDeserializeProp,
 );
 
-int _roundXEstimateSize(
-  RoundX object,
+int _roundEstimateSize(
+  Round object,
   List<int> offsets,
   Map<Type, List<int>> allOffsets,
 ) {
   var bytesCount = offsets.last;
   bytesCount += 3 + object.entries.length * 3;
   {
-    final offsets = allOffsets[RoundEntryX]!;
+    final offsets = allOffsets[RoundEntry]!;
     for (var i = 0; i < object.entries.length; i++) {
       final value = object.entries[i];
-      bytesCount += RoundEntryXSchema.estimateSize(value, offsets, allOffsets);
+      bytesCount += RoundEntrySchema.estimateSize(value, offsets, allOffsets);
     }
   }
   return bytesCount;
 }
 
-void _roundXSerialize(
-  RoundX object,
+void _roundSerialize(
+  Round object,
   IsarWriter writer,
   List<int> offsets,
   Map<Type, List<int>> allOffsets,
 ) {
-  writer.writeObjectList<RoundEntryX>(
+  writer.writeObjectList<RoundEntry>(
     offsets[0],
     allOffsets,
-    RoundEntryXSchema.serialize,
+    RoundEntrySchema.serialize,
     object.entries,
   );
   writer.writeLong(offsets[1], object.roundNo);
   writer.writeDateTime(offsets[2], object.time);
 }
 
-RoundX _roundXDeserialize(
+Round _roundDeserialize(
   Id id,
   IsarReader reader,
   List<int> offsets,
   Map<Type, List<int>> allOffsets,
 ) {
-  final object = RoundX();
-  object.entries = reader.readObjectList<RoundEntryX>(
+  final object = Round();
+  object.entries = reader.readObjectList<RoundEntry>(
         offsets[0],
-        RoundEntryXSchema.deserialize,
+        RoundEntrySchema.deserialize,
         allOffsets,
-        RoundEntryX(),
+        RoundEntry(),
       ) ??
       [];
   object.roundNo = reader.readLong(offsets[1]);
@@ -1223,7 +1221,7 @@ RoundX _roundXDeserialize(
   return object;
 }
 
-P _roundXDeserializeProp<P>(
+P _roundDeserializeProp<P>(
   IsarReader reader,
   int propertyId,
   int offset,
@@ -1231,11 +1229,11 @@ P _roundXDeserializeProp<P>(
 ) {
   switch (propertyId) {
     case 0:
-      return (reader.readObjectList<RoundEntryX>(
+      return (reader.readObjectList<RoundEntry>(
             offset,
-            RoundEntryXSchema.deserialize,
+            RoundEntrySchema.deserialize,
             allOffsets,
-            RoundEntryX(),
+            RoundEntry(),
           ) ??
           []) as P;
     case 1:
@@ -1247,8 +1245,8 @@ P _roundXDeserializeProp<P>(
   }
 }
 
-extension RoundXQueryFilter on QueryBuilder<RoundX, RoundX, QFilterCondition> {
-  QueryBuilder<RoundX, RoundX, QAfterFilterCondition> entriesLengthEqualTo(
+extension RoundQueryFilter on QueryBuilder<Round, Round, QFilterCondition> {
+  QueryBuilder<Round, Round, QAfterFilterCondition> entriesLengthEqualTo(
       int length) {
     return QueryBuilder.apply(this, (query) {
       return query.listLength(
@@ -1261,7 +1259,7 @@ extension RoundXQueryFilter on QueryBuilder<RoundX, RoundX, QFilterCondition> {
     });
   }
 
-  QueryBuilder<RoundX, RoundX, QAfterFilterCondition> entriesIsEmpty() {
+  QueryBuilder<Round, Round, QAfterFilterCondition> entriesIsEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.listLength(
         r'entries',
@@ -1273,7 +1271,7 @@ extension RoundXQueryFilter on QueryBuilder<RoundX, RoundX, QFilterCondition> {
     });
   }
 
-  QueryBuilder<RoundX, RoundX, QAfterFilterCondition> entriesIsNotEmpty() {
+  QueryBuilder<Round, Round, QAfterFilterCondition> entriesIsNotEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.listLength(
         r'entries',
@@ -1285,7 +1283,7 @@ extension RoundXQueryFilter on QueryBuilder<RoundX, RoundX, QFilterCondition> {
     });
   }
 
-  QueryBuilder<RoundX, RoundX, QAfterFilterCondition> entriesLengthLessThan(
+  QueryBuilder<Round, Round, QAfterFilterCondition> entriesLengthLessThan(
     int length, {
     bool include = false,
   }) {
@@ -1300,7 +1298,7 @@ extension RoundXQueryFilter on QueryBuilder<RoundX, RoundX, QFilterCondition> {
     });
   }
 
-  QueryBuilder<RoundX, RoundX, QAfterFilterCondition> entriesLengthGreaterThan(
+  QueryBuilder<Round, Round, QAfterFilterCondition> entriesLengthGreaterThan(
     int length, {
     bool include = false,
   }) {
@@ -1315,7 +1313,7 @@ extension RoundXQueryFilter on QueryBuilder<RoundX, RoundX, QFilterCondition> {
     });
   }
 
-  QueryBuilder<RoundX, RoundX, QAfterFilterCondition> entriesLengthBetween(
+  QueryBuilder<Round, Round, QAfterFilterCondition> entriesLengthBetween(
     int lower,
     int upper, {
     bool includeLower = true,
@@ -1332,8 +1330,7 @@ extension RoundXQueryFilter on QueryBuilder<RoundX, RoundX, QFilterCondition> {
     });
   }
 
-  QueryBuilder<RoundX, RoundX, QAfterFilterCondition> roundNoEqualTo(
-      int value) {
+  QueryBuilder<Round, Round, QAfterFilterCondition> roundNoEqualTo(int value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
         property: r'roundNo',
@@ -1342,7 +1339,7 @@ extension RoundXQueryFilter on QueryBuilder<RoundX, RoundX, QFilterCondition> {
     });
   }
 
-  QueryBuilder<RoundX, RoundX, QAfterFilterCondition> roundNoGreaterThan(
+  QueryBuilder<Round, Round, QAfterFilterCondition> roundNoGreaterThan(
     int value, {
     bool include = false,
   }) {
@@ -1355,7 +1352,7 @@ extension RoundXQueryFilter on QueryBuilder<RoundX, RoundX, QFilterCondition> {
     });
   }
 
-  QueryBuilder<RoundX, RoundX, QAfterFilterCondition> roundNoLessThan(
+  QueryBuilder<Round, Round, QAfterFilterCondition> roundNoLessThan(
     int value, {
     bool include = false,
   }) {
@@ -1368,7 +1365,7 @@ extension RoundXQueryFilter on QueryBuilder<RoundX, RoundX, QFilterCondition> {
     });
   }
 
-  QueryBuilder<RoundX, RoundX, QAfterFilterCondition> roundNoBetween(
+  QueryBuilder<Round, Round, QAfterFilterCondition> roundNoBetween(
     int lower,
     int upper, {
     bool includeLower = true,
@@ -1385,7 +1382,7 @@ extension RoundXQueryFilter on QueryBuilder<RoundX, RoundX, QFilterCondition> {
     });
   }
 
-  QueryBuilder<RoundX, RoundX, QAfterFilterCondition> timeEqualTo(
+  QueryBuilder<Round, Round, QAfterFilterCondition> timeEqualTo(
       DateTime value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
@@ -1395,7 +1392,7 @@ extension RoundXQueryFilter on QueryBuilder<RoundX, RoundX, QFilterCondition> {
     });
   }
 
-  QueryBuilder<RoundX, RoundX, QAfterFilterCondition> timeGreaterThan(
+  QueryBuilder<Round, Round, QAfterFilterCondition> timeGreaterThan(
     DateTime value, {
     bool include = false,
   }) {
@@ -1408,7 +1405,7 @@ extension RoundXQueryFilter on QueryBuilder<RoundX, RoundX, QFilterCondition> {
     });
   }
 
-  QueryBuilder<RoundX, RoundX, QAfterFilterCondition> timeLessThan(
+  QueryBuilder<Round, Round, QAfterFilterCondition> timeLessThan(
     DateTime value, {
     bool include = false,
   }) {
@@ -1421,7 +1418,7 @@ extension RoundXQueryFilter on QueryBuilder<RoundX, RoundX, QFilterCondition> {
     });
   }
 
-  QueryBuilder<RoundX, RoundX, QAfterFilterCondition> timeBetween(
+  QueryBuilder<Round, Round, QAfterFilterCondition> timeBetween(
     DateTime lower,
     DateTime upper, {
     bool includeLower = true,
@@ -1439,9 +1436,9 @@ extension RoundXQueryFilter on QueryBuilder<RoundX, RoundX, QFilterCondition> {
   }
 }
 
-extension RoundXQueryObject on QueryBuilder<RoundX, RoundX, QFilterCondition> {
-  QueryBuilder<RoundX, RoundX, QAfterFilterCondition> entriesElement(
-      FilterQuery<RoundEntryX> q) {
+extension RoundQueryObject on QueryBuilder<Round, Round, QFilterCondition> {
+  QueryBuilder<Round, Round, QAfterFilterCondition> entriesElement(
+      FilterQuery<RoundEntry> q) {
     return QueryBuilder.apply(this, (query) {
       return query.object(q, r'entries');
     });
@@ -1451,9 +1448,9 @@ extension RoundXQueryObject on QueryBuilder<RoundX, RoundX, QFilterCondition> {
 // coverage:ignore-file
 // ignore_for_file: duplicate_ignore, non_constant_identifier_names, constant_identifier_names, invalid_use_of_protected_member, unnecessary_cast, prefer_const_constructors, lines_longer_than_80_chars, require_trailing_commas, inference_failure_on_function_invocation, unnecessary_parenthesis, unnecessary_raw_strings, unnecessary_null_checks, join_return_with_assignment, prefer_final_locals, avoid_js_rounded_ints, avoid_positional_boolean_parameters
 
-const RoundEntryXSchema = Schema(
-  name: r'RoundEntryX',
-  id: 7343523868089764377,
+const RoundEntrySchema = Schema(
+  name: r'RoundEntry',
+  id: -5924167168805665604,
   properties: {
     r'player': PropertySchema(
       id: 0,
@@ -1466,14 +1463,14 @@ const RoundEntryXSchema = Schema(
       type: IsarType.long,
     )
   },
-  estimateSize: _roundEntryXEstimateSize,
-  serialize: _roundEntryXSerialize,
-  deserialize: _roundEntryXDeserialize,
-  deserializeProp: _roundEntryXDeserializeProp,
+  estimateSize: _roundEntryEstimateSize,
+  serialize: _roundEntrySerialize,
+  deserialize: _roundEntryDeserialize,
+  deserializeProp: _roundEntryDeserializeProp,
 );
 
-int _roundEntryXEstimateSize(
-  RoundEntryX object,
+int _roundEntryEstimateSize(
+  RoundEntry object,
   List<int> offsets,
   Map<Type, List<int>> allOffsets,
 ) {
@@ -1482,8 +1479,8 @@ int _roundEntryXEstimateSize(
   return bytesCount;
 }
 
-void _roundEntryXSerialize(
-  RoundEntryX object,
+void _roundEntrySerialize(
+  RoundEntry object,
   IsarWriter writer,
   List<int> offsets,
   Map<Type, List<int>> allOffsets,
@@ -1492,19 +1489,19 @@ void _roundEntryXSerialize(
   writer.writeLong(offsets[1], object.toPay);
 }
 
-RoundEntryX _roundEntryXDeserialize(
+RoundEntry _roundEntryDeserialize(
   Id id,
   IsarReader reader,
   List<int> offsets,
   Map<Type, List<int>> allOffsets,
 ) {
-  final object = RoundEntryX();
+  final object = RoundEntry();
   object.player = reader.readString(offsets[0]);
   object.toPay = reader.readLong(offsets[1]);
   return object;
 }
 
-P _roundEntryXDeserializeProp<P>(
+P _roundEntryDeserializeProp<P>(
   IsarReader reader,
   int propertyId,
   int offset,
@@ -1520,9 +1517,9 @@ P _roundEntryXDeserializeProp<P>(
   }
 }
 
-extension RoundEntryXQueryFilter
-    on QueryBuilder<RoundEntryX, RoundEntryX, QFilterCondition> {
-  QueryBuilder<RoundEntryX, RoundEntryX, QAfterFilterCondition> playerEqualTo(
+extension RoundEntryQueryFilter
+    on QueryBuilder<RoundEntry, RoundEntry, QFilterCondition> {
+  QueryBuilder<RoundEntry, RoundEntry, QAfterFilterCondition> playerEqualTo(
     String value, {
     bool caseSensitive = true,
   }) {
@@ -1535,8 +1532,7 @@ extension RoundEntryXQueryFilter
     });
   }
 
-  QueryBuilder<RoundEntryX, RoundEntryX, QAfterFilterCondition>
-      playerGreaterThan(
+  QueryBuilder<RoundEntry, RoundEntry, QAfterFilterCondition> playerGreaterThan(
     String value, {
     bool include = false,
     bool caseSensitive = true,
@@ -1551,7 +1547,7 @@ extension RoundEntryXQueryFilter
     });
   }
 
-  QueryBuilder<RoundEntryX, RoundEntryX, QAfterFilterCondition> playerLessThan(
+  QueryBuilder<RoundEntry, RoundEntry, QAfterFilterCondition> playerLessThan(
     String value, {
     bool include = false,
     bool caseSensitive = true,
@@ -1566,7 +1562,7 @@ extension RoundEntryXQueryFilter
     });
   }
 
-  QueryBuilder<RoundEntryX, RoundEntryX, QAfterFilterCondition> playerBetween(
+  QueryBuilder<RoundEntry, RoundEntry, QAfterFilterCondition> playerBetween(
     String lower,
     String upper, {
     bool includeLower = true,
@@ -1585,8 +1581,7 @@ extension RoundEntryXQueryFilter
     });
   }
 
-  QueryBuilder<RoundEntryX, RoundEntryX, QAfterFilterCondition>
-      playerStartsWith(
+  QueryBuilder<RoundEntry, RoundEntry, QAfterFilterCondition> playerStartsWith(
     String value, {
     bool caseSensitive = true,
   }) {
@@ -1599,7 +1594,7 @@ extension RoundEntryXQueryFilter
     });
   }
 
-  QueryBuilder<RoundEntryX, RoundEntryX, QAfterFilterCondition> playerEndsWith(
+  QueryBuilder<RoundEntry, RoundEntry, QAfterFilterCondition> playerEndsWith(
     String value, {
     bool caseSensitive = true,
   }) {
@@ -1612,7 +1607,7 @@ extension RoundEntryXQueryFilter
     });
   }
 
-  QueryBuilder<RoundEntryX, RoundEntryX, QAfterFilterCondition> playerContains(
+  QueryBuilder<RoundEntry, RoundEntry, QAfterFilterCondition> playerContains(
       String value,
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
@@ -1624,7 +1619,7 @@ extension RoundEntryXQueryFilter
     });
   }
 
-  QueryBuilder<RoundEntryX, RoundEntryX, QAfterFilterCondition> playerMatches(
+  QueryBuilder<RoundEntry, RoundEntry, QAfterFilterCondition> playerMatches(
       String pattern,
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
@@ -1636,8 +1631,7 @@ extension RoundEntryXQueryFilter
     });
   }
 
-  QueryBuilder<RoundEntryX, RoundEntryX, QAfterFilterCondition>
-      playerIsEmpty() {
+  QueryBuilder<RoundEntry, RoundEntry, QAfterFilterCondition> playerIsEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
         property: r'player',
@@ -1646,7 +1640,7 @@ extension RoundEntryXQueryFilter
     });
   }
 
-  QueryBuilder<RoundEntryX, RoundEntryX, QAfterFilterCondition>
+  QueryBuilder<RoundEntry, RoundEntry, QAfterFilterCondition>
       playerIsNotEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.greaterThan(
@@ -1656,7 +1650,7 @@ extension RoundEntryXQueryFilter
     });
   }
 
-  QueryBuilder<RoundEntryX, RoundEntryX, QAfterFilterCondition> toPayEqualTo(
+  QueryBuilder<RoundEntry, RoundEntry, QAfterFilterCondition> toPayEqualTo(
       int value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
@@ -1666,8 +1660,7 @@ extension RoundEntryXQueryFilter
     });
   }
 
-  QueryBuilder<RoundEntryX, RoundEntryX, QAfterFilterCondition>
-      toPayGreaterThan(
+  QueryBuilder<RoundEntry, RoundEntry, QAfterFilterCondition> toPayGreaterThan(
     int value, {
     bool include = false,
   }) {
@@ -1680,7 +1673,7 @@ extension RoundEntryXQueryFilter
     });
   }
 
-  QueryBuilder<RoundEntryX, RoundEntryX, QAfterFilterCondition> toPayLessThan(
+  QueryBuilder<RoundEntry, RoundEntry, QAfterFilterCondition> toPayLessThan(
     int value, {
     bool include = false,
   }) {
@@ -1693,7 +1686,7 @@ extension RoundEntryXQueryFilter
     });
   }
 
-  QueryBuilder<RoundEntryX, RoundEntryX, QAfterFilterCondition> toPayBetween(
+  QueryBuilder<RoundEntry, RoundEntry, QAfterFilterCondition> toPayBetween(
     int lower,
     int upper, {
     bool includeLower = true,
@@ -1711,5 +1704,5 @@ extension RoundEntryXQueryFilter
   }
 }
 
-extension RoundEntryXQueryObject
-    on QueryBuilder<RoundEntryX, RoundEntryX, QFilterCondition> {}
+extension RoundEntryQueryObject
+    on QueryBuilder<RoundEntry, RoundEntry, QFilterCondition> {}

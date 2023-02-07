@@ -7,8 +7,8 @@ import '../models/isar_service.dart';
 List<String> amountList = <String>['Win', '0', '20', '40', '80'];
 
 class EditRound extends StatefulWidget {
-  final GameX game;
-  final RoundX round;
+  final Game game;
+  final Round round;
   const EditRound({Key? key, required this.round, required this.game})
       : super(key: key);
 
@@ -186,18 +186,18 @@ class _EditRoundState extends State<EditRound> {
                       ),
                       onPressed: () {
                         if (true) {
-                          List<RoundEntryX> entries = [];
+                          List<RoundEntry> entries = [];
                           for (var i = 0;
                               i < widget.round.entries.length;
                               i++) {
-                            entries.add(RoundEntryX()
+                            entries.add(RoundEntry()
                               ..player = widget.round.entries[i].player
                               ..toPay = int.parse((selectedValue[i] == "Win"
                                   ? "-1"
                                   : selectedValue[i])));
                           }
                           // provider.editRound(widget.round.id!, entries);
-                          List<RoundX> rounds = [...widget.game.rounds!];
+                          List<Round> rounds = [...widget.game.rounds!];
                           for (int i = 0; i < rounds.length; i++) {
                             if (rounds[i] == widget.round) {
                               rounds[i].entries = entries;

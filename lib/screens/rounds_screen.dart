@@ -4,16 +4,16 @@ import 'package:intl/intl.dart';
 import 'package:isar/isar.dart';
 import 'package:vai_raja_vai/models/isar_service.dart';
 import 'package:vai_raja_vai/screens/settlement_screen.dart';
-import 'package:vai_raja_vai/widgets/rounds_list_x.dart';
+import 'package:vai_raja_vai/widgets/rounds_list.dart';
 import '../models/game.dart';
-import 'add_round_screen_x.dart';
+import 'add_round_screen.dart';
 
-class RoundsScreenX extends StatelessWidget {
+class RoundsScreen extends StatelessWidget {
   // final Cutfor cutfor;
   final Id gameId;
   // late Stream<GameX?> game = IsarService().getGame(gameId);
 
-  RoundsScreenX({
+  RoundsScreen({
     super.key,
     // required this.game,
     required this.gameId,
@@ -56,13 +56,17 @@ class RoundsScreenX extends StatelessWidget {
                     Text("Game Info"),
                     Spacer(),
                     InkWell(
-                      child: Icon(
-                        Icons.delete_outline_outlined,
-                        size: 40.0,
-                        color: Colors.white,
+                      child: CircleAvatar(
+                        backgroundColor: Colors.white,
+                        child: Icon(
+                          Icons.delete,
+                          size: 25.0,
+                          color: Colors.red,
+                        ),
                       ),
                       onTap: () {
-                        //
+                        IsarService().deleteGame(gameId);
+                        Navigator.pop(context);
                       },
                     ),
                   ],
@@ -84,10 +88,11 @@ class RoundsScreenX extends StatelessWidget {
           ),
         ),
       ),
-      body: StreamBuilder<List<GameX>>(
-          stream: IsarService().getGame(gameId),
+      body: StreamBuilder<List<Game>>(
+          stream: IsarService().getGameById(gameId),
           builder: (context, snapshot) {
             if (snapshot.hasData) {
+              if (snapshot.data == null) return SizedBox();
               final game = snapshot.data?.first;
               if (game == null) {
                 return Center(child: Text('Game is not found'));
@@ -196,6 +201,7 @@ class RoundsScreenX extends StatelessWidget {
                               if (game.status! == Status.Progressing)
                                 OutlinedButton(
                                   style: OutlinedButton.styleFrom(
+                                    backgroundColor: Colors.redAccent,
                                     side: BorderSide(
                                         width: 1.5, color: Colors.red),
                                     shape: RoundedRectangleBorder(
@@ -206,7 +212,7 @@ class RoundsScreenX extends StatelessWidget {
                                     Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                        builder: (context) => AddRoundX(
+                                        builder: (context) => AddRound(
                                           game: game,
                                           roundNo: (game.rounds == null
                                                   ? 0
@@ -217,17 +223,26 @@ class RoundsScreenX extends StatelessWidget {
                                     );
                                   },
                                   child: Row(
-                                    children: [
-                                      Text(' + Add Round',
-                                          style: TextStyle(
-                                              // fontSize: 18.0,
-                                              // color: Colors.white,
-                                              )),
+                                    children: const [
+                                      Icon(
+                                        Icons.add,
+                                        size: 20.0,
+                                        color: Colors.white,
+                                        // color: Colors.white,
+                                      ),
+                                      Text(
+                                        ' Add Round',
+                                        style: TextStyle(
+                                          // fontSize: 18.0,
+                                          color: Colors.white,
+                                        ),
+                                      ),
                                     ],
                                   ),
                                 ),
                               OutlinedButton(
                                 style: OutlinedButton.styleFrom(
+                                  backgroundColor: Colors.redAccent,
                                   side:
                                       BorderSide(width: 1.5, color: Colors.red),
                                   shape: RoundedRectangleBorder(
@@ -235,26 +250,29 @@ class RoundsScreenX extends StatelessWidget {
                                           BorderRadius.circular(20.0)),
                                 ),
                                 onPressed: () {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) =>
-                                          SettlementScreen(game: game),
-                                    ),
-                                  );
+                                  if (game.rounds != null) {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) =>
+                                            SettlementScreen(game: game),
+                                      ),
+                                    );
+                                  }
                                 },
                                 child: Row(
-                                  children: [
-                                    const Icon(
+                                  children: const [
+                                    Icon(
                                       Icons.currency_rupee_sharp,
                                       size: 20.0,
+                                      color: Colors.white,
                                       // color: Colors.white,
                                     ),
                                     Text(' View Settlement',
                                         style: TextStyle(
-                                            // fontSize: 18.0,
-                                            // color: Colors.white,
-                                            )),
+                                          // fontSize: 18.0,
+                                          color: Colors.white,
+                                        )),
                                   ],
                                 ),
                               ),
@@ -263,7 +281,7 @@ class RoundsScreenX extends StatelessWidget {
                           SizedBox(
                             height: 20.0,
                           ),
-                          RoundsListX(
+                          RoundsList(
                             game: game,
                           ),
                         ],

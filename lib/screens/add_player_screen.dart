@@ -64,7 +64,7 @@ class AddPlayer extends StatelessWidget {
                       ),
                       onChanged: (value) {
                         name = value;
-                        shortname = value.substring(0, 2);
+                        // shortname = value.substring(0, 2);
                       },
                     ),
                     const SizedBox(height: 30.0),
@@ -84,7 +84,7 @@ class AddPlayer extends StatelessWidget {
                       // ),
                       onPressed: () {
                         if (name.isNotEmpty) {
-                          isarService.savePlayer(PlayerX()..name = name);
+                          isarService.savePlayer(Player()..name = name);
                           Navigator.pop(context);
                         } else {
                           //no players are selected

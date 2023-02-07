@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:vai_raja_vai/models/game.dart';
-import 'package:vai_raja_vai/widgets/round_tile_x.dart';
+import 'package:vai_raja_vai/widgets/round_tile.dart';
 import '../screens/settlement_screen.dart';
 
-class RoundsListX extends StatelessWidget {
-  final GameX game;
+class RoundsList extends StatelessWidget {
+  final Game game;
 
-  const RoundsListX({
+  const RoundsList({
     super.key,
     required this.game,
   });
@@ -78,7 +78,7 @@ class RoundsListX extends StatelessWidget {
               SizedBox(
                 height: 15.0,
               ),
-              RoundTileX(
+              RoundTile(
                 round: round,
                 game: game,
               ),
@@ -86,7 +86,7 @@ class RoundsListX extends StatelessWidget {
           );
         }
 
-        return RoundTileX(
+        return RoundTile(
           round: round,
           game: game,
         );

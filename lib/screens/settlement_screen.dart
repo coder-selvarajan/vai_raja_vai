@@ -6,7 +6,7 @@ import 'package:provider/provider.dart';
 import 'package:vai_raja_vai/models/game.dart';
 
 class SettlementScreen extends StatefulWidget {
-  final GameX game;
+  final Game game;
   const SettlementScreen({Key? key, required this.game}) : super(key: key);
 
   @override

@@ -3,7 +3,7 @@ import 'package:isar/isar.dart';
 part 'game.g.dart';
 
 @Collection()
-class GameX {
+class Game {
   Id id = Isar.autoIncrement;
   late DateTime time;
   late String? place;
@@ -12,7 +12,7 @@ class GameX {
   late Status? status;
 
   late List<String> players = List.empty(growable: true);
-  late List<RoundX>? rounds = List.empty(growable: true);
+  late List<Round>? rounds = List.empty(growable: true);
 }
 
 enum Status {
@@ -24,15 +24,15 @@ enum Status {
 }
 
 @embedded
-class RoundX {
+class Round {
   late int roundNo;
   late DateTime time;
 
-  late List<RoundEntryX> entries = List.empty(growable: true);
+  late List<RoundEntry> entries = List.empty(growable: true);
 }
 
 @embedded
-class RoundEntryX {
+class RoundEntry {
   late String player;
   late int toPay;
 }

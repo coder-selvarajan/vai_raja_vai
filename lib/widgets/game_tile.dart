@@ -2,42 +2,40 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:vai_raja_vai/models/game.dart';
-import '../screens/rounds_screen_x.dart';
+import '../screens/rounds_screen.dart';
 
-class GameTileX extends StatelessWidget {
-  final GameX game;
-  // final int id;
-  // final String? place;
-  // final List<Player> players;
-  // final DateTime time; // = DateTime.now();
+class GameTile extends StatelessWidget {
+  final Game game;
 
-  GameTileX({
+  GameTile({
     super.key,
     required this.game,
-    // required this.id,
-    // required this.place,
-    // required this.players,
-    // required this.time,
   });
 
   @override
   Widget build(BuildContext context) {
+    final TextTheme textTheme = Theme.of(context).textTheme;
+
     return ListTile(
-      // onLongPress: longPressCallback,
       leading: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
             DateFormat('EE MMMd').format(game.time),
-            style: const TextStyle(fontWeight: FontWeight.bold),
+            style: const TextStyle(
+                fontSize: 13.0,
+                fontWeight: FontWeight.bold,
+                color: Colors.black87),
           ),
           const SizedBox(
             height: 5,
           ),
           Text(
             DateFormat('hh:mm a').format(game.time),
+            style: const TextStyle(fontSize: 13.0, color: Colors.black87),
           ),
+          Spacer(),
         ],
       ),
       title: Column(
@@ -46,13 +44,24 @@ class GameTileX extends StatelessWidget {
         children: [
           Text(
             game.place!,
-            style: const TextStyle(fontWeight: FontWeight.bold),
+            // style: textTheme.titleMedium,
+            style: const TextStyle(fontWeight: FontWeight.w600),
           ),
-          // Text("Started @ " + DateFormat('hh:mm a').format(time)),
-          Text(game.players
-              .map((name) => name.substring(0, 2).toUpperCase())
-              .join(', ')),
-          Text(describeEnum(game.status!)),
+          Text(
+            game.players
+                .map((name) => name.substring(0, 2).toUpperCase())
+                .join(', '),
+            style: textTheme.subtitle2,
+          ),
+          Text(
+            (game.rounds == null
+                    ? ""
+                    : (game.rounds!.length == 1
+                        ? "${game.rounds!.length} round, "
+                        : "${game.rounds!.length} rounds, ")) +
+                describeEnum(game.status!),
+            style: textTheme.bodyMedium,
+          ),
         ],
       ),
       trailing: const Icon(
@@ -64,7 +73,7 @@ class GameTileX extends StatelessWidget {
         Navigator.push(
           context,
           MaterialPageRoute(
-              builder: (context) => RoundsScreenX(
+              builder: (context) => RoundsScreen(
                     // game: game,
                     gameId: game.id,
                   )),

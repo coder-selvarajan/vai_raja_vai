@@ -9,17 +9,17 @@ import '../models/isar_service.dart';
 
 List<String> amountList = <String>['Win', '0', '20', '40', '80'];
 
-class AddRoundX extends StatefulWidget {
-  final GameX game;
+class AddRound extends StatefulWidget {
+  final Game game;
   final int roundNo;
-  const AddRoundX({Key? key, required this.game, required this.roundNo})
+  const AddRound({Key? key, required this.game, required this.roundNo})
       : super(key: key);
 
   @override
-  State<AddRoundX> createState() => _AddRoundXState();
+  State<AddRound> createState() => _AddRoundState();
 }
 
-class _AddRoundXState extends State<AddRoundX> {
+class _AddRoundState extends State<AddRound> {
   DateTime roundTime = DateTime.now();
   late Timer _timer;
   late List<String> selectedValue = [];
@@ -196,9 +196,9 @@ class _AddRoundXState extends State<AddRoundX> {
                       ),
                       onPressed: () {
                         if (true) {
-                          List<RoundEntryX> entries = [];
+                          List<RoundEntry> entries = [];
                           for (var i = 0; i < widget.game.players.length; i++) {
-                            entries.add(RoundEntryX()
+                            entries.add(RoundEntry()
                               ..player = widget.game.players[i]
                               ..toPay = int.parse((selectedValue[i] == "Win"
                                   ? "-1"
@@ -213,10 +213,10 @@ class _AddRoundXState extends State<AddRoundX> {
 
                           }
 
-                          List<RoundX> rounds = (widget.game.rounds == null
+                          List<Round> rounds = (widget.game.rounds == null
                               ? List.empty(growable: true)
                               : [...widget.game.rounds!]);
-                          rounds.add(RoundX()
+                          rounds.add(Round()
                             ..time = roundTime
                             ..roundNo = widget.roundNo
                             ..entries = entries);

@@ -16,7 +16,7 @@ class AddGame extends StatefulWidget {
 
 class _AddGameState extends State<AddGame> {
   final List<String> selectedPlayers = <String>[];
-  late List<PlayerX> players = [];
+  late List<Player> players = [];
 
   String place = "";
   DateTime gameTime = DateTime.now();
@@ -37,7 +37,7 @@ class _AddGameState extends State<AddGame> {
   }
 
   Future<void> getPlayersList() async {
-    players = await IsarService().getPlayers();
+    players = await IsarService().getPlayersList();
   }
 
   @override
@@ -133,7 +133,7 @@ class _AddGameState extends State<AddGame> {
                     Wrap(
                       spacing: 5.0,
                       // children: provider.players.map((Player player) {
-                      children: players.map((PlayerX player) {
+                      children: players.map((Player player) {
                         return FilterChip(
                           label: Text(player.name),
                           selected: selectedPlayers.contains(player.name),
@@ -185,7 +185,7 @@ class _AddGameState extends State<AddGame> {
                           // provider.addCutfor(
                           //     _selected, place, gameTime, "Progressing");
 
-                          IsarService().saveGame(GameX()
+                          IsarService().saveGame(Game()
                             ..players = selectedPlayers
                             ..place = place
                             ..time = gameTime

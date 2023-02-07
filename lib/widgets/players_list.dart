@@ -12,48 +12,67 @@ class PlayersList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder<List<PlayerX>>(
-        stream: isarService.getAllPlayers(),
+    return StreamBuilder<List<Player>>(
+        stream: isarService.streamPlayers(),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             final players = snapshot.data;
             if (players!.isEmpty) {
-              return Center(
-                  child: Column(
+              return Column(
                 children: [
-                  Text('No Players found'),
-                  SizedBox(height: 30.0),
-                  OutlinedButton(
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => AddPlayer(
-                            isarService: isarService,
-                          ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Text(
+                        "No Players Yet!",
+                        style: TextStyle(
+                          fontSize: 18.0,
+                          fontWeight: FontWeight.bold,
                         ),
-                      );
-                    },
-                    child: Row(
-                      children: [
-                        Icon(
-                          Icons.person_add_alt_1,
-                          size: 20.0,
+                      ),
+                      Spacer(),
+                      OutlinedButton(
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => AddPlayer(
+                                isarService: isarService,
+                              ),
+                            ),
+                          );
+                        },
+                        child: Row(
+                          children: [
+                            Icon(
+                              Icons.person_add_alt_1,
+                              size: 20.0,
+                              color: Colors.white,
+                            ),
+                            SizedBox(
+                              width: 10,
+                            ),
+                            Text(
+                              "Add Player",
+                              style: TextStyle(
+                                color: Colors.white,
+                              ),
+                            ),
+                          ],
                         ),
-                        SizedBox(
-                          width: 10,
+                        style: OutlinedButton.styleFrom(
+                          backgroundColor: Colors.redAccent,
+                          side: BorderSide(width: 1.5, color: Colors.red),
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(20.0)),
                         ),
-                        Text("Add Player"),
-                      ],
-                    ),
-                    style: OutlinedButton.styleFrom(
-                      side: BorderSide(width: 1.5, color: Colors.red),
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(20.0)),
-                    ),
+                      ),
+                    ],
                   ),
+                  Spacer(),
                 ],
-              ));
+              );
             }
             return ListView.separated(
               // itemCount: gameData.playerCount,
@@ -104,14 +123,21 @@ class PlayersList extends StatelessWidget {
                                   Icon(
                                     Icons.person_add_alt_1,
                                     size: 20.0,
+                                    color: Colors.white,
                                   ),
                                   SizedBox(
                                     width: 10,
                                   ),
-                                  Text("Add Player"),
+                                  Text(
+                                    "Add Player",
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                    ),
+                                  ),
                                 ],
                               ),
                               style: OutlinedButton.styleFrom(
+                                backgroundColor: Colors.redAccent,
                                 side: BorderSide(width: 1.5, color: Colors.red),
                                 shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(20.0)),

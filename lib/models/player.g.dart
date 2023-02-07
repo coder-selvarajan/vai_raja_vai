@@ -9,13 +9,13 @@ part of 'player.dart';
 // coverage:ignore-file
 // ignore_for_file: duplicate_ignore, non_constant_identifier_names, constant_identifier_names, invalid_use_of_protected_member, unnecessary_cast, prefer_const_constructors, lines_longer_than_80_chars, require_trailing_commas, inference_failure_on_function_invocation, unnecessary_parenthesis, unnecessary_raw_strings, unnecessary_null_checks, join_return_with_assignment, prefer_final_locals, avoid_js_rounded_ints, avoid_positional_boolean_parameters
 
-extension GetPlayerXCollection on Isar {
-  IsarCollection<PlayerX> get playerXs => this.collection();
+extension GetPlayerCollection on Isar {
+  IsarCollection<Player> get players => this.collection();
 }
 
-const PlayerXSchema = CollectionSchema(
-  name: r'PlayerX',
-  id: 1617942863799471109,
+const PlayerSchema = CollectionSchema(
+  name: r'Player',
+  id: -1052842935974721688,
   properties: {
     r'name': PropertySchema(
       id: 0,
@@ -23,22 +23,22 @@ const PlayerXSchema = CollectionSchema(
       type: IsarType.string,
     )
   },
-  estimateSize: _playerXEstimateSize,
-  serialize: _playerXSerialize,
-  deserialize: _playerXDeserialize,
-  deserializeProp: _playerXDeserializeProp,
+  estimateSize: _playerEstimateSize,
+  serialize: _playerSerialize,
+  deserialize: _playerDeserialize,
+  deserializeProp: _playerDeserializeProp,
   idName: r'id',
   indexes: {},
   links: {},
   embeddedSchemas: {},
-  getId: _playerXGetId,
-  getLinks: _playerXGetLinks,
-  attach: _playerXAttach,
+  getId: _playerGetId,
+  getLinks: _playerGetLinks,
+  attach: _playerAttach,
   version: '3.0.5',
 );
 
-int _playerXEstimateSize(
-  PlayerX object,
+int _playerEstimateSize(
+  Player object,
   List<int> offsets,
   Map<Type, List<int>> allOffsets,
 ) {
@@ -47,8 +47,8 @@ int _playerXEstimateSize(
   return bytesCount;
 }
 
-void _playerXSerialize(
-  PlayerX object,
+void _playerSerialize(
+  Player object,
   IsarWriter writer,
   List<int> offsets,
   Map<Type, List<int>> allOffsets,
@@ -56,19 +56,19 @@ void _playerXSerialize(
   writer.writeString(offsets[0], object.name);
 }
 
-PlayerX _playerXDeserialize(
+Player _playerDeserialize(
   Id id,
   IsarReader reader,
   List<int> offsets,
   Map<Type, List<int>> allOffsets,
 ) {
-  final object = PlayerX();
+  final object = Player();
   object.id = id;
   object.name = reader.readString(offsets[0]);
   return object;
 }
 
-P _playerXDeserializeProp<P>(
+P _playerDeserializeProp<P>(
   IsarReader reader,
   int propertyId,
   int offset,
@@ -82,28 +82,28 @@ P _playerXDeserializeProp<P>(
   }
 }
 
-Id _playerXGetId(PlayerX object) {
+Id _playerGetId(Player object) {
   return object.id;
 }
 
-List<IsarLinkBase<dynamic>> _playerXGetLinks(PlayerX object) {
+List<IsarLinkBase<dynamic>> _playerGetLinks(Player object) {
   return [];
 }
 
-void _playerXAttach(IsarCollection<dynamic> col, Id id, PlayerX object) {
+void _playerAttach(IsarCollection<dynamic> col, Id id, Player object) {
   object.id = id;
 }
 
-extension PlayerXQueryWhereSort on QueryBuilder<PlayerX, PlayerX, QWhere> {
-  QueryBuilder<PlayerX, PlayerX, QAfterWhere> anyId() {
+extension PlayerQueryWhereSort on QueryBuilder<Player, Player, QWhere> {
+  QueryBuilder<Player, Player, QAfterWhere> anyId() {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(const IdWhereClause.any());
     });
   }
 }
 
-extension PlayerXQueryWhere on QueryBuilder<PlayerX, PlayerX, QWhereClause> {
-  QueryBuilder<PlayerX, PlayerX, QAfterWhereClause> idEqualTo(Id id) {
+extension PlayerQueryWhere on QueryBuilder<Player, Player, QWhereClause> {
+  QueryBuilder<Player, Player, QAfterWhereClause> idEqualTo(Id id) {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(IdWhereClause.between(
         lower: id,
@@ -112,7 +112,7 @@ extension PlayerXQueryWhere on QueryBuilder<PlayerX, PlayerX, QWhereClause> {
     });
   }
 
-  QueryBuilder<PlayerX, PlayerX, QAfterWhereClause> idNotEqualTo(Id id) {
+  QueryBuilder<Player, Player, QAfterWhereClause> idNotEqualTo(Id id) {
     return QueryBuilder.apply(this, (query) {
       if (query.whereSort == Sort.asc) {
         return query
@@ -134,7 +134,7 @@ extension PlayerXQueryWhere on QueryBuilder<PlayerX, PlayerX, QWhereClause> {
     });
   }
 
-  QueryBuilder<PlayerX, PlayerX, QAfterWhereClause> idGreaterThan(Id id,
+  QueryBuilder<Player, Player, QAfterWhereClause> idGreaterThan(Id id,
       {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(
@@ -143,7 +143,7 @@ extension PlayerXQueryWhere on QueryBuilder<PlayerX, PlayerX, QWhereClause> {
     });
   }
 
-  QueryBuilder<PlayerX, PlayerX, QAfterWhereClause> idLessThan(Id id,
+  QueryBuilder<Player, Player, QAfterWhereClause> idLessThan(Id id,
       {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(
@@ -152,7 +152,7 @@ extension PlayerXQueryWhere on QueryBuilder<PlayerX, PlayerX, QWhereClause> {
     });
   }
 
-  QueryBuilder<PlayerX, PlayerX, QAfterWhereClause> idBetween(
+  QueryBuilder<Player, Player, QAfterWhereClause> idBetween(
     Id lowerId,
     Id upperId, {
     bool includeLower = true,
@@ -169,9 +169,8 @@ extension PlayerXQueryWhere on QueryBuilder<PlayerX, PlayerX, QWhereClause> {
   }
 }
 
-extension PlayerXQueryFilter
-    on QueryBuilder<PlayerX, PlayerX, QFilterCondition> {
-  QueryBuilder<PlayerX, PlayerX, QAfterFilterCondition> idEqualTo(Id value) {
+extension PlayerQueryFilter on QueryBuilder<Player, Player, QFilterCondition> {
+  QueryBuilder<Player, Player, QAfterFilterCondition> idEqualTo(Id value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
         property: r'id',
@@ -180,7 +179,7 @@ extension PlayerXQueryFilter
     });
   }
 
-  QueryBuilder<PlayerX, PlayerX, QAfterFilterCondition> idGreaterThan(
+  QueryBuilder<Player, Player, QAfterFilterCondition> idGreaterThan(
     Id value, {
     bool include = false,
   }) {
@@ -193,7 +192,7 @@ extension PlayerXQueryFilter
     });
   }
 
-  QueryBuilder<PlayerX, PlayerX, QAfterFilterCondition> idLessThan(
+  QueryBuilder<Player, Player, QAfterFilterCondition> idLessThan(
     Id value, {
     bool include = false,
   }) {
@@ -206,7 +205,7 @@ extension PlayerXQueryFilter
     });
   }
 
-  QueryBuilder<PlayerX, PlayerX, QAfterFilterCondition> idBetween(
+  QueryBuilder<Player, Player, QAfterFilterCondition> idBetween(
     Id lower,
     Id upper, {
     bool includeLower = true,
@@ -223,7 +222,7 @@ extension PlayerXQueryFilter
     });
   }
 
-  QueryBuilder<PlayerX, PlayerX, QAfterFilterCondition> nameEqualTo(
+  QueryBuilder<Player, Player, QAfterFilterCondition> nameEqualTo(
     String value, {
     bool caseSensitive = true,
   }) {
@@ -236,7 +235,7 @@ extension PlayerXQueryFilter
     });
   }
 
-  QueryBuilder<PlayerX, PlayerX, QAfterFilterCondition> nameGreaterThan(
+  QueryBuilder<Player, Player, QAfterFilterCondition> nameGreaterThan(
     String value, {
     bool include = false,
     bool caseSensitive = true,
@@ -251,7 +250,7 @@ extension PlayerXQueryFilter
     });
   }
 
-  QueryBuilder<PlayerX, PlayerX, QAfterFilterCondition> nameLessThan(
+  QueryBuilder<Player, Player, QAfterFilterCondition> nameLessThan(
     String value, {
     bool include = false,
     bool caseSensitive = true,
@@ -266,7 +265,7 @@ extension PlayerXQueryFilter
     });
   }
 
-  QueryBuilder<PlayerX, PlayerX, QAfterFilterCondition> nameBetween(
+  QueryBuilder<Player, Player, QAfterFilterCondition> nameBetween(
     String lower,
     String upper, {
     bool includeLower = true,
@@ -285,7 +284,7 @@ extension PlayerXQueryFilter
     });
   }
 
-  QueryBuilder<PlayerX, PlayerX, QAfterFilterCondition> nameStartsWith(
+  QueryBuilder<Player, Player, QAfterFilterCondition> nameStartsWith(
     String value, {
     bool caseSensitive = true,
   }) {
@@ -298,7 +297,7 @@ extension PlayerXQueryFilter
     });
   }
 
-  QueryBuilder<PlayerX, PlayerX, QAfterFilterCondition> nameEndsWith(
+  QueryBuilder<Player, Player, QAfterFilterCondition> nameEndsWith(
     String value, {
     bool caseSensitive = true,
   }) {
@@ -311,8 +310,7 @@ extension PlayerXQueryFilter
     });
   }
 
-  QueryBuilder<PlayerX, PlayerX, QAfterFilterCondition> nameContains(
-      String value,
+  QueryBuilder<Player, Player, QAfterFilterCondition> nameContains(String value,
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.contains(
@@ -323,7 +321,7 @@ extension PlayerXQueryFilter
     });
   }
 
-  QueryBuilder<PlayerX, PlayerX, QAfterFilterCondition> nameMatches(
+  QueryBuilder<Player, Player, QAfterFilterCondition> nameMatches(
       String pattern,
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
@@ -335,7 +333,7 @@ extension PlayerXQueryFilter
     });
   }
 
-  QueryBuilder<PlayerX, PlayerX, QAfterFilterCondition> nameIsEmpty() {
+  QueryBuilder<Player, Player, QAfterFilterCondition> nameIsEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
         property: r'name',
@@ -344,7 +342,7 @@ extension PlayerXQueryFilter
     });
   }
 
-  QueryBuilder<PlayerX, PlayerX, QAfterFilterCondition> nameIsNotEmpty() {
+  QueryBuilder<Player, Player, QAfterFilterCondition> nameIsNotEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.greaterThan(
         property: r'name',
@@ -354,56 +352,52 @@ extension PlayerXQueryFilter
   }
 }
 
-extension PlayerXQueryObject
-    on QueryBuilder<PlayerX, PlayerX, QFilterCondition> {}
+extension PlayerQueryObject on QueryBuilder<Player, Player, QFilterCondition> {}
 
-extension PlayerXQueryLinks
-    on QueryBuilder<PlayerX, PlayerX, QFilterCondition> {}
+extension PlayerQueryLinks on QueryBuilder<Player, Player, QFilterCondition> {}
 
-extension PlayerXQuerySortBy on QueryBuilder<PlayerX, PlayerX, QSortBy> {
-  QueryBuilder<PlayerX, PlayerX, QAfterSortBy> sortByName() {
+extension PlayerQuerySortBy on QueryBuilder<Player, Player, QSortBy> {
+  QueryBuilder<Player, Player, QAfterSortBy> sortByName() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'name', Sort.asc);
     });
   }
 
-  QueryBuilder<PlayerX, PlayerX, QAfterSortBy> sortByNameDesc() {
+  QueryBuilder<Player, Player, QAfterSortBy> sortByNameDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'name', Sort.desc);
     });
   }
 }
 
-extension PlayerXQuerySortThenBy
-    on QueryBuilder<PlayerX, PlayerX, QSortThenBy> {
-  QueryBuilder<PlayerX, PlayerX, QAfterSortBy> thenById() {
+extension PlayerQuerySortThenBy on QueryBuilder<Player, Player, QSortThenBy> {
+  QueryBuilder<Player, Player, QAfterSortBy> thenById() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'id', Sort.asc);
     });
   }
 
-  QueryBuilder<PlayerX, PlayerX, QAfterSortBy> thenByIdDesc() {
+  QueryBuilder<Player, Player, QAfterSortBy> thenByIdDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'id', Sort.desc);
     });
   }
 
-  QueryBuilder<PlayerX, PlayerX, QAfterSortBy> thenByName() {
+  QueryBuilder<Player, Player, QAfterSortBy> thenByName() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'name', Sort.asc);
     });
   }
 
-  QueryBuilder<PlayerX, PlayerX, QAfterSortBy> thenByNameDesc() {
+  QueryBuilder<Player, Player, QAfterSortBy> thenByNameDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'name', Sort.desc);
     });
   }
 }
 
-extension PlayerXQueryWhereDistinct
-    on QueryBuilder<PlayerX, PlayerX, QDistinct> {
-  QueryBuilder<PlayerX, PlayerX, QDistinct> distinctByName(
+extension PlayerQueryWhereDistinct on QueryBuilder<Player, Player, QDistinct> {
+  QueryBuilder<Player, Player, QDistinct> distinctByName(
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'name', caseSensitive: caseSensitive);
@@ -411,15 +405,14 @@ extension PlayerXQueryWhereDistinct
   }
 }
 
-extension PlayerXQueryProperty
-    on QueryBuilder<PlayerX, PlayerX, QQueryProperty> {
-  QueryBuilder<PlayerX, int, QQueryOperations> idProperty() {
+extension PlayerQueryProperty on QueryBuilder<Player, Player, QQueryProperty> {
+  QueryBuilder<Player, int, QQueryOperations> idProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'id');
     });
   }
 
-  QueryBuilder<PlayerX, String, QQueryOperations> nameProperty() {
+  QueryBuilder<Player, String, QQueryOperations> nameProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'name');
     });

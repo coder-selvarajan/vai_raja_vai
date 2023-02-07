@@ -3,14 +3,14 @@ import 'package:intl/intl.dart';
 import 'package:vai_raja_vai/screens/edit_round_screen.dart';
 import '../models/game.dart';
 
-class RoundTileX extends StatelessWidget {
-  GameX game;
-  RoundX round;
+class RoundTile extends StatelessWidget {
+  Game game;
+  Round round;
   // final int roundno;
   // final List<RoundEntry> entries;
   // final DateTime time; // = DateTime.now();
 
-  RoundTileX({
+  RoundTile({
     super.key,
     required this.game,
     required this.round,
