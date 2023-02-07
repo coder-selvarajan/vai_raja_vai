@@ -1,16 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:vai_raja_vai/models/model.dart';
 import 'package:vai_raja_vai/screens/edit_round_screen.dart';
+import '../models/game.dart';
 
-class RoundTile extends StatelessWidget {
-  Round round;
+class RoundTileX extends StatelessWidget {
+  GameX game;
+  RoundX round;
   // final int roundno;
   // final List<RoundEntry> entries;
   // final DateTime time; // = DateTime.now();
 
-  RoundTile({
+  RoundTileX({
     super.key,
+    required this.game,
     required this.round,
     // required this.roundno,
     // required this.entries,
@@ -48,7 +50,8 @@ class RoundTile extends StatelessWidget {
           ),
           Text(
             round.entries
-                .map((p) => "${p.player.shortname}${formatAmount(p.toPay)}")
+                .map((e) =>
+                    "${e.player.toUpperCase().substring(0, 2)} ${formatAmount(e.toPay)}")
                 .join(' - '),
             style: textTheme.bodyMedium,
           ),
@@ -63,7 +66,11 @@ class RoundTile extends StatelessWidget {
       onTap: () {
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => EditRound(round: round)),
+          MaterialPageRoute(
+              builder: (context) => EditRound(
+                    round: round,
+                    game: game,
+                  )),
         );
       },
     );

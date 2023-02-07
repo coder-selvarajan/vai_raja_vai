@@ -11,8 +11,8 @@ class GameX {
   @Enumerated(EnumType.name)
   late Status? status;
 
-  late List<String> players;
-  late List<RoundX>? rounds;
+  late List<String> players = List.empty(growable: true);
+  late List<RoundX>? rounds = List.empty(growable: true);
 }
 
 enum Status {
@@ -28,7 +28,7 @@ class RoundX {
   late int roundNo;
   late DateTime time;
 
-  late List<RoundEntryX> entries;
+  late List<RoundEntryX> entries = List.empty(growable: true);
 }
 
 @embedded

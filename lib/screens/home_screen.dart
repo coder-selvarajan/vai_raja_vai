@@ -1,13 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:vai_raja_vai/screens/add_game_screen.dart';
-import 'package:vai_raja_vai/screens/add_player_screen.dart';
+import 'package:vai_raja_vai/models/isar_service.dart';
+import 'package:vai_raja_vai/models/player.dart';
 import 'package:vai_raja_vai/screens/games_screen.dart';
 import 'package:vai_raja_vai/screens/players_screen.dart';
 import 'package:vai_raja_vai/widgets/recent_games.dart';
-
-import '../models/game_data.dart';
-import '../models/model.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -17,13 +13,11 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  final List<Player> _selected = <Player>[];
+  final List<PlayerX> _selected = <PlayerX>[];
 
   @override
   Widget build(BuildContext context) {
     final TextTheme textTheme = Theme.of(context).textTheme;
-    var provider = Provider.of<GameData>(context);
-    provider.initialize();
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -49,21 +43,17 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
-                      children: const [
-                        Text(
-                          'வை ராஜா வை',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 24.0,
-                            fontFamily: "AnekTamil-Regular",
-                            // fontWeight: FontWeight.w700,
-                          ),
+                      children: [
+                        Image.asset(
+                          "assets/VRV_Logo.png",
+                          // height: 100.0,
+                          width: 200.0,
                         ),
                         SizedBox(
                           height: 2,
                         ),
                         Text(
-                          "Money Splitter for Rummy Game",
+                          "Money splitter for card game",
                           style: TextStyle(
                             color: Colors.black54,
                             fontSize: 15.0,
@@ -184,18 +174,62 @@ class _HomeScreenState extends State<HomeScreen> {
                       ],
                     ),
                     const SizedBox(height: 15.0),
-                    Wrap(
-                      spacing: 5.0,
-                      children: provider.players.map((Player player) {
-                        return FilterChip(
-                          label: Text(player.name),
-                          selected: _selected.contains(player),
-                          onSelected: (bool value) {
-                            //
-                          },
-                        );
-                      }).toList(),
-                    ),
+                    StreamBuilder<List<PlayerX>>(
+                        stream: IsarService().getAllPlayers(),
+                        builder: (context, snapshot) {
+                          if (snapshot.hasData) {
+                            final players = snapshot.data;
+                            if (players!.isEmpty) {
+                              return Center(
+                                  child: Column(
+                                children: [
+                                  Text('No Players added yet'),
+                                  SizedBox(
+                                    height: 30.0,
+                                  ),
+                                  OutlinedButton(
+                                    onPressed: () {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                PlayersScreen()),
+                                      );
+                                    },
+                                    child: Text(
+                                      " Add / Edit Player",
+                                      // style: TextStyle(color: Colors.white),
+                                    ),
+                                    style: OutlinedButton.styleFrom(
+                                      // backgroundColor: Colors.redAccent,
+                                      side: BorderSide(
+                                          width: 1.5, color: Colors.red),
+                                      shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(20.0)),
+                                    ),
+                                  ),
+                                ],
+                              ));
+                            }
+
+                            return Wrap(
+                              spacing: 5.0,
+                              children: players.map((PlayerX player) {
+                                return FilterChip(
+                                  label: Text(player.name),
+                                  selected: _selected.contains(player),
+                                  onSelected: (bool value) {
+                                    //
+                                  },
+                                );
+                              }).toList(),
+                            );
+                          } else {
+                            return const Center(
+                                child: CircularProgressIndicator());
+                          }
+                        }),
                     const SizedBox(height: 30.0),
                   ],
                 ),

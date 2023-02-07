@@ -1,19 +1,16 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:provider/provider.dart';
-
-import '../models/game_data.dart';
-import '../models/model.dart';
+import '../models/game.dart';
+import '../models/isar_service.dart';
 
 List<String> amountList = <String>['Win', '0', '20', '40', '80'];
 
 class EditRound extends StatefulWidget {
-  // final Cutfor currentCutfor;
-  final Round round;
-  // final int roundNo;
-  const EditRound({Key? key, required this.round}) : super(key: key);
+  final GameX game;
+  final RoundX round;
+  const EditRound({Key? key, required this.round, required this.game})
+      : super(key: key);
 
   @override
   State<EditRound> createState() => _EditRoundState();
@@ -39,7 +36,7 @@ class _EditRoundState extends State<EditRound> {
   Widget build(BuildContext context) {
     final TextTheme textTheme = Theme.of(context).textTheme;
 
-    var provider = Provider.of<GameData>(context);
+    // var provider = Provider.of<GameData>(context);
     var timeNow = DateTime.now();
 
     return Scaffold(
@@ -137,7 +134,7 @@ class _EditRoundState extends State<EditRound> {
                             child: Row(
                               children: [
                                 Text(
-                                  widget.round.entries[index].player.name,
+                                  widget.round.entries[index].player,
                                   style: TextStyle(fontSize: 16.0),
                                 ),
                                 Spacer(),
@@ -189,18 +186,26 @@ class _EditRoundState extends State<EditRound> {
                       ),
                       onPressed: () {
                         if (true) {
-                          List<RoundEntry> entries = [];
+                          List<RoundEntryX> entries = [];
                           for (var i = 0;
                               i < widget.round.entries.length;
                               i++) {
-                            entries.add(RoundEntry(
-                                roundNo: widget.round.roundNo,
-                                player: widget.round.entries[i].player,
-                                toPay: int.parse((selectedValue[i] == "Win"
-                                    ? "-1"
-                                    : selectedValue[i]))));
+                            entries.add(RoundEntryX()
+                              ..player = widget.round.entries[i].player
+                              ..toPay = int.parse((selectedValue[i] == "Win"
+                                  ? "-1"
+                                  : selectedValue[i])));
                           }
-                          provider.editRound(widget.round.id!, entries);
+                          // provider.editRound(widget.round.id!, entries);
+                          List<RoundX> rounds = [...widget.game.rounds!];
+                          for (int i = 0; i < rounds.length; i++) {
+                            if (rounds[i] == widget.round) {
+                              rounds[i].entries = entries;
+                            }
+                          }
+                          widget.game.rounds = rounds;
+                          IsarService().saveGame(widget.game);
+
                           Navigator.pop(context);
                         } else {
                           //no players are selected

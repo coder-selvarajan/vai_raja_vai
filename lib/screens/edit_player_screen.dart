@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../models/game_data.dart';
 import '../models/isar_service.dart';
-import '../models/model.dart';
 import '../models/player.dart';
 
 class EditPlayer extends StatelessWidget {
@@ -15,7 +13,6 @@ class EditPlayer extends StatelessWidget {
     String name = player.name;
     String shortname = player.name;
     final TextTheme textTheme = Theme.of(context).textTheme;
-    var provider = Provider.of<GameData>(context);
 
     return Scaffold(
       backgroundColor: Colors.redAccent,

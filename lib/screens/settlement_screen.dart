@@ -1,27 +1,21 @@
 import 'dart:async';
-// import 'dart:html';
-// import 'dart:js_util';
-
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
-
-import '../models/game_data.dart';
-import '../models/model.dart';
+import 'package:vai_raja_vai/models/game.dart';
 
 class SettlementScreen extends StatefulWidget {
-  final Cutfor cutfor;
-  final List<Round> rounds;
-  const SettlementScreen({Key? key, required this.cutfor, required this.rounds})
-      : super(key: key);
+  final GameX game;
+  const SettlementScreen({Key? key, required this.game}) : super(key: key);
 
   @override
   State<SettlementScreen> createState() => _SettlementScreenState();
 }
 
 class SettlementInfo {
-  late Player fromPlayer;
-  late Player toPlayer;
+  late String fromPlayer;
+  late String toPlayer;
   late int toPay;
 
   SettlementInfo(
@@ -32,7 +26,7 @@ class SettlementInfo {
 }
 
 class PlayerStatus {
-  final Player player;
+  final String player;
   late int gainlossAmount;
   late int gainlossAmount2;
   // final Player? toPlayer;
@@ -56,7 +50,7 @@ class _SettlementScreenState extends State<SettlementScreen> {
 
   @override
   void initState() {
-    selectedValue = widget.cutfor.players.map((e) => "0").toList();
+    selectedValue = widget.game.players.map((e) => "0").toList();
     super.initState();
   }
 
@@ -68,8 +62,8 @@ class _SettlementScreenState extends State<SettlementScreen> {
   void processSettlement() {
     //get gain/loss
     playerStatuses = [];
-    for (var i = 0; i < widget.cutfor.players.length; i++) {
-      var str = getGainLoss(widget.cutfor.players[i]);
+    for (var i = 0; i < widget.game.players.length; i++) {
+      var str = getGainLoss(widget.game.players[i]);
     }
     playerStatuses.sort((a, b) => b.gainlossAmount.compareTo(a.gainlossAmount));
 
@@ -120,23 +114,23 @@ class _SettlementScreenState extends State<SettlementScreen> {
     settlementInfoList.sort((a, b) => b.toPay.compareTo(a.toPay));
   }
 
-  String getGainLoss(Player player) {
+  String getGainLoss(String player) {
     int totalAmt = 0;
     int winner2get = 0;
     int player2Pay = 0;
     bool playerWon = false;
 
-    for (var i = 0; i < widget.rounds.length; i++) {
-      for (var j = 0; j < widget.rounds[i].entries.length; j++) {
-        if (widget.rounds[i].entries[j].toPay != -1) {
-          winner2get += widget.rounds[i].entries[j].toPay;
+    for (var i = 0; i < widget.game.rounds!.length; i++) {
+      for (var j = 0; j < widget.game.rounds![i].entries.length; j++) {
+        if (widget.game.rounds![i].entries[j].toPay != -1) {
+          winner2get += widget.game.rounds![i].entries[j].toPay;
         }
-        if (widget.rounds[i].entries[j].player == player) {
-          if (widget.rounds[i].entries[j].toPay == -1) {
+        if (widget.game.rounds![i].entries[j].player == player) {
+          if (widget.game.rounds![i].entries[j].toPay == -1) {
             playerWon = true;
           } else {
             playerWon = false;
-            player2Pay = widget.rounds[i].entries[j].toPay;
+            player2Pay = widget.game.rounds![i].entries[j].toPay;
           }
         }
       }
@@ -163,7 +157,6 @@ class _SettlementScreenState extends State<SettlementScreen> {
   @override
   Widget build(BuildContext context) {
     final TextTheme textTheme = Theme.of(context).textTheme;
-    var provider = Provider.of<GameData>(context);
     var timeNow = DateTime.now();
     processSettlement();
 
@@ -226,7 +219,7 @@ class _SettlementScreenState extends State<SettlementScreen> {
                                   width: 10,
                                 ),
                                 Text(DateFormat('EEEE MMMd, hh:mm a')
-                                    .format(widget.cutfor.time)),
+                                    .format(widget.game.time)),
                               ],
                             ),
                             const SizedBox(
@@ -242,7 +235,7 @@ class _SettlementScreenState extends State<SettlementScreen> {
                                 const SizedBox(
                                   width: 10,
                                 ),
-                                Text(widget.cutfor.place!),
+                                Text(widget.game.place!),
                               ],
                             ),
                             const SizedBox(
@@ -258,7 +251,8 @@ class _SettlementScreenState extends State<SettlementScreen> {
                                 SizedBox(
                                   width: 10,
                                 ),
-                                Text("Game ${widget.cutfor.status!}"),
+                                Text(
+                                    "Game ${describeEnum(widget.game.status!)}"),
                               ],
                             ),
                           ],
@@ -288,7 +282,7 @@ class _SettlementScreenState extends State<SettlementScreen> {
                             playerStatuses.map((PlayerStatus playerStatus) {
                           return FilterChip(
                             label: Text(
-                              "${playerStatus.player.name} ${formatAmount(playerStatus.gainlossAmount)}",
+                              "${playerStatus.player} ${formatAmount(playerStatus.gainlossAmount)}",
                               style: textTheme.subtitle2,
                             ),
                             selected: false,
@@ -340,7 +334,7 @@ class _SettlementScreenState extends State<SettlementScreen> {
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
                                 Text(
-                                  settlementInfoList[index].fromPlayer.name,
+                                  settlementInfoList[index].fromPlayer,
                                   style: const TextStyle(
                                       fontSize: 16.0,
                                       fontWeight: FontWeight.w500),
@@ -355,7 +349,7 @@ class _SettlementScreenState extends State<SettlementScreen> {
                                   ),
                                 ),
                                 Text(
-                                  settlementInfoList[index].toPlayer.name,
+                                  settlementInfoList[index].toPlayer,
                                   style: TextStyle(
                                       fontSize: 16.0,
                                       fontWeight: FontWeight.w500),

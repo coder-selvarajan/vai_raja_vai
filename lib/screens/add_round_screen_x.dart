@@ -4,22 +4,22 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
-import '../models/game_data.dart';
-import '../models/model.dart';
+import '../models/game.dart';
+import '../models/isar_service.dart';
 
 List<String> amountList = <String>['Win', '0', '20', '40', '80'];
 
-class AddRound extends StatefulWidget {
-  final Cutfor currentCutfor;
+class AddRoundX extends StatefulWidget {
+  final GameX game;
   final int roundNo;
-  const AddRound({Key? key, required this.currentCutfor, required this.roundNo})
+  const AddRoundX({Key? key, required this.game, required this.roundNo})
       : super(key: key);
 
   @override
-  State<AddRound> createState() => _AddRoundState();
+  State<AddRoundX> createState() => _AddRoundXState();
 }
 
-class _AddRoundState extends State<AddRound> {
+class _AddRoundXState extends State<AddRoundX> {
   DateTime roundTime = DateTime.now();
   late Timer _timer;
   late List<String> selectedValue = [];
@@ -32,7 +32,7 @@ class _AddRoundState extends State<AddRound> {
         roundTime = DateTime.now();
       }),
     );
-    selectedValue = widget.currentCutfor.players.map((e) => "0").toList();
+    selectedValue = widget.game.players.map((e) => "0").toList();
     super.initState();
   }
 
@@ -46,7 +46,7 @@ class _AddRoundState extends State<AddRound> {
   Widget build(BuildContext context) {
     final TextTheme textTheme = Theme.of(context).textTheme;
 
-    var provider = Provider.of<GameData>(context);
+    // var provider = Provider.of<GameData>(context);
     var timeNow = DateTime.now();
 
     return Scaffold(
@@ -135,7 +135,7 @@ class _AddRoundState extends State<AddRound> {
                       padding: EdgeInsets.only(bottom: 10.0),
                       physics: NeverScrollableScrollPhysics(),
                       shrinkWrap: true,
-                      itemCount: widget.currentCutfor.players.length,
+                      itemCount: widget.game.players.length,
                       itemBuilder: (BuildContext context, int index) {
                         return Container(
                           height: 45,
@@ -144,7 +144,7 @@ class _AddRoundState extends State<AddRound> {
                             child: Row(
                               children: [
                                 Text(
-                                  widget.currentCutfor.players[index].name,
+                                  widget.game.players[index],
                                   style: TextStyle(fontSize: 16.0),
                                 ),
                                 Spacer(),
@@ -196,20 +196,36 @@ class _AddRoundState extends State<AddRound> {
                       ),
                       onPressed: () {
                         if (true) {
-                          List<RoundEntry> entries = [];
-                          for (var i = 0;
-                              i < widget.currentCutfor.players.length;
-                              i++) {
-                            entries.add(RoundEntry(
-                                roundNo: widget.roundNo,
-                                player: widget.currentCutfor.players[i],
-                                toPay: int.parse((selectedValue[i] == "Win"
-                                    ? "-1"
-                                    : selectedValue[i]))));
+                          List<RoundEntryX> entries = [];
+                          for (var i = 0; i < widget.game.players.length; i++) {
+                            entries.add(RoundEntryX()
+                              ..player = widget.game.players[i]
+                              ..toPay = int.parse((selectedValue[i] == "Win"
+                                  ? "-1"
+                                  : selectedValue[i])));
+
+                            // RoundEntry(
+                            // roundNo: widget.roundNo,
+                            // player: widget.game.players[i],
+                            // toPay: int.parse((selectedValue[i] == "Win"
+                            //     ? "-1"
+                            //     : selectedValue[i])))
+
                           }
 
-                          provider.addRound(widget.currentCutfor.id!, entries,
-                              widget.roundNo);
+                          List<RoundX> rounds = (widget.game.rounds == null
+                              ? List.empty(growable: true)
+                              : [...widget.game.rounds!]);
+                          rounds.add(RoundX()
+                            ..time = roundTime
+                            ..roundNo = widget.roundNo
+                            ..entries = entries);
+
+                          widget.game.rounds = rounds;
+                          IsarService().saveGame(widget.game);
+
+                          // provider.addRound(
+                          //     widget.game.id!, entries, widget.roundNo);
                           Navigator.pop(context);
                         } else {
                           //no players are selected

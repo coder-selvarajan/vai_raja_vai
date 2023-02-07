@@ -5,9 +5,6 @@ import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:vai_raja_vai/models/game.dart';
 import 'package:vai_raja_vai/models/isar_service.dart';
-import 'package:vai_raja_vai/models/model.dart';
-
-import '../models/game_data.dart';
 import '../models/player.dart';
 
 class AddGame extends StatefulWidget {
@@ -18,7 +15,6 @@ class AddGame extends StatefulWidget {
 }
 
 class _AddGameState extends State<AddGame> {
-  final List<Player> _selected = <Player>[];
   final List<String> selectedPlayers = <String>[];
   late List<PlayerX> players = [];
 
@@ -53,11 +49,7 @@ class _AddGameState extends State<AddGame> {
   @override
   Widget build(BuildContext context) {
     final TextTheme textTheme = Theme.of(context).textTheme;
-
-    var provider = Provider.of<GameData>(context);
     var timeNow = DateTime.now();
-
-    // players = provider.players;
 
     return Scaffold(
       backgroundColor: Colors.white,

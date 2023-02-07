@@ -35,13 +35,35 @@ class IsarService {
     yield* isar.playerXs.where().watch(fireImmediately: true);
   }
 
-  Stream<List<GameX>> getAllGames() async* {
-    final isar = await db;
-    yield* isar.gameXs.where().watch(fireImmediately: true);
-  }
-
   Future<List<PlayerX>> getPlayers() async {
     final isar = await db;
     return await isar.playerXs.where().findAll();
+  }
+
+  Stream<List<GameX>> getAllGames() async* {
+    final isar = await db;
+    yield* isar.gameXs.where().sortByTimeDesc().watch(fireImmediately: true);
+  }
+
+  Stream<List<GameX>> getRecentGames() async* {
+    final isar = await db;
+    yield* isar.gameXs
+        .where()
+        .sortByTimeDesc()
+        .limit(2)
+        .watch(fireImmediately: true);
+  }
+
+  Future<List<GameX>> getGames() async {
+    final isar = await db;
+    return await isar.gameXs.where().findAll();
+  }
+
+  Stream<List<GameX>> getGame(Id id) async* {
+    final isar = await db;
+    yield* isar.gameXs
+        .filter()
+        .idEqualTo(id.toInt())
+        .watch(fireImmediately: true);
   }
 }

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
-import 'package:vai_raja_vai/models/game_data.dart';
 import 'package:vai_raja_vai/models/isar_service.dart';
 import 'package:vai_raja_vai/models/player.dart';
 
@@ -15,7 +14,6 @@ class AddPlayer extends StatelessWidget {
     String shortname = "";
     String color = "FF0000";
     final TextTheme textTheme = Theme.of(context).textTheme;
-    var provider = Provider.of<GameData>(context);
 
     return Scaffold(
       backgroundColor: Colors.redAccent,
@@ -86,7 +84,6 @@ class AddPlayer extends StatelessWidget {
                       // ),
                       onPressed: () {
                         if (name.isNotEmpty) {
-                          provider.addPlayer(name, shortname);
                           isarService.savePlayer(PlayerX()..name = name);
                           Navigator.pop(context);
                         } else {

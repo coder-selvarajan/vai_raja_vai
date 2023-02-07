@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:vai_raja_vai/screens/edit_player_screen.dart';
-
-import '../models/isar_service.dart';
-import '../models/model.dart';
 import '../models/player.dart';
 
 class PlayerTile extends StatelessWidget {
@@ -20,7 +17,7 @@ class PlayerTile extends StatelessWidget {
         backgroundColor: Colors.grey.withOpacity(0.4),
         // radius: 30.0,
         child: Text(
-          player.name.substring(0, 2),
+          player.name.toUpperCase().substring(0, 2),
           style: TextStyle(color: Colors.black),
         ),
       ),
