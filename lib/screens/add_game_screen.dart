@@ -179,6 +179,8 @@ class _AddGameState extends State<AddGame> {
                         backgroundColor: Colors.red,
                         textStyle:
                             const TextStyle(fontSize: 20, color: Colors.white),
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(15.0)),
                       ),
                       onPressed: () {
                         if (place.isNotEmpty && selectedPlayers.length > 1) {
@@ -199,9 +201,12 @@ class _AddGameState extends State<AddGame> {
                           showDialog<String>(
                             context: context,
                             builder: (BuildContext context) => AlertDialog(
-                              title: const Text('Invalid Input:'),
+                              title: const Text('Invalid Input!'),
                               content: const Text(
                                   'Enter the place & Select atleast two players'),
+                              shape: const RoundedRectangleBorder(
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(15.0))),
                               actions: <Widget>[
                                 TextButton(
                                   onPressed: () => Navigator.pop(context, 'OK'),
@@ -214,7 +219,7 @@ class _AddGameState extends State<AddGame> {
                         // }
                       },
                       child: const Padding(
-                        padding: EdgeInsets.all(12.0),
+                        padding: EdgeInsets.all(15.0),
                         child: Text('Start Game'),
                       ),
                     ),

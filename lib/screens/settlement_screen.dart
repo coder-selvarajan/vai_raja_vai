@@ -252,7 +252,7 @@ class _SettlementScreenState extends State<SettlementScreen> {
                                   width: 10,
                                 ),
                                 Text(
-                                    "Game ${describeEnum(widget.game.status!)}"),
+                                    "Status: ${describeEnum(widget.game.status!)}"),
                               ],
                             ),
                           ],
@@ -281,9 +281,25 @@ class _SettlementScreenState extends State<SettlementScreen> {
                         children:
                             playerStatuses.map((PlayerStatus playerStatus) {
                           return FilterChip(
-                            label: Text(
-                              "${playerStatus.player} ${formatAmount(playerStatus.gainlossAmount)}",
-                              style: textTheme.subtitle2,
+                            label: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Text(
+                                  "${playerStatus.player}",
+                                  style: textTheme.subtitle2,
+                                ),
+                                Text(
+                                    " ${formatAmount(playerStatus.gainlossAmount)}",
+                                    style: TextStyle(
+                                        fontSize: textTheme.subtitle2!.fontSize,
+                                        color: playerStatus.gainlossAmount >= 0
+                                            ? Colors.green.shade700
+                                            : Colors.red.shade800,
+                                        fontWeight:
+                                            playerStatus.gainlossAmount >= 0
+                                                ? FontWeight.w700
+                                                : FontWeight.w500)),
+                              ],
                             ),
                             selected: false,
                             onSelected: (bool value) {

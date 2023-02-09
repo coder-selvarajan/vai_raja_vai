@@ -64,18 +64,21 @@ class EditPlayer extends StatelessWidget {
                       initialValue: name,
                       onChanged: (value) {
                         name = value;
-                        shortname = value.substring(0, 2);
+                        // shortname =
+                        //     (value.length > 1 ? value.substring(0, 2) : value);
                       },
                     ),
                     const SizedBox(height: 30.0),
                     Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         ElevatedButton(
                           style: ElevatedButton.styleFrom(
                             backgroundColor: Colors.red,
                             textStyle: const TextStyle(
                                 fontSize: 18, color: Colors.white),
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(15.0)),
                           ),
                           onPressed: () {
                             if (name.isNotEmpty) {
@@ -89,9 +92,12 @@ class EditPlayer extends StatelessWidget {
                               showDialog<String>(
                                 context: context,
                                 builder: (BuildContext context) => AlertDialog(
-                                  title: const Text('Invalid Input:'),
+                                  title: const Text('Invalid Input!'),
                                   content: const Text(
                                       'Enter the player name and click Update'),
+                                  shape: const RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.all(
+                                          Radius.circular(15.0))),
                                   actions: <Widget>[
                                     TextButton(
                                       onPressed: () =>
@@ -106,7 +112,7 @@ class EditPlayer extends StatelessWidget {
                           },
                           child: const Padding(
                             padding: EdgeInsets.symmetric(
-                                vertical: 12.0, horizontal: 5.0),
+                                vertical: 15.0, horizontal: 5.0),
                             child: Text('Update Player'),
                           ),
                         ),
@@ -115,14 +121,40 @@ class EditPlayer extends StatelessWidget {
                             backgroundColor: Colors.red,
                             textStyle: const TextStyle(
                                 fontSize: 18, color: Colors.white),
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(15.0)),
                           ),
                           onPressed: () {
-                            IsarService().deletePlayer(player);
-                            Navigator.pop(context);
+                            showDialog<String>(
+                              context: context,
+                              builder: (BuildContext context) => AlertDialog(
+                                title: const Text('Delete Player'),
+                                content: Text(
+                                    "Are you sure to delete the player (${player.name})?"),
+                                shape: const RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.all(
+                                        Radius.circular(15.0))),
+                                actions: <Widget>[
+                                  TextButton(
+                                    onPressed: () {
+                                      IsarService().deletePlayer(player);
+                                      Navigator.pop(context);
+                                      Navigator.pop(context, "OK");
+                                    },
+                                    child: const Text('Yes, Delete'),
+                                  ),
+                                  TextButton(
+                                    onPressed: () =>
+                                        Navigator.pop(context, 'Cancel'),
+                                    child: const Text('Cancel'),
+                                  ),
+                                ],
+                              ),
+                            );
                           },
                           child: const Padding(
                             padding: EdgeInsets.symmetric(
-                                vertical: 12.0, horizontal: 5.0),
+                                vertical: 15.0, horizontal: 5.0),
                             child: Text('Delete Player'),
                           ),
                         ),

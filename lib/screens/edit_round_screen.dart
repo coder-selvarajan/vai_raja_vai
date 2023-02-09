@@ -111,11 +111,17 @@ class _EditRoundState extends State<EditRound> {
                     const SizedBox(
                       height: 25,
                     ),
-                    Row(
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Spacer(),
-                        Text("Entries: ", style: textTheme.titleMedium),
-                        Spacer(),
+                        Text("Entries: ", style: textTheme.titleLarge),
+                        SizedBox(
+                          height: 4,
+                        ),
+                        Text(
+                          "Make sure to choose a winner and the appropriate amounts to be paid for others",
+                          style: TextStyle(color: Colors.grey.shade700),
+                        ),
                       ],
                     ),
                     const SizedBox(
@@ -183,9 +189,14 @@ class _EditRoundState extends State<EditRound> {
                         backgroundColor: Colors.red,
                         textStyle:
                             const TextStyle(fontSize: 20, color: Colors.white),
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(15.0)),
                       ),
                       onPressed: () {
-                        if (true) {
+                        if (selectedValue
+                                .where((element) => element == "Win")
+                                .length ==
+                            1) {
                           List<RoundEntry> entries = [];
                           for (var i = 0;
                               i < widget.round.entries.length;
@@ -213,9 +224,11 @@ class _EditRoundState extends State<EditRound> {
                           showDialog<String>(
                             context: context,
                             builder: (BuildContext context) => AlertDialog(
-                              title: const Text('Invalid Input:'),
-                              content: const Text(
-                                  'Enter the place & Select atleast two players'),
+                              title: const Text('Invalid Input!'),
+                              content: const Text('There should be one winner'),
+                              shape: const RoundedRectangleBorder(
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(15.0))),
                               actions: <Widget>[
                                 TextButton(
                                   onPressed: () => Navigator.pop(context, 'OK'),
@@ -228,7 +241,7 @@ class _EditRoundState extends State<EditRound> {
                         // }
                       },
                       child: const Padding(
-                        padding: EdgeInsets.all(12.0),
+                        padding: EdgeInsets.all(15.0),
                         child: Text('Update Round'),
                       ),
                     ),

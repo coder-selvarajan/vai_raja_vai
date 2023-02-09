@@ -21,9 +21,10 @@ class RoundTile extends StatelessWidget {
 
   String formatAmount(int amt) {
     if (amt == -1) {
-      return "**";
+      return "";
     } else {
-      return " $amt";
+      return "";
+      // return "-$amt";
     }
   }
 
@@ -38,6 +39,7 @@ class RoundTile extends StatelessWidget {
           round.roundNo.toString(),
           // style: textTheme.bodyMedium,
         ),
+        backgroundColor: Colors.red.shade600,
       ),
       title: Column(
         mainAxisAlignment: MainAxisAlignment.start,
@@ -48,13 +50,44 @@ class RoundTile extends StatelessWidget {
             // style: const TextStyle(fontWeight: FontWeight.bold),
             style: textTheme.bodyLarge,
           ),
-          Text(
-            round.entries
-                .map((e) =>
-                    "${e.player.toUpperCase().substring(0, 2)} ${formatAmount(e.toPay)}")
-                .join(' - '),
-            style: textTheme.bodyMedium,
+
+          Wrap(
+            children: round.entries.map((RoundEntry re) {
+              return Padding(
+                padding: const EdgeInsets.only(right: 10),
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(
+                      "${re.player.toUpperCase().substring(0, 2)}${formatAmount(re.toPay)}",
+                      style: TextStyle(
+                        fontSize: textTheme.bodyMedium?.fontSize,
+                        fontWeight: re.toPay == -1
+                            ? FontWeight.w700
+                            : FontWeight.normal,
+                        color:
+                            re.toPay == -1 ? Colors.green[700] : Colors.black87,
+                      ),
+                    ),
+                    (re.toPay == -1
+                        ? Icon(
+                            Icons.star_border,
+                            size: 15.0,
+                            color: Colors.green.shade700,
+                          )
+                        : Text("-${re.toPay}")),
+                  ],
+                ),
+              );
+            }).toList(),
           ),
+          // Text(
+          //   round.entries
+          //       .map((e) =>
+          //           "${e.player.toUpperCase().substring(0, 2)} ${formatAmount(e.toPay)}")
+          //       .join(' - '),
+          //   style: textTheme.bodyMedium,
+          // ),
           // const Text("took 5 mins.."),
         ],
       ),

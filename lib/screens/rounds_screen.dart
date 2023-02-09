@@ -19,19 +19,9 @@ class RoundsScreen extends StatelessWidget {
     required this.gameId,
   });
 
-  // Future<void> fetchGame() async {
-  //   print("fetchGame() called...");
-  //   // game = (await IsarService().getGame(gameId))!;
-  // }
-
   @override
   Widget build(BuildContext context) {
-    // GameX game = fetchGame() as GameX;
     final TextTheme textTheme = Theme.of(context).textTheme;
-    // fetchGame();
-
-    // var provider = Provider.of<GameData>(context);
-    // List<Round> rounds = provider.getRounds(cutfor.id!);
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -65,8 +55,32 @@ class RoundsScreen extends StatelessWidget {
                         ),
                       ),
                       onTap: () {
-                        IsarService().deleteGame(gameId);
-                        Navigator.pop(context);
+                        showDialog<String>(
+                          context: context,
+                          builder: (BuildContext context) => AlertDialog(
+                            title: const Text('Delete Game'),
+                            content:
+                                const Text('Are you sure to delete this game?'),
+                            shape: const RoundedRectangleBorder(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(15.0))),
+                            actions: <Widget>[
+                              TextButton(
+                                onPressed: () {
+                                  IsarService().deleteGame(gameId);
+                                  Navigator.pop(context);
+                                  Navigator.pop(context, "OK");
+                                },
+                                child: const Text('Yes, Delete'),
+                              ),
+                              TextButton(
+                                onPressed: () =>
+                                    Navigator.pop(context, 'Cancel'),
+                                child: const Text('Cancel'),
+                              ),
+                            ],
+                          ),
+                        );
                       },
                     ),
                   ],
@@ -181,7 +195,7 @@ class RoundsScreen extends StatelessWidget {
                                 SizedBox(
                                   width: 10,
                                 ),
-                                Text("Game ${describeEnum(game.status!)}"),
+                                Text("Status: ${describeEnum(game.status!)}"),
                               ],
                             ),
                           ],

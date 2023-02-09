@@ -31,18 +31,14 @@ class RoundsList extends StatelessWidget {
                 padding: const EdgeInsets.only(left: 20.0),
                 child: Row(
                   children: [
-                    // const Icon(
-                    //   Icons.onetwothree,
-                    //   size: 45.0,
-                    //   color: Colors.redAccent,
-                    // ),
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
                           "Rounds Played:",
-                          // style: textTheme.titleMedium,
-                          style: TextStyle(fontWeight: FontWeight.bold),
+                          style: TextStyle(
+                              fontSize: textTheme.titleMedium!.fontSize,
+                              fontWeight: FontWeight.bold),
                         ),
                         SizedBox(
                           height: 5,
@@ -54,24 +50,24 @@ class RoundsList extends StatelessWidget {
                       ],
                     ),
                     Spacer(),
-                    OutlinedButton(
-                      style: OutlinedButton.styleFrom(
-                        side: BorderSide(width: 1.0, color: Colors.white),
-                      ),
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => SettlementScreen(
-                              game: game,
-                            ),
-                          ),
-                        );
-                      },
-                      child: Row(
-                        children: [Icon(Icons.arrow_upward)],
-                      ),
-                    ),
+                    // OutlinedButton(
+                    //   style: OutlinedButton.styleFrom(
+                    //     side: BorderSide(width: 1.0, color: Colors.white),
+                    //   ),
+                    //   onPressed: () {
+                    //     Navigator.push(
+                    //       context,
+                    //       MaterialPageRoute(
+                    //         builder: (context) => SettlementScreen(
+                    //           game: game,
+                    //         ),
+                    //       ),
+                    //     );
+                    //   },
+                    //   child: Row(
+                    //     children: [Icon(Icons.arrow_upward)],
+                    //   ),
+                    // ),
                   ],
                 ),
               ),

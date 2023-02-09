@@ -73,15 +73,9 @@ class AddPlayer extends StatelessWidget {
                         backgroundColor: Colors.red,
                         textStyle:
                             const TextStyle(fontSize: 20, color: Colors.white),
-                        // shape: StadiumBorder(),
-                        // shape: RoundedRectangleBorder(
-                        //     borderRadius: BorderRadius.circular(20.0)),
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(15.0)),
                       ),
-                      // style: OutlinedButton.styleFrom(
-                      //   side: BorderSide(width: 1.0, color: Colors.red),
-                      //   shape: RoundedRectangleBorder(
-                      //       borderRadius: BorderRadius.circular(20.0)),
-                      // ),
                       onPressed: () {
                         if (name.isNotEmpty) {
                           isarService.savePlayer(Player()..name = name);
@@ -92,9 +86,12 @@ class AddPlayer extends StatelessWidget {
                           showDialog<String>(
                             context: context,
                             builder: (BuildContext context) => AlertDialog(
-                              title: const Text('Invalid Input:'),
+                              title: const Text('Invalid Input!'),
                               content: const Text(
                                   'Enter the player name and click Save'),
+                              shape: const RoundedRectangleBorder(
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(15.0))),
                               actions: <Widget>[
                                 TextButton(
                                   onPressed: () => Navigator.pop(context, 'OK'),
@@ -107,7 +104,7 @@ class AddPlayer extends StatelessWidget {
                         // }
                       },
                       child: const Padding(
-                        padding: EdgeInsets.all(12.0),
+                        padding: EdgeInsets.all(15.0),
                         child: Text('Save Player'),
                       ),
                     ),

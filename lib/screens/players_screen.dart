@@ -13,15 +13,6 @@ class PlayersScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      // floatingActionButton: FloatingActionButton(
-      //     backgroundColor: Colors.redAccent,
-      //     child: const Icon(Icons.add),
-      //     onPressed: () {
-      //       Navigator.push(
-      //         context,
-      //         MaterialPageRoute(builder: (context) => const AddPlayer()),
-      //       );
-      //     }),
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(80), //height of appbar
         child: Container(

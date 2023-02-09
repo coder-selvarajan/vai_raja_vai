@@ -121,11 +121,17 @@ class _AddRoundState extends State<AddRound> {
                     const SizedBox(
                       height: 25,
                     ),
-                    Row(
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Spacer(),
-                        Text("Entries: ", style: textTheme.titleMedium),
-                        Spacer(),
+                        Text("Entries: ", style: textTheme.titleLarge),
+                        SizedBox(
+                          height: 4,
+                        ),
+                        Text(
+                          "Make sure to choose a winner and the appropriate amounts to be paid for others",
+                          style: TextStyle(color: Colors.grey.shade700),
+                        ),
                       ],
                     ),
                     const SizedBox(
@@ -193,9 +199,15 @@ class _AddRoundState extends State<AddRound> {
                         backgroundColor: Colors.red,
                         textStyle:
                             const TextStyle(fontSize: 20, color: Colors.white),
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(15.0)),
                       ),
                       onPressed: () {
-                        if (true) {
+                        //check if there is a winner
+                        if (selectedValue
+                                .where((element) => element == "Win")
+                                .length ==
+                            1) {
                           List<RoundEntry> entries = [];
                           for (var i = 0; i < widget.game.players.length; i++) {
                             entries.add(RoundEntry()
@@ -203,14 +215,6 @@ class _AddRoundState extends State<AddRound> {
                               ..toPay = int.parse((selectedValue[i] == "Win"
                                   ? "-1"
                                   : selectedValue[i])));
-
-                            // RoundEntry(
-                            // roundNo: widget.roundNo,
-                            // player: widget.game.players[i],
-                            // toPay: int.parse((selectedValue[i] == "Win"
-                            //     ? "-1"
-                            //     : selectedValue[i])))
-
                           }
 
                           List<Round> rounds = (widget.game.rounds == null
@@ -224,8 +228,6 @@ class _AddRoundState extends State<AddRound> {
                           widget.game.rounds = rounds;
                           IsarService().saveGame(widget.game);
 
-                          // provider.addRound(
-                          //     widget.game.id!, entries, widget.roundNo);
                           Navigator.pop(context);
                         } else {
                           //no players are selected
@@ -233,9 +235,11 @@ class _AddRoundState extends State<AddRound> {
                           showDialog<String>(
                             context: context,
                             builder: (BuildContext context) => AlertDialog(
-                              title: const Text('Invalid Input:'),
-                              content: const Text(
-                                  'Enter the place & Select atleast two players'),
+                              title: const Text('Invalid Input!'),
+                              content: const Text('There should be one winner'),
+                              shape: const RoundedRectangleBorder(
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(15.0))),
                               actions: <Widget>[
                                 TextButton(
                                   onPressed: () => Navigator.pop(context, 'OK'),
@@ -248,7 +252,7 @@ class _AddRoundState extends State<AddRound> {
                         // }
                       },
                       child: const Padding(
-                        padding: EdgeInsets.all(12.0),
+                        padding: EdgeInsets.all(15.0),
                         child: Text('Save Round'),
                       ),
                     ),
