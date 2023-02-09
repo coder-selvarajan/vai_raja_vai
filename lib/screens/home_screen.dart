@@ -21,10 +21,15 @@ class _HomeScreenState extends State<HomeScreen> {
     playersCount = await IsarService().getPlayersCount();
   }
 
+  Future<void> processGameStatus() async {
+    await IsarService().updateGameStatus();
+  }
+
   @override
   Widget build(BuildContext context) {
     final TextTheme textTheme = Theme.of(context).textTheme;
     getPlayersCount();
+    processGameStatus();
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -68,6 +73,14 @@ class _HomeScreenState extends State<HomeScreen> {
                         ),
                       ],
                     ),
+                    Spacer(),
+                    InkWell(
+                      child: Icon(
+                        Icons.settings,
+                        size: 30.0,
+                      ),
+                      onTap: () {},
+                    )
                   ],
                 ),
                 elevation: 0,

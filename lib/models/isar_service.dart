@@ -46,6 +46,22 @@ class IsarService {
     });
   }
 
+  Future<void> updateGameStatus() async {
+    final isar = await db;
+    await isar.writeTxn(() async {
+      List<Game> games = await isar.games
+          .filter()
+          .statusEqualTo(Status.Progressing)
+          .timeLessThan(DateTime.now().subtract(const Duration(hours: 2)))
+          .findAll();
+
+      for (var game in games) {
+        game.status = Status.Completed;
+        await isar.games.put(game);
+      }
+    });
+  }
+
   Stream<List<Player>> streamPlayers() async* {
     final isar = await db;
     yield* isar.players.where().watch(fireImmediately: true);
