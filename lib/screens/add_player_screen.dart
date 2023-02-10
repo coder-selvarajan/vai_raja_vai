@@ -11,8 +11,6 @@ class AddPlayer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     String name = "";
-    String shortname = "";
-    String color = "FF0000";
     final TextTheme textTheme = Theme.of(context).textTheme;
 
     return Scaffold(
@@ -26,7 +24,7 @@ class AddPlayer extends StatelessWidget {
         children: [
           Expanded(
             child: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 20.0),
+              padding: const EdgeInsets.symmetric(horizontal: 25.0),
               decoration: BoxDecoration(
                 color: Colors.white.withOpacity(0.95),
                 borderRadius: const BorderRadius.only(
@@ -36,7 +34,7 @@ class AddPlayer extends StatelessWidget {
               ),
               // child: Form(
               child: Padding(
-                padding: const EdgeInsets.fromLTRB(0, 30, 0, 0),
+                padding: const EdgeInsets.fromLTRB(0, 25, 0, 0),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
@@ -116,60 +114,6 @@ class AddPlayer extends StatelessWidget {
           ),
         ],
       ),
-      // body: Container(
-      //   color: const Color(0xff757575),
-      //   child: Container(
-      //     padding: const EdgeInsets.all(20.0),
-      //     decoration: const BoxDecoration(
-      //       color: Colors.white,
-      //       borderRadius: BorderRadius.only(
-      //         topLeft: Radius.circular(20.0),
-      //         topRight: Radius.circular(20.0),
-      //       ),
-      //     ),
-      //     child: Row(
-      //       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      //       crossAxisAlignment: CrossAxisAlignment.center,
-      //       children: [
-      //         Expanded(
-      //           child: TextField(
-      //             // obscureText: true,
-      //             decoration: const InputDecoration(
-      //               border: OutlineInputBorder(),
-      //               hintText: "Enter player name..",
-      //               labelText: ' NEW PLAYER ',
-      //             ),
-      //             autofocus: true,
-      //             // textAlign: TextAlign.center,
-      //             onChanged: (newText) {
-      //               name = newText;
-      //               shortname = newText.substring(0, 2);
-      //             },
-      //           ),
-      //         ),
-      //         Container(
-      //           padding: const EdgeInsets.fromLTRB(20.0, 0, 0, 0),
-      //           width: 100.0,
-      //           height: 60.0,
-      //           child: TextButton(
-      //             style: TextButton.styleFrom(
-      //               foregroundColor: Colors.white,
-      //               padding: const EdgeInsets.all(8.0),
-      //               backgroundColor: Colors.redAccent,
-      //               textStyle: const TextStyle(fontSize: 18),
-      //             ),
-      //             child: const Text('Save'),
-      //             onPressed: () {
-      //               // Provider.of<PlayerData>(context)
-      //               provider.addPlayer(name, shortname, color);
-      //               Navigator.pop(context);
-      //             },
-      //           ),
-      //         ),
-      //       ],
-      //     ),
-      //   ),
-      // ),
     );
   }
 }

@@ -27,49 +27,46 @@ class RoundsList extends StatelessWidget {
           // return the header
           return Column(
             children: [
-              Padding(
-                padding: const EdgeInsets.only(left: 20.0),
-                child: Row(
-                  children: [
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          "Rounds Played:",
-                          style: TextStyle(
-                              fontSize: textTheme.titleMedium!.fontSize,
-                              fontWeight: FontWeight.bold),
-                        ),
-                        SizedBox(
-                          height: 5,
-                        ),
-                        Text(
-                          "(Click on the round to edit)",
-                          style: TextStyle(color: Colors.grey),
-                        ),
-                      ],
-                    ),
-                    Spacer(),
-                    // OutlinedButton(
-                    //   style: OutlinedButton.styleFrom(
-                    //     side: BorderSide(width: 1.0, color: Colors.white),
-                    //   ),
-                    //   onPressed: () {
-                    //     Navigator.push(
-                    //       context,
-                    //       MaterialPageRoute(
-                    //         builder: (context) => SettlementScreen(
-                    //           game: game,
-                    //         ),
-                    //       ),
-                    //     );
-                    //   },
-                    //   child: Row(
-                    //     children: [Icon(Icons.arrow_upward)],
-                    //   ),
-                    // ),
-                  ],
-                ),
+              Row(
+                children: [
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        "Rounds Played:",
+                        style: TextStyle(
+                            fontSize: textTheme.titleMedium!.fontSize,
+                            fontWeight: FontWeight.bold),
+                      ),
+                      SizedBox(
+                        height: 5,
+                      ),
+                      Text(
+                        "(Click on the round to edit)",
+                        style: TextStyle(color: Colors.grey),
+                      ),
+                    ],
+                  ),
+                  Spacer(),
+                  // OutlinedButton(
+                  //   style: OutlinedButton.styleFrom(
+                  //     side: BorderSide(width: 1.0, color: Colors.white),
+                  //   ),
+                  //   onPressed: () {
+                  //     Navigator.push(
+                  //       context,
+                  //       MaterialPageRoute(
+                  //         builder: (context) => SettlementScreen(
+                  //           game: game,
+                  //         ),
+                  //       ),
+                  //     );
+                  //   },
+                  //   child: Row(
+                  //     children: [Icon(Icons.arrow_upward)],
+                  //   ),
+                  // ),
+                ],
               ),
               SizedBox(
                 height: 15.0,

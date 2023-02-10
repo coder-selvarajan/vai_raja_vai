@@ -86,7 +86,7 @@ class _AddGameState extends State<AddGame> {
           child: Column(
             children: [
               Padding(
-                padding: const EdgeInsets.fromLTRB(30, 20, 30, 20),
+                padding: const EdgeInsets.fromLTRB(25, 15, 25, 20),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [

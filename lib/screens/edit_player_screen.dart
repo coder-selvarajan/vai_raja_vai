@@ -25,7 +25,7 @@ class EditPlayer extends StatelessWidget {
         children: [
           Expanded(
             child: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 20.0),
+              padding: const EdgeInsets.symmetric(horizontal: 25.0),
               decoration: BoxDecoration(
                 color: Colors.white.withOpacity(0.95),
                 borderRadius: const BorderRadius.only(
@@ -35,7 +35,7 @@ class EditPlayer extends StatelessWidget {
               ),
               // child: Form(
               child: Padding(
-                padding: const EdgeInsets.fromLTRB(0, 30, 0, 0),
+                padding: const EdgeInsets.fromLTRB(0, 25, 0, 0),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [

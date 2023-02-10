@@ -36,20 +36,20 @@ class RoundsScreen extends StatelessWidget {
                 title: Row(
                   children: [
                     Icon(
-                      Icons.onetwothree,
-                      size: 45.0,
+                      Icons.info_outline,
+                      size: 35.0,
                       color: Colors.white,
                     ),
                     SizedBox(
                       width: 10,
                     ),
-                    Text("Game Info"),
+                    Text("Game Info, Rounds"),
                     Spacer(),
                     InkWell(
                       child: CircleAvatar(
-                        backgroundColor: Colors.white,
+                        backgroundColor: Colors.white.withOpacity(0.85),
                         child: Icon(
-                          Icons.delete,
+                          Icons.delete_rounded,
                           size: 25.0,
                           color: Colors.red,
                         ),
@@ -113,106 +113,152 @@ class RoundsScreen extends StatelessWidget {
               }
               return SingleChildScrollView(
                 physics: ScrollPhysics(),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Container(
-                      padding: const EdgeInsets.only(
-                          top: 10.0, left: 30.0, right: 30.0, bottom: 10.0),
-                      child: Container(
-                        padding: EdgeInsets.all(20.0),
-                        decoration: BoxDecoration(
-                          color: Colors.grey.withOpacity(0.25),
-                          borderRadius: BorderRadius.circular(15.0),
-                        ),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.stretch,
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: <Widget>[
-                            Row(
-                              children: [
-                                Icon(
-                                  Icons.date_range,
-                                  size: 25.0,
-                                  color: Colors.redAccent,
-                                ),
-                                SizedBox(
-                                  width: 10,
-                                ),
-                                Text(DateFormat('EEEE MMMd, hh:mm a')
-                                    .format(game.time)),
-                              ],
-                            ),
-                            const SizedBox(
-                              height: 10,
-                            ),
-                            Row(
-                              children: [
-                                Icon(
-                                  Icons.place_outlined,
-                                  size: 25.0,
-                                  color: Colors.redAccent,
-                                ),
-                                SizedBox(
-                                  width: 10,
-                                ),
-                                Text(game.place!),
-                              ],
-                            ),
-                            const SizedBox(
-                              height: 10,
-                            ),
-                            Row(
-                              children: [
-                                Icon(
-                                  Icons.people,
-                                  size: 25.0,
-                                  color: Colors.redAccent,
-                                ),
-                                SizedBox(
-                                  width: 10,
-                                ),
-                                Expanded(
-                                  child: Text(
-                                    game.players.map((name) => name).join(", "),
-                                    softWrap: true,
-                                    // maxLines: 1,
-                                    // overflow: TextOverflow.ellipsis,
+                child: Padding(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 25, vertical: 5.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Container(
+                        // padding: const EdgeInsets.only(
+                        //     top: 10.0, left: 30.0, right: 30.0, bottom: 10.0),
+                        child: Container(
+                          padding: EdgeInsets.all(20.0),
+                          decoration: BoxDecoration(
+                            color: Colors.grey.withOpacity(0.25),
+                            borderRadius: BorderRadius.circular(15.0),
+                          ),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.stretch,
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: <Widget>[
+                              Row(
+                                children: [
+                                  Icon(
+                                    Icons.date_range,
+                                    size: 25.0,
+                                    color: Colors.redAccent,
                                   ),
-                                ),
-                              ],
-                            ),
-                            const SizedBox(
-                              height: 10,
-                            ),
-                            Row(
-                              children: [
-                                Icon(
-                                  Icons.check_circle_outline,
-                                  size: 25.0,
-                                  color: Colors.redAccent,
-                                ),
-                                SizedBox(
-                                  width: 10,
-                                ),
-                                Text("Status: ${describeEnum(game.status!)}"),
-                              ],
-                            ),
-                          ],
+                                  SizedBox(
+                                    width: 10,
+                                  ),
+                                  Text(DateFormat('EEEE MMMd, hh:mm a')
+                                      .format(game.time)),
+                                ],
+                              ),
+                              const SizedBox(
+                                height: 10,
+                              ),
+                              Row(
+                                children: [
+                                  Icon(
+                                    Icons.place_outlined,
+                                    size: 25.0,
+                                    color: Colors.redAccent,
+                                  ),
+                                  SizedBox(
+                                    width: 10,
+                                  ),
+                                  Text(game.place!),
+                                ],
+                              ),
+                              const SizedBox(
+                                height: 10,
+                              ),
+                              Row(
+                                children: [
+                                  Icon(
+                                    Icons.people,
+                                    size: 25.0,
+                                    color: Colors.redAccent,
+                                  ),
+                                  SizedBox(
+                                    width: 10,
+                                  ),
+                                  Expanded(
+                                    child: Text(
+                                      game.players
+                                          .map((name) => name)
+                                          .join(", "),
+                                      softWrap: true,
+                                      // maxLines: 1,
+                                      // overflow: TextOverflow.ellipsis,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              const SizedBox(
+                                height: 10,
+                              ),
+                              Row(
+                                children: [
+                                  Icon(
+                                    Icons.check_circle_outline,
+                                    size: 25.0,
+                                    color: Colors.redAccent,
+                                  ),
+                                  SizedBox(
+                                    width: 10,
+                                  ),
+                                  Text("Status: ${describeEnum(game.status!)}"),
+                                ],
+                              ),
+                            ],
+                          ),
                         ),
                       ),
-                    ),
-                    // Expanded(
-                    //   child: Container(
-                    Container(
-                      padding: EdgeInsets.all(10.0),
-                      child: Column(
-                        children: [
-                          Row(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: [
-                              if (game.status! == Status.Progressing)
+                      // Expanded(
+                      //   child: Container(
+                      Container(
+                        padding: EdgeInsets.only(top: 15.0),
+                        child: Column(
+                          children: [
+                            Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: [
+                                if (game.status! == Status.Progressing)
+                                  OutlinedButton(
+                                    style: OutlinedButton.styleFrom(
+                                      backgroundColor: Colors.redAccent,
+                                      side: BorderSide(
+                                          width: 1.5, color: Colors.red),
+                                      shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(20.0)),
+                                    ),
+                                    onPressed: () {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) => AddRound(
+                                            game: game,
+                                            roundNo: (game.rounds == null
+                                                    ? 0
+                                                    : game.rounds!.length) +
+                                                1,
+                                          ),
+                                        ),
+                                      );
+                                    },
+                                    child: Row(
+                                      children: const [
+                                        Icon(
+                                          Icons.add,
+                                          size: 20.0,
+                                          color: Colors.white,
+                                          // color: Colors.white,
+                                        ),
+                                        Text(
+                                          ' Add Round',
+                                          style: TextStyle(
+                                            // fontSize: 18.0,
+                                            color: Colors.white,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
                                 OutlinedButton(
                                   style: OutlinedButton.styleFrom(
                                     backgroundColor: Colors.redAccent,
@@ -223,86 +269,46 @@ class RoundsScreen extends StatelessWidget {
                                             BorderRadius.circular(20.0)),
                                   ),
                                   onPressed: () {
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) => AddRound(
-                                          game: game,
-                                          roundNo: (game.rounds == null
-                                                  ? 0
-                                                  : game.rounds!.length) +
-                                              1,
+                                    if (game.rounds != null) {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) =>
+                                              SettlementScreen(game: game),
                                         ),
-                                      ),
-                                    );
+                                      );
+                                    }
                                   },
                                   child: Row(
                                     children: const [
                                       Icon(
-                                        Icons.add,
+                                        Icons.currency_rupee_sharp,
                                         size: 20.0,
                                         color: Colors.white,
                                         // color: Colors.white,
                                       ),
-                                      Text(
-                                        ' Add Round',
-                                        style: TextStyle(
-                                          // fontSize: 18.0,
-                                          color: Colors.white,
-                                        ),
-                                      ),
+                                      Text(' View Settlement',
+                                          style: TextStyle(
+                                            // fontSize: 18.0,
+                                            color: Colors.white,
+                                          )),
                                     ],
                                   ),
                                 ),
-                              OutlinedButton(
-                                style: OutlinedButton.styleFrom(
-                                  backgroundColor: Colors.redAccent,
-                                  side:
-                                      BorderSide(width: 1.5, color: Colors.red),
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius:
-                                          BorderRadius.circular(20.0)),
-                                ),
-                                onPressed: () {
-                                  if (game.rounds != null) {
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) =>
-                                            SettlementScreen(game: game),
-                                      ),
-                                    );
-                                  }
-                                },
-                                child: Row(
-                                  children: const [
-                                    Icon(
-                                      Icons.currency_rupee_sharp,
-                                      size: 20.0,
-                                      color: Colors.white,
-                                      // color: Colors.white,
-                                    ),
-                                    Text(' View Settlement',
-                                        style: TextStyle(
-                                          // fontSize: 18.0,
-                                          color: Colors.white,
-                                        )),
-                                  ],
-                                ),
-                              ),
-                            ],
-                          ),
-                          SizedBox(
-                            height: 20.0,
-                          ),
-                          RoundsList(
-                            game: game,
-                          ),
-                        ],
+                              ],
+                            ),
+                            SizedBox(
+                              height: 20.0,
+                            ),
+                            RoundsList(
+                              game: game,
+                            ),
+                          ],
+                        ),
                       ),
-                    ),
-                    // ),
-                  ],
+                      // ),
+                    ],
+                  ),
                 ),
               );
             } else {

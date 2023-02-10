@@ -86,65 +86,62 @@ class PlayersList extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                        child: Row(
-                          children: [
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  "All Players",
-                                  style: TextStyle(
-                                    fontSize: 18.0,
-                                    fontWeight: FontWeight.bold,
+                      Row(
+                        children: [
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                "All Players",
+                                style: TextStyle(
+                                  fontSize: 18.0,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              SizedBox(
+                                height: 10,
+                              ),
+                              Text("Click on the player to edit"),
+                            ],
+                          ),
+                          Spacer(),
+                          OutlinedButton(
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => AddPlayer(
+                                    isarService: isarService,
                                   ),
+                                ),
+                              );
+                            },
+                            child: Row(
+                              children: [
+                                Icon(
+                                  Icons.person_add_alt_1,
+                                  size: 20.0,
+                                  color: Colors.white,
                                 ),
                                 SizedBox(
-                                  height: 10,
+                                  width: 10,
                                 ),
-                                Text("Click on the player to edit"),
-                              ],
-                            ),
-                            Spacer(),
-                            OutlinedButton(
-                              onPressed: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => AddPlayer(
-                                      isarService: isarService,
-                                    ),
-                                  ),
-                                );
-                              },
-                              child: Row(
-                                children: [
-                                  Icon(
-                                    Icons.person_add_alt_1,
-                                    size: 20.0,
+                                Text(
+                                  "Add Player",
+                                  style: TextStyle(
                                     color: Colors.white,
                                   ),
-                                  SizedBox(
-                                    width: 10,
-                                  ),
-                                  Text(
-                                    "Add Player",
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              style: OutlinedButton.styleFrom(
-                                backgroundColor: Colors.redAccent,
-                                side: BorderSide(width: 1.5, color: Colors.red),
-                                shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(20.0)),
-                              ),
+                                ),
+                              ],
                             ),
-                          ],
-                        ),
+                            style: OutlinedButton.styleFrom(
+                              backgroundColor: Colors.redAccent,
+                              side: BorderSide(width: 1.5, color: Colors.red),
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(20.0)),
+                            ),
+                          ),
+                        ],
                       ),
                       const SizedBox(
                         height: 20,

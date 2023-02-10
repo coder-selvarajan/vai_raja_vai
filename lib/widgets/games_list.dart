@@ -59,48 +59,45 @@ class GamesList extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 15.0),
-                        child: Row(
-                          children: [
-                            Text(
-                              "Games Played:",
-                              style: TextStyle(
-                                fontSize: 18.0,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.black87,
-                              ),
+                      Row(
+                        children: [
+                          Text(
+                            "Games Played:",
+                            style: TextStyle(
+                              fontSize: 18.0,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.black87,
                             ),
-                            Spacer(),
-                            OutlinedButton(
-                              onPressed: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => const AddGame()),
-                                );
-                              },
-                              child: Row(
-                                children: [
-                                  Icon(
-                                    Icons.add,
-                                    color: Colors.white,
-                                  ),
-                                  Text(
-                                    " New Game",
-                                    style: TextStyle(color: Colors.white),
-                                  ),
-                                ],
-                              ),
-                              style: OutlinedButton.styleFrom(
-                                backgroundColor: Colors.redAccent,
-                                side: BorderSide(width: 1.5, color: Colors.red),
-                                shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(20.0)),
-                              ),
+                          ),
+                          Spacer(),
+                          OutlinedButton(
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => const AddGame()),
+                              );
+                            },
+                            child: Row(
+                              children: [
+                                Icon(
+                                  Icons.add,
+                                  color: Colors.white,
+                                ),
+                                Text(
+                                  " New Game",
+                                  style: TextStyle(color: Colors.white),
+                                ),
+                              ],
                             ),
-                          ],
-                        ),
+                            style: OutlinedButton.styleFrom(
+                              backgroundColor: Colors.redAccent,
+                              side: BorderSide(width: 1.5, color: Colors.red),
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(20.0)),
+                            ),
+                          ),
+                        ],
                       ),
                       const SizedBox(
                         height: 20,

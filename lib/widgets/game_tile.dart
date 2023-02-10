@@ -17,23 +17,39 @@ class GameTile extends StatelessWidget {
     final TextTheme textTheme = Theme.of(context).textTheme;
 
     return ListTile(
+      // horizontalTitleGap: 20.0,
+      contentPadding: EdgeInsets.only(left: 0.0, right: 0.0, top: 0.0),
       leading: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            DateFormat('EE MMMd').format(game.time),
-            style: const TextStyle(
-                fontSize: 13.0,
-                fontWeight: FontWeight.bold,
-                color: Colors.black87),
-          ),
           const SizedBox(
             height: 5,
           ),
           Text(
-            DateFormat('hh:mm a').format(game.time),
-            style: const TextStyle(fontSize: 13.0, color: Colors.black87),
+            DateFormat('EE MMMd').format(game.time),
+            style: TextStyle(
+                fontSize: textTheme.caption!.fontSize,
+                fontWeight: FontWeight.bold,
+                color: Colors.black87),
+          ),
+          // const SizedBox(
+          //   height: 5,
+          // ),
+          // Text(
+          //   DateFormat('MMMd').format(game.time),
+          //   style: TextStyle(
+          //       fontSize: textTheme.caption!.fontSize,
+          //       fontWeight: FontWeight.bold,
+          //       color: Colors.black87),
+          // ),
+          // const SizedBox(
+          //   height: 5,
+          // ),
+          Text(
+            DateFormat('hh:mm a  ').format(game.time),
+            style: TextStyle(
+                fontSize: textTheme.caption!.fontSize, color: Colors.black87),
           ),
           Spacer(),
         ],
@@ -44,7 +60,7 @@ class GameTile extends StatelessWidget {
         children: [
           Text(
             game.place!,
-            // style: textTheme.titleMedium,
+            // style: textTheme.titleLarge,
             // style: const TextStyle(fontWeight: FontWeight.w600),
           ),
           Text(

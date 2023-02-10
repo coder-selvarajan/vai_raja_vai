@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:vai_raja_vai/models/isar_service.dart';
 import 'package:vai_raja_vai/models/player.dart';
-import 'package:vai_raja_vai/screens/add_player_screen.dart';
 import 'package:vai_raja_vai/screens/games_screen.dart';
 import 'package:vai_raja_vai/screens/players_screen.dart';
+import 'package:vai_raja_vai/screens/settings.dart';
 import 'package:vai_raja_vai/widgets/recent_games.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -79,7 +79,12 @@ class _HomeScreenState extends State<HomeScreen> {
                         Icons.settings,
                         size: 30.0,
                       ),
-                      onTap: () {},
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => Settings()),
+                        );
+                      },
                     )
                   ],
                 ),
@@ -106,7 +111,7 @@ class _HomeScreenState extends State<HomeScreen> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             Container(
-              padding: const EdgeInsets.symmetric(horizontal: 10.0),
+              padding: const EdgeInsets.symmetric(horizontal: 25.0),
               decoration: BoxDecoration(
                 color: Colors.white.withOpacity(0.95),
                 borderRadius: const BorderRadius.only(
@@ -135,24 +140,70 @@ class _HomeScreenState extends State<HomeScreen> {
                           if (snapshot.hasData) {
                             final players = snapshot.data;
                             if (players!.isEmpty) {
-                              return Padding(
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 15.0),
-                                child: Row(
-                                  children: [
-                                    Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: const [
-                                        Text(
-                                          'No Players Yet!',
-                                          style: TextStyle(
-                                            fontSize: 16.0,
-                                            fontWeight: FontWeight.bold,
-                                          ),
+                              return Row(
+                                children: [
+                                  Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: const [
+                                      Text(
+                                        'No Players Yet!',
+                                        style: TextStyle(
+                                          fontSize: 16.0,
+                                          fontWeight: FontWeight.bold,
                                         ),
-                                        Text("Add atleast two players"),
-                                      ],
+                                      ),
+                                      Text("Add atleast two players"),
+                                    ],
+                                  ),
+                                  const Spacer(),
+                                  OutlinedButton(
+                                    onPressed: () {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                PlayersScreen()),
+                                      );
+                                    },
+                                    style: OutlinedButton.styleFrom(
+                                      backgroundColor: Colors.redAccent,
+                                      side: const BorderSide(
+                                          width: 1.5, color: Colors.red),
+                                      shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(20.0)),
+                                    ),
+                                    child: const Text(
+                                      "Goto Players",
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              );
+                            }
+
+                            return Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Row(
+                                  children: [
+                                    const Icon(
+                                      Icons.people,
+                                      size: 30.0,
+                                      color: Colors.red,
+                                    ),
+                                    const SizedBox(
+                                      width: 10,
+                                    ),
+                                    const Text(
+                                      'Current Players',
+                                      style: TextStyle(
+                                        fontSize: 16.0,
+                                        fontWeight: FontWeight.bold,
+                                      ),
                                     ),
                                     const Spacer(),
                                     OutlinedButton(
@@ -173,7 +224,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                                 BorderRadius.circular(20.0)),
                                       ),
                                       child: const Text(
-                                        "Goto Players",
+                                        "Edit Players",
                                         style: TextStyle(
                                           color: Colors.white,
                                         ),
@@ -181,74 +232,20 @@ class _HomeScreenState extends State<HomeScreen> {
                                     ),
                                   ],
                                 ),
-                              );
-                            }
-
-                            return Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 10.0),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Row(
-                                    children: [
-                                      const Icon(
-                                        Icons.people,
-                                        size: 30.0,
-                                        color: Colors.red,
-                                      ),
-                                      const SizedBox(
-                                        width: 10,
-                                      ),
-                                      const Text(
-                                        'Current Players',
-                                        style: TextStyle(
-                                          fontSize: 16.0,
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                      ),
-                                      const Spacer(),
-                                      OutlinedButton(
-                                        onPressed: () {
-                                          Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (context) =>
-                                                    PlayersScreen()),
-                                          );
-                                        },
-                                        style: OutlinedButton.styleFrom(
-                                          backgroundColor: Colors.redAccent,
-                                          side: const BorderSide(
-                                              width: 1.5, color: Colors.red),
-                                          shape: RoundedRectangleBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(20.0)),
-                                        ),
-                                        child: const Text(
-                                          "Edit Players",
-                                          style: TextStyle(
-                                            color: Colors.white,
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  const SizedBox(height: 15.0),
-                                  Wrap(
-                                    spacing: 5.0,
-                                    children: players.map((Player player) {
-                                      return FilterChip(
-                                        label: Text(player.name),
-                                        selected: _selected.contains(player),
-                                        onSelected: (bool value) {
-                                          //
-                                        },
-                                      );
-                                    }).toList(),
-                                  ),
-                                ],
-                              ),
+                                const SizedBox(height: 15.0),
+                                Wrap(
+                                  spacing: 5.0,
+                                  children: players.map((Player player) {
+                                    return FilterChip(
+                                      label: Text(player.name),
+                                      selected: _selected.contains(player),
+                                      onSelected: (bool value) {
+                                        //
+                                      },
+                                    );
+                                  }).toList(),
+                                ),
+                              ],
                             );
                           } else {
                             return const Center(

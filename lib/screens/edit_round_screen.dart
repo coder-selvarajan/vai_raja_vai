@@ -74,7 +74,7 @@ class _EditRoundState extends State<EditRound> {
           child: Column(
             children: [
               Padding(
-                padding: const EdgeInsets.fromLTRB(25, 10, 25, 20),
+                padding: const EdgeInsets.fromLTRB(25, 5, 25, 20),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [

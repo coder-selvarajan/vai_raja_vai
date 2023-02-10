@@ -13,6 +13,7 @@ class PlayerTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListTile(
       // onLongPress: longPressCallback,
+      contentPadding: EdgeInsets.all(0.0),
       leading: CircleAvatar(
         // backgroundColor: Colors.grey.withOpacity(0.4),
         backgroundColor: Colors.redAccent,

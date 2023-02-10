@@ -24,66 +24,63 @@ class RecentGames extends StatelessWidget {
           if (snapshot.hasData) {
             final games = snapshot.data;
             if (games!.isEmpty) {
-              return Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 15.0),
-                child: Row(
-                  children: [
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: const [
-                        Text(
-                          "No Games Played Yet!",
-                          style: TextStyle(
-                            fontSize: 16.0,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        Text("Click 'New Game' to create"),
-                      ],
-                    ),
-                    Spacer(),
-                    OutlinedButton(
-                      onPressed: () async {
-                        await getPlayerCount();
-                        if (pCount > 1) {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => const AddGame()),
-                          );
-                        } else {
-                          showDialog<String>(
-                            context: context,
-                            builder: (BuildContext context) => AlertDialog(
-                              title: const Text('Prerequisite'),
-                              content: const Text(
-                                  'You need atleast two players to create a game'),
-                              actions: <Widget>[
-                                TextButton(
-                                  onPressed: () => Navigator.pop(context, 'OK'),
-                                  child: const Text('OK'),
-                                ),
-                              ],
-                            ),
-                          );
-                        }
-                      },
-                      style: OutlinedButton.styleFrom(
-                        backgroundColor: Colors.redAccent,
-                        side: BorderSide(width: 1.5, color: Colors.red),
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(20.0)),
-                      ),
-                      child: const Text(
-                        "New Game",
+              return Row(
+                children: [
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: const [
+                      Text(
+                        "No Games Played Yet!",
                         style: TextStyle(
-                          color: Colors.white,
+                          fontSize: 16.0,
+                          fontWeight: FontWeight.bold,
                         ),
-                        // style: TextStyle(color: Colors.white),
                       ),
+                      Text("Click 'New Game' to create"),
+                    ],
+                  ),
+                  Spacer(),
+                  OutlinedButton(
+                    onPressed: () async {
+                      await getPlayerCount();
+                      if (pCount > 1) {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const AddGame()),
+                        );
+                      } else {
+                        showDialog<String>(
+                          context: context,
+                          builder: (BuildContext context) => AlertDialog(
+                            title: const Text('Prerequisite'),
+                            content: const Text(
+                                'You need atleast two players to create a game'),
+                            actions: <Widget>[
+                              TextButton(
+                                onPressed: () => Navigator.pop(context, 'OK'),
+                                child: const Text('OK'),
+                              ),
+                            ],
+                          ),
+                        );
+                      }
+                    },
+                    style: OutlinedButton.styleFrom(
+                      backgroundColor: Colors.redAccent,
+                      side: BorderSide(width: 1.5, color: Colors.red),
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(20.0)),
                     ),
-                  ],
-                ),
+                    child: const Text(
+                      "New Game",
+                      style: TextStyle(
+                        color: Colors.white,
+                      ),
+                      // style: TextStyle(color: Colors.white),
+                    ),
+                  ),
+                ],
               );
             }
             return Column(
@@ -101,73 +98,69 @@ class RecentGames extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Padding(
-                            padding:
-                                const EdgeInsets.symmetric(horizontal: 10.0),
-                            child: Row(
-                              children: [
-                                const Icon(
-                                  Icons.currency_rupee,
-                                  size: 30.0,
-                                  color: Colors.red,
+                          Row(
+                            children: [
+                              const Icon(
+                                Icons.article_outlined,
+                                size: 30.0,
+                                color: Colors.red,
+                              ),
+                              const SizedBox(
+                                width: 10,
+                              ),
+                              const Text(
+                                "Recent Games",
+                                style: TextStyle(
+                                  fontSize: 16.0,
+                                  fontWeight: FontWeight.bold,
                                 ),
-                                const SizedBox(
-                                  width: 10,
+                              ),
+                              const Spacer(),
+                              OutlinedButton(
+                                onPressed: () async {
+                                  await getPlayerCount();
+                                  if (pCount > 1) {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              const AddGame()),
+                                    );
+                                  } else {
+                                    showDialog<String>(
+                                      context: context,
+                                      builder: (BuildContext context) =>
+                                          AlertDialog(
+                                        title: const Text('Prerequisite'),
+                                        content: const Text(
+                                            'You need atleast two players to create a game'),
+                                        actions: <Widget>[
+                                          TextButton(
+                                            onPressed: () =>
+                                                Navigator.pop(context, 'OK'),
+                                            child: const Text('OK'),
+                                          ),
+                                        ],
+                                      ),
+                                    );
+                                  }
+                                },
+                                style: OutlinedButton.styleFrom(
+                                  backgroundColor: Colors.redAccent,
+                                  side: const BorderSide(
+                                      width: 1.5, color: Colors.red),
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius:
+                                          BorderRadius.circular(20.0)),
                                 ),
-                                const Text(
-                                  "Recent Games",
+                                child: const Text(
+                                  "New Game",
                                   style: TextStyle(
-                                    fontSize: 16.0,
-                                    fontWeight: FontWeight.bold,
+                                    color: Colors.white,
                                   ),
                                 ),
-                                const Spacer(),
-                                OutlinedButton(
-                                  onPressed: () async {
-                                    await getPlayerCount();
-                                    if (pCount > 1) {
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                const AddGame()),
-                                      );
-                                    } else {
-                                      showDialog<String>(
-                                        context: context,
-                                        builder: (BuildContext context) =>
-                                            AlertDialog(
-                                          title: const Text('Prerequisite'),
-                                          content: const Text(
-                                              'You need atleast two players to create a game'),
-                                          actions: <Widget>[
-                                            TextButton(
-                                              onPressed: () =>
-                                                  Navigator.pop(context, 'OK'),
-                                              child: const Text('OK'),
-                                            ),
-                                          ],
-                                        ),
-                                      );
-                                    }
-                                  },
-                                  style: OutlinedButton.styleFrom(
-                                    backgroundColor: Colors.redAccent,
-                                    side: const BorderSide(
-                                        width: 1.5, color: Colors.red),
-                                    shape: RoundedRectangleBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(20.0)),
-                                  ),
-                                  child: const Text(
-                                    "New Game",
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
+                              ),
+                            ],
                           ),
                           const SizedBox(
                             height: 15,
@@ -195,6 +188,7 @@ class RecentGames extends StatelessWidget {
                         style: OutlinedButton.styleFrom(
                           side:
                               const BorderSide(width: 1.0, color: Colors.white),
+                          padding: EdgeInsets.zero,
                         ),
                         child: Row(
                           children: const [
@@ -203,7 +197,7 @@ class RecentGames extends StatelessWidget {
                             SizedBox(
                               width: 10,
                             ),
-                            Text(" View All Games"),
+                            Text("View All Games"),
                           ],
                         ),
                       )

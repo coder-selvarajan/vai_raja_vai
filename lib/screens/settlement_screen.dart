@@ -195,7 +195,7 @@ class _SettlementScreenState extends State<SettlementScreen> {
             child: Column(
               children: [
                 Padding(
-                  padding: const EdgeInsets.fromLTRB(30, 10, 30, 30),
+                  padding: const EdgeInsets.fromLTRB(25, 5, 25, 30),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
@@ -285,7 +285,7 @@ class _SettlementScreenState extends State<SettlementScreen> {
                               mainAxisSize: MainAxisSize.min,
                               children: [
                                 Text(
-                                  "${playerStatus.player}",
+                                  playerStatus.player,
                                   style: textTheme.subtitle2,
                                 ),
                                 Text(
@@ -293,8 +293,8 @@ class _SettlementScreenState extends State<SettlementScreen> {
                                     style: TextStyle(
                                         fontSize: textTheme.subtitle2!.fontSize,
                                         color: playerStatus.gainlossAmount >= 0
-                                            ? Colors.green.shade700
-                                            : Colors.red.shade800,
+                                            ? Colors.green.shade500
+                                            : Colors.red.shade700,
                                         fontWeight:
                                             playerStatus.gainlossAmount >= 0
                                                 ? FontWeight.w700

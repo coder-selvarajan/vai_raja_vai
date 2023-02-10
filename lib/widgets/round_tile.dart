@@ -33,6 +33,8 @@ class RoundTile extends StatelessWidget {
     final TextTheme textTheme = Theme.of(context).textTheme;
     return ListTile(
       // onLongPress: longPressCallback,
+      contentPadding: EdgeInsets.all(0.0),
+      horizontalTitleGap: 10.0,
       leading: CircleAvatar(
         radius: 15.0,
         child: Text(
