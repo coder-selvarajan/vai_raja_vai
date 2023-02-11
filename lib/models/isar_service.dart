@@ -1,6 +1,7 @@
 import 'package:isar/isar.dart';
 import 'package:vai_raja_vai/models/game.dart';
 import 'package:vai_raja_vai/models/player.dart';
+import 'package:vai_raja_vai/models/setting.dart';
 
 class IsarService {
   late Future<Isar> db;
@@ -12,7 +13,7 @@ class IsarService {
   Future<Isar> openDB() async {
     if (Isar.instanceNames.isEmpty) {
       return await Isar.open(
-        [PlayerSchema, GameSchema],
+        [PlayerSchema, GameSchema, SettingSchema],
         inspector: true,
       );
     }
@@ -65,6 +66,16 @@ class IsarService {
   Stream<List<Player>> streamPlayers() async* {
     final isar = await db;
     yield* isar.players.where().watch(fireImmediately: true);
+  }
+
+  Future<Setting?> getSettings() async {
+    final isar = await db;
+    return await isar.settings.where().findFirst();
+  }
+
+  Future<void> saveSetting(Setting newSetting) async {
+    final isar = await db;
+    isar.writeTxnSync<int>(() => isar.settings.putSync(newSetting));
   }
 
   Future<List<Player>> getPlayersList() async {

@@ -1,13 +1,43 @@
 import 'package:flutter/material.dart';
+import 'package:vai_raja_vai/models/setting.dart';
 import 'package:vai_raja_vai/screens/edit_autocomplete_screen.dart';
 
-class Settings extends StatelessWidget {
-  const Settings({Key? key}) : super(key: key);
+import '../models/isar_service.dart';
+
+class Settings extends StatefulWidget {
+  Settings({Key? key}) : super(key: key);
+  Setting setting = Setting()
+    ..denominations = [0, 10]
+    ..autoClosureHours = 3;
+
+  @override
+  State<Settings> createState() => _SettingsState();
+}
+
+class _SettingsState extends State<Settings> {
+  Future<void> fetchSettings() async {
+    var temp = await IsarService().getSettings();
+    if (temp == null) {
+      await IsarService().saveSetting(Setting());
+      temp = await IsarService().getSettings();
+    }
+    setState(() {
+      widget.setting = temp!;
+    });
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    if (mounted) {
+      fetchSettings();
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     final List<String> denominations = ["0", "10", "20", "40", "80"];
-
     final TextTheme textTheme = Theme.of(context).textTheme;
 
     return Scaffold(
@@ -104,7 +134,8 @@ class Settings extends StatelessWidget {
             ),
             Wrap(
               spacing: 5.0,
-              children: denominations.map((String dina) {
+              // children: denominations.map((String dina) {
+              children: widget.setting.denominations.map((int dina) {
                 return Chip(
                   label: Text(" $dina ",
                       style: TextStyle(
