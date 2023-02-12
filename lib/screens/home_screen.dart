@@ -6,6 +6,10 @@ import 'package:vai_raja_vai/screens/players_screen.dart';
 import 'package:vai_raja_vai/screens/settings.dart';
 import 'package:vai_raja_vai/widgets/recent_games.dart';
 
+import 'about.dart';
+
+enum MenuItem { Settings, About }
+
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
 
@@ -59,33 +63,84 @@ class _HomeScreenState extends State<HomeScreen> {
                         Image.asset(
                           "assets/VRV_Logo.png",
                           // height: 100.0,
-                          width: 200.0,
+                          width: 180.0,
                         ),
                         const SizedBox(
                           height: 2,
                         ),
-                        const Text(
+                        Text(
                           "Money splitter for card game",
                           style: TextStyle(
                             color: Colors.black54,
-                            fontSize: 15.0,
+                            fontSize: textTheme.bodyMedium!.fontSize,
                           ),
                         ),
                       ],
                     ),
                     Spacer(),
-                    InkWell(
-                      child: Icon(
-                        Icons.settings,
-                        size: 30.0,
-                      ),
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => Settings()),
-                        );
-                      },
-                    )
+                    PopupMenuButton(
+                        // add icon, by default "3 dot" icon
+                        icon: Icon(Icons.menu_rounded),
+                        color: Colors.grey.shade100,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(15.0),
+                          ),
+                        ),
+                        itemBuilder: (context) {
+                          return [
+                            PopupMenuItem<int>(
+                              value: 0,
+                              child: Row(
+                                children: [
+                                  Icon(
+                                    Icons.settings,
+                                    color: Colors.black87,
+                                  ),
+                                  SizedBox(
+                                    width: 5.0,
+                                  ),
+                                  Text(
+                                    "Settings",
+                                    // style: TextStyle(color: Colors.red),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            PopupMenuItem<int>(
+                              value: 1,
+                              child: Row(
+                                children: [
+                                  Icon(
+                                    Icons.info_outline,
+                                    color: Colors.black87,
+                                  ),
+                                  SizedBox(
+                                    width: 5.0,
+                                  ),
+                                  Text(
+                                    "About",
+                                    // style: TextStyle(color: Colors.red),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ];
+                        },
+                        onSelected: (value) {
+                          if (value == 0) {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => Settings()),
+                            );
+                          } else if (value == 1) {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) => About()),
+                            );
+                          }
+                        }),
                   ],
                 ),
                 elevation: 0,
