@@ -80,9 +80,9 @@ class _HomeScreenState extends State<HomeScreen> {
                     Spacer(),
                     PopupMenuButton(
                         // add icon, by default "3 dot" icon
-                        icon: Icon(Icons.menu_rounded),
+                        icon: const Icon(Icons.density_medium),
                         color: Colors.grey.shade100,
-                        shape: RoundedRectangleBorder(
+                        shape: const RoundedRectangleBorder(
                           borderRadius: BorderRadius.all(
                             Radius.circular(15.0),
                           ),
@@ -291,12 +291,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                 Wrap(
                                   spacing: 5.0,
                                   children: players.map((Player player) {
-                                    return FilterChip(
+                                    return Chip(
                                       label: Text(player.name),
-                                      selected: _selected.contains(player),
-                                      onSelected: (bool value) {
-                                        //
-                                      },
                                     );
                                   }).toList(),
                                 ),

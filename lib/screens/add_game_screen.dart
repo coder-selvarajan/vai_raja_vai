@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:provider/provider.dart';
 import 'package:vai_raja_vai/models/game.dart';
 import 'package:vai_raja_vai/models/isar_service.dart';
 import '../models/player.dart';
@@ -184,14 +183,11 @@ class _AddGameState extends State<AddGame> {
                       ),
                       onPressed: () {
                         if (place.isNotEmpty && selectedPlayers.length > 1) {
-                          // provider.addCutfor(
-                          //     _selected, place, gameTime, "Progressing");
-
                           IsarService().saveGame(Game()
                             ..players = selectedPlayers
                             ..place = place
                             ..time = gameTime
-                            ..status = Status.Progressing
+                            ..status = Status.Ongoing
                             ..rounds = null);
 
                           Navigator.pop(context);

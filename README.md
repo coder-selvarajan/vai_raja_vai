@@ -1,16 +1,13 @@
-# vai_raja_vai
+# Vai Raja Vai (வை ராஜா வை)
 
-A new Flutter project.
+A simple money splitter app for card game played among friends. It takes entries like who won and who pays what etc.. for each round and calculates the money split-up at the end of the game.
 
-## Getting Started
+It's an ad free app. It does n't require internet connectivity or access to any of the information from the user's phone.
 
-This project is a starting point for a Flutter application.
+- Technologies used: Flutter & Isar Local DB
+- Developer Website: https://selvarajan.in
 
-A few resources to get you started if this is your first Flutter project:
+##### Image/Icon Attribution:
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+- [Playing cards icons created by Hilmy Abiyyu A. - Flaticon](https://www.flaticon.com/free-icons/playing-cards)
+- [Rupee icons created by YI-PIN - Flaticon](https://www.flaticon.com/free-icons/rupee)

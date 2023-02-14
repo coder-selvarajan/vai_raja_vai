@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:vai_raja_vai/models/game.dart';
 import 'package:vai_raja_vai/widgets/round_tile.dart';
 import '../screens/settlement_screen.dart';

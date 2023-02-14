@@ -1,9 +1,16 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class About extends StatelessWidget {
   const About({Key? key}) : super(key: key);
+
+  Future<void> _launchUrl(Uri _url) async {
+    if (!await launchUrl(_url)) {
+      throw Exception('Could not launch $_url');
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -58,24 +65,61 @@ class About extends StatelessWidget {
               "வை ராஜா வை (Vai Raja Vai)",
               style: TextStyle(fontSize: textTheme.titleLarge!.fontSize),
             ),
-            SizedBox(
+            const SizedBox(
+              height: 20,
+            ),
+            const Text(
+                "A simple money splitter app for card game played among friends. It takes entries like who won and who pays what etc.. for each round and calculates the money split-up at the end of the game."),
+            const SizedBox(
+              height: 20,
+            ),
+            const Text(
+                "It's an ad free app. It does n't require internet connectivity or access to any of the information from the user's phone."),
+            const SizedBox(
+              height: 20,
+            ),
+            const Text("Technologies used: Flutter & Isar Local DB"),
+            const SizedBox(
+              height: 20,
+            ),
+            const Text("Developer website : https://selvarajan.in"),
+            const SizedBox(
               height: 20,
             ),
             Text(
-                "It's a simple money splitter app for card game played among friends and family. It takes entries like who won the round and who pays what for each round of a game and then it quickly run thru the entries and generate a report of gain/loss and the details of money split among the players."),
-            SizedBox(
-              height: 20,
+              "Image/Icon Attribution:",
+              style: TextStyle(
+                  fontSize: textTheme.titleSmall!.fontSize,
+                  fontWeight: FontWeight.w400),
             ),
-            Text(
-                "Notes: It's a free app(ad-free too) and it does n't require internet connectivity or access to any of the information from the phone. "),
-            SizedBox(
-              height: 20,
+            const SizedBox(
+              height: 10,
             ),
-            Text("Technologies used: Flutter & Isar Local DB"),
-            SizedBox(
-              height: 20,
+            InkWell(
+              child: Text(
+                'Playing cards icons created by Hilmy Abiyyu A. - Flaticon',
+                style: textTheme.caption,
+              ),
+              onTap: () async {
+                final Uri _url = Uri.parse(
+                    'https://www.flaticon.com/free-icons/playing-cards');
+                _launchUrl(_url);
+              },
             ),
-            Text("More details: https://apps.selvarajan.in"),
+            const SizedBox(
+              height: 10,
+            ),
+            InkWell(
+              child: Text(
+                'Rupee icons created by YI-PIN - Flaticon',
+                style: textTheme.caption,
+              ),
+              onTap: () async {
+                final Uri _url =
+                    Uri.parse('https://www.flaticon.com/free-icons/rupee');
+                _launchUrl(_url);
+              },
+            ),
           ],
         ),
       ),

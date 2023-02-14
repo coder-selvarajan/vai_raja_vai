@@ -2,17 +2,19 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:provider/provider.dart';
-
 import '../models/game.dart';
 import '../models/isar_service.dart';
-
-List<String> amountList = <String>['Win', '0', '20', '40', '80'];
 
 class AddRound extends StatefulWidget {
   final Game game;
   final int roundNo;
-  const AddRound({Key? key, required this.game, required this.roundNo})
+  final List<String> amountList;
+
+  AddRound(
+      {Key? key,
+      required this.game,
+      required this.roundNo,
+      required this.amountList})
       : super(key: key);
 
   @override
@@ -45,9 +47,6 @@ class _AddRoundState extends State<AddRound> {
   @override
   Widget build(BuildContext context) {
     final TextTheme textTheme = Theme.of(context).textTheme;
-
-    // var provider = Provider.of<GameData>(context);
-    var timeNow = DateTime.now();
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -171,7 +170,7 @@ class _AddRoundState extends State<AddRound> {
                                         selectedValue[index] = value!;
                                       });
                                     },
-                                    items: amountList
+                                    items: widget.amountList
                                         .map<DropdownMenuItem<String>>(
                                             (String value) {
                                       return DropdownMenuItem<String>(

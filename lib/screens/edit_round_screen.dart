@@ -4,12 +4,15 @@ import 'package:intl/intl.dart';
 import '../models/game.dart';
 import '../models/isar_service.dart';
 
-List<String> amountList = <String>['Win', '0', '20', '40', '80'];
-
 class EditRound extends StatefulWidget {
   final Game game;
   final Round round;
-  const EditRound({Key? key, required this.round, required this.game})
+  final List<String> amountList;
+  const EditRound(
+      {Key? key,
+      required this.round,
+      required this.game,
+      required this.amountList})
       : super(key: key);
 
   @override
@@ -32,6 +35,24 @@ class _EditRoundState extends State<EditRound> {
     super.dispose();
   }
 
+  void showMessage(String title, String msg) {
+    showDialog<String>(
+      context: context,
+      builder: (BuildContext context) => AlertDialog(
+        title: Text(title),
+        content: Text(msg),
+        shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.all(Radius.circular(15.0))),
+        actions: <Widget>[
+          TextButton(
+            onPressed: () => Navigator.pop(context, 'OK'),
+            child: const Text('OK'),
+          ),
+        ],
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final TextTheme textTheme = Theme.of(context).textTheme;
@@ -42,7 +63,7 @@ class _EditRoundState extends State<EditRound> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: PreferredSize(
-        preferredSize: Size.fromHeight(80), //height of appbar
+        preferredSize: const Size.fromHeight(80), //height of appbar
         child: Container(
           color: Colors.redAccent,
           child: Column(
@@ -70,7 +91,7 @@ class _EditRoundState extends State<EditRound> {
       body: LayoutBuilder(
           builder: (BuildContext context, BoxConstraints viewportConstraints) {
         return SingleChildScrollView(
-          physics: ScrollPhysics(),
+          physics: const ScrollPhysics(),
           child: Column(
             children: [
               Padding(
@@ -79,7 +100,7 @@ class _EditRoundState extends State<EditRound> {
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
                     Container(
-                      padding: EdgeInsets.all(20.0),
+                      padding: const EdgeInsets.all(20.0),
                       decoration: BoxDecoration(
                         color: Colors.grey.withOpacity(0.25),
                         borderRadius: BorderRadius.circular(10),
@@ -115,7 +136,7 @@ class _EditRoundState extends State<EditRound> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text("Entries: ", style: textTheme.titleLarge),
-                        SizedBox(
+                        const SizedBox(
                           height: 4,
                         ),
                         Text(
@@ -128,31 +149,31 @@ class _EditRoundState extends State<EditRound> {
                       height: 10,
                     ),
                     ListView.separated(
-                      padding: EdgeInsets.only(bottom: 10.0),
-                      physics: NeverScrollableScrollPhysics(),
+                      padding: const EdgeInsets.only(bottom: 10.0),
+                      physics: const NeverScrollableScrollPhysics(),
                       shrinkWrap: true,
                       itemCount: widget.round.entries.length,
                       itemBuilder: (BuildContext context, int index) {
                         return Container(
                           height: 45,
-                          padding: EdgeInsets.all(2.0),
+                          padding: const EdgeInsets.all(2.0),
                           child: Center(
                             child: Row(
                               children: [
                                 Text(
                                   widget.round.entries[index].player,
-                                  style: TextStyle(fontSize: 16.0),
+                                  style: const TextStyle(fontSize: 16.0),
                                 ),
-                                Spacer(),
+                                const Spacer(),
                                 Container(
-                                  padding: EdgeInsets.only(
+                                  padding: const EdgeInsets.only(
                                       left: 12, top: 0, bottom: 0),
                                   decoration: BoxDecoration(
                                       border: Border.all(
                                           color: Colors.grey, width: 1),
                                       borderRadius: BorderRadius.circular(10)),
                                   child: DropdownButton<String>(
-                                    underline: SizedBox(),
+                                    underline: const SizedBox(),
                                     value: selectedValue[index],
                                     iconSize: 30,
                                     icon: const Icon(Icons.arrow_drop_down),
@@ -161,7 +182,7 @@ class _EditRoundState extends State<EditRound> {
                                         selectedValue[index] = value!;
                                       });
                                     },
-                                    items: amountList
+                                    items: widget.amountList
                                         .map<DropdownMenuItem<String>>(
                                             (String value) {
                                       return DropdownMenuItem<String>(
@@ -184,67 +205,61 @@ class _EditRoundState extends State<EditRound> {
                     const SizedBox(
                       height: 30,
                     ),
-                    ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.red,
-                        textStyle:
-                            const TextStyle(fontSize: 20, color: Colors.white),
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(15.0)),
-                      ),
-                      onPressed: () {
-                        if (selectedValue
-                                .where((element) => element == "Win")
-                                .length ==
-                            1) {
-                          List<RoundEntry> entries = [];
-                          for (var i = 0;
-                              i < widget.round.entries.length;
-                              i++) {
-                            entries.add(RoundEntry()
-                              ..player = widget.round.entries[i].player
-                              ..toPay = int.parse((selectedValue[i] == "Win"
-                                  ? "-1"
-                                  : selectedValue[i])));
-                          }
-                          // provider.editRound(widget.round.id!, entries);
-                          List<Round> rounds = [...widget.game.rounds!];
-                          for (int i = 0; i < rounds.length; i++) {
-                            if (rounds[i] == widget.round) {
-                              rounds[i].entries = entries;
-                            }
-                          }
-                          widget.game.rounds = rounds;
-                          IsarService().saveGame(widget.game);
-
-                          Navigator.pop(context);
-                        } else {
-                          //no players are selected
-                          //display alert here
-                          showDialog<String>(
-                            context: context,
-                            builder: (BuildContext context) => AlertDialog(
-                              title: const Text('Invalid Input!'),
-                              content: const Text('There should be one winner'),
-                              shape: const RoundedRectangleBorder(
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(15.0))),
-                              actions: <Widget>[
-                                TextButton(
-                                  onPressed: () => Navigator.pop(context, 'OK'),
-                                  child: const Text('OK'),
-                                ),
-                              ],
+                    (widget.game.status == Status.Ongoing
+                        ? ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.red,
+                              textStyle: const TextStyle(
+                                  fontSize: 20, color: Colors.white),
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(15.0)),
                             ),
-                          );
-                        }
-                        // }
-                      },
-                      child: const Padding(
-                        padding: EdgeInsets.all(15.0),
-                        child: Text('Update Round'),
-                      ),
-                    ),
+                            onPressed: () {
+                              if (widget.game.status == Status.Ended) {
+                                showMessage("Game Ended!",
+                                    "Can't update entries once the game is ended.");
+                                return;
+                              }
+                              if (selectedValue
+                                      .where((element) => element == "Win")
+                                      .length ==
+                                  1) {
+                                List<RoundEntry> entries = [];
+                                for (var i = 0;
+                                    i < widget.round.entries.length;
+                                    i++) {
+                                  entries.add(RoundEntry()
+                                    ..player = widget.round.entries[i].player
+                                    ..toPay = int.parse(
+                                        (selectedValue[i] == "Win"
+                                            ? "-1"
+                                            : selectedValue[i])));
+                                }
+                                // provider.editRound(widget.round.id!, entries);
+                                List<Round> rounds = [...widget.game.rounds!];
+                                for (int i = 0; i < rounds.length; i++) {
+                                  if (rounds[i] == widget.round) {
+                                    rounds[i].entries = entries;
+                                  }
+                                }
+                                widget.game.rounds = rounds;
+                                IsarService().saveGame(widget.game);
+
+                                Navigator.pop(context);
+                              } else {
+                                //no players are selected
+                                //display alert here
+                                showMessage("Invalid Input!",
+                                    "There should be one winner");
+                              }
+                              // }
+                            },
+                            child: const Padding(
+                              padding: EdgeInsets.all(15.0),
+                              child: Text('Update Round'),
+                            ),
+                          )
+                        : const SizedBox()),
                   ],
                 ),
               ),

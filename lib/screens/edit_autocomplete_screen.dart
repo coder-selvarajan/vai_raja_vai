@@ -1,23 +1,60 @@
 import 'package:flutter/material.dart';
 
-List<String> hours = <String>['2 hours', '3 hours', '4 hours', '5 hours'];
-List<int> hoursInt = <int>[2, 3, 4, 5];
+import '../models/isar_service.dart';
+import '../models/setting.dart';
+
+List<String> hours = <String>['2 hours', '4 hours', '6 hours', '10 hours'];
+List<int> hoursInt = <int>[2, 4, 6, 10];
 
 class EditAutocomplete extends StatefulWidget {
-  const EditAutocomplete({Key? key}) : super(key: key);
+  EditAutocomplete({Key? key}) : super(key: key);
+
+  Setting setting = Setting();
+  int autoClosureHour = 2;
+  String _selectedHour = '2 hours';
 
   @override
   State<EditAutocomplete> createState() => _EditAutocompleteState();
 }
 
 class _EditAutocompleteState extends State<EditAutocomplete> {
-  String _selectedHour = "2 hours";
+  Future<void> fetchSettings() async {
+    var temp = await IsarService().getSettings();
+    if (temp == null) {
+      await IsarService().saveSetting(Setting());
+      temp = await IsarService().getSettings();
+    }
+    setState(() {
+      widget.autoClosureHour = temp!.autoClosureHours;
+      widget._selectedHour = widget.autoClosureHour.toString() + " hours";
+      widget.setting = temp!;
+    });
+  }
+
+  Future<void> saveSettings() async {
+    widget.setting.autoClosureHours = widget.autoClosureHour;
+    await IsarService().saveSetting(widget.setting);
+    var temp = await IsarService().getSettings();
+
+    setState(() {
+      widget.autoClosureHour = temp!.autoClosureHours;
+      widget.setting = temp!;
+    });
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+
+    if (mounted) {
+      fetchSettings();
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
-    String name = "";
     final TextTheme textTheme = Theme.of(context).textTheme;
-    late List<String> selectedValue = [];
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -92,14 +129,16 @@ class _EditAutocompleteState extends State<EditAutocomplete> {
                       ),
                       child: DropdownButton<String>(
                         underline: SizedBox(),
-                        value: _selectedHour,
+                        value: widget._selectedHour,
                         iconSize: 40,
                         // iconEnabledColor: Colors.red,
                         isExpanded: true,
                         onChanged: (String? value) {
                           if (value is String) {
                             setState(() {
-                              _selectedHour = value;
+                              widget._selectedHour = value;
+                              widget.autoClosureHour =
+                                  int.parse(value.replaceAll(" hours", ""));
                             });
                           }
                         },
@@ -129,11 +168,11 @@ class _EditAutocompleteState extends State<EditAutocomplete> {
                             borderRadius: BorderRadius.circular(15.0)),
                       ),
                       onPressed: () {
-                        if (_selectedHour.isNotEmpty) {
-                          // isarService.savePlayer(Player()..name = name);
+                        if (widget._selectedHour.isNotEmpty) {
+                          // save to db
+                          saveSettings();
                           Navigator.pop(context);
                         }
-                        // }
                       },
                       child: const Padding(
                         padding: EdgeInsets.all(15.0),

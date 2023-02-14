@@ -16,8 +16,8 @@ class Game {
 }
 
 enum Status {
-  Progressing(0),
-  Completed(1);
+  Ongoing(0),
+  Ended(1);
 
   const Status(this.myValue);
   final short myValue;

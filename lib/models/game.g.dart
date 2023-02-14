@@ -167,12 +167,12 @@ P _gameDeserializeProp<P>(
 }
 
 const _GamestatusEnumValueMap = {
-  r'Progressing': r'Progressing',
-  r'Completed': r'Completed',
+  r'Ongoing': r'Ongoing',
+  r'Ended': r'Ended',
 };
 const _GamestatusValueEnumMap = {
-  r'Progressing': Status.Progressing,
-  r'Completed': Status.Completed,
+  r'Ongoing': Status.Ongoing,
+  r'Ended': Status.Ended,
 };
 
 Id _gameGetId(Game object) {

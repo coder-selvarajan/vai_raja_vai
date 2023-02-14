@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:vai_raja_vai/models/setting.dart';
 import 'package:vai_raja_vai/screens/edit_autocomplete_screen.dart';
+import 'package:vai_raja_vai/screens/update_denomination.dart';
 
 import '../models/isar_service.dart';
 
@@ -39,6 +40,7 @@ class _SettingsState extends State<Settings> {
   Widget build(BuildContext context) {
     final List<String> denominations = ["0", "10", "20", "40", "80"];
     final TextTheme textTheme = Theme.of(context).textTheme;
+    fetchSettings();
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -107,7 +109,13 @@ class _SettingsState extends State<Settings> {
                   ),
                   const Spacer(),
                   OutlinedButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => UpdateDenomination()),
+                      );
+                    },
                     style: OutlinedButton.styleFrom(
                       backgroundColor: Colors.redAccent,
                       side: const BorderSide(width: 1.5, color: Colors.red),
@@ -115,7 +123,7 @@ class _SettingsState extends State<Settings> {
                           borderRadius: BorderRadius.circular(20.0)),
                     ),
                     child: const Text(
-                      "Update",
+                      "Change",
                       style: TextStyle(
                         color: Colors.white,
                       ),
@@ -214,7 +222,7 @@ class _SettingsState extends State<Settings> {
                   borderRadius: BorderRadius.circular(5.0),
                 ),
                 child: Text(
-                  "2 hours",
+                  widget.setting.autoClosureHours.toString() + " hours",
                   style: TextStyle(
                     // color: Colors.red.shade700,
                     fontSize: textTheme.titleMedium!.fontSize,

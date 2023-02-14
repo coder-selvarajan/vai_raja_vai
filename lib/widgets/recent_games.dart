@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:vai_raja_vai/widgets/game_tile.dart';
 import '../models/game.dart';
 import '../models/isar_service.dart';
@@ -101,8 +100,8 @@ class RecentGames extends StatelessWidget {
                           Row(
                             children: [
                               const Icon(
-                                Icons.article_outlined,
-                                size: 30.0,
+                                Icons.av_timer_sharp,
+                                size: 32.0,
                                 color: Colors.red,
                               ),
                               const SizedBox(

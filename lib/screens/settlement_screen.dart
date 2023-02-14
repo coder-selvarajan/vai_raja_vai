@@ -2,12 +2,12 @@ import 'dart:async';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:provider/provider.dart';
 import 'package:vai_raja_vai/models/game.dart';
+import 'package:vai_raja_vai/models/isar_service.dart';
 
 class SettlementScreen extends StatefulWidget {
-  final Game game;
-  const SettlementScreen({Key? key, required this.game}) : super(key: key);
+  Game game;
+  SettlementScreen({Key? key, required this.game}) : super(key: key);
 
   @override
   State<SettlementScreen> createState() => _SettlementScreenState();
@@ -391,7 +391,56 @@ class _SettlementScreenState extends State<SettlementScreen> {
                         ),
                       ),
                       const SizedBox(
-                        height: 30,
+                        height: 15,
+                      ),
+                      (widget.game.status == Status.Ongoing
+                          ? ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: Colors.red,
+                                textStyle: const TextStyle(
+                                    fontSize: 20, color: Colors.white),
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(15.0)),
+                              ),
+                              onPressed: () {
+                                showDialog<String>(
+                                  context: context,
+                                  builder: (BuildContext context) =>
+                                      AlertDialog(
+                                    title: const Text('End Game?'),
+                                    content: const Text(
+                                        'Are you sure to end this game?'),
+                                    shape: const RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(15.0))),
+                                    actions: <Widget>[
+                                      TextButton(
+                                        onPressed: () {
+                                          widget.game.status = Status.Ended;
+                                          IsarService().saveGame(widget.game);
+
+                                          Navigator.pop(context);
+                                          Navigator.pop(context, "OK");
+                                        },
+                                        child: const Text('Yes'),
+                                      ),
+                                      TextButton(
+                                        onPressed: () =>
+                                            Navigator.pop(context, 'Cancel'),
+                                        child: const Text('Cancel'),
+                                      ),
+                                    ],
+                                  ),
+                                );
+                              },
+                              child: const Padding(
+                                padding: EdgeInsets.all(15.0),
+                                child: Text('End the Game'),
+                              ),
+                            )
+                          : SizedBox()),
+                      const SizedBox(
+                        height: 10,
                       ),
                     ],
                   ),

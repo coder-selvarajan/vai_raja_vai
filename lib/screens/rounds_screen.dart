@@ -35,24 +35,21 @@ class RoundsScreen extends StatelessWidget {
                 backgroundColor: Colors.redAccent,
                 title: Row(
                   children: [
-                    Icon(
-                      Icons.info_outline,
+                    const Icon(
+                      Icons.manage_search,
                       size: 35.0,
                       color: Colors.white,
                     ),
-                    SizedBox(
+                    const SizedBox(
                       width: 10,
                     ),
-                    Text("Game Info, Rounds"),
-                    Spacer(),
+                    const Text("Game Info, Rounds"),
+                    const Spacer(),
                     InkWell(
-                      child: CircleAvatar(
-                        backgroundColor: Colors.white.withOpacity(0.85),
-                        child: Icon(
-                          Icons.delete_rounded,
-                          size: 25.0,
-                          color: Colors.red,
-                        ),
+                      child: const Icon(
+                        Icons.delete_rounded,
+                        size: 30.0,
+                        color: Colors.white,
                       ),
                       onTap: () {
                         showDialog<String>(
@@ -200,7 +197,22 @@ class RoundsScreen extends StatelessWidget {
                                   SizedBox(
                                     width: 10,
                                   ),
-                                  Text("Status: ${describeEnum(game.status!)}"),
+                                  Row(
+                                    children: [
+                                      Text(
+                                          "Game ${describeEnum(game.status!)}"),
+                                      SizedBox(
+                                        width: 5,
+                                      ),
+                                      (game.status! == Status.Ongoing
+                                          ? const Icon(
+                                              Icons.circle_rounded,
+                                              color: Colors.green,
+                                              size: 10.0,
+                                            )
+                                          : SizedBox())
+                                    ],
+                                  ),
                                 ],
                               ),
                             ],
@@ -217,7 +229,7 @@ class RoundsScreen extends StatelessWidget {
                               crossAxisAlignment: CrossAxisAlignment.center,
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: [
-                                if (game.status! == Status.Progressing)
+                                if (game.status! == Status.Ongoing)
                                   OutlinedButton(
                                     style: OutlinedButton.styleFrom(
                                       backgroundColor: Colors.redAccent,
@@ -227,7 +239,10 @@ class RoundsScreen extends StatelessWidget {
                                           borderRadius:
                                               BorderRadius.circular(20.0)),
                                     ),
-                                    onPressed: () {
+                                    onPressed: () async {
+                                      var temp =
+                                          await IsarService().getSettings();
+
                                       Navigator.push(
                                         context,
                                         MaterialPageRoute(
@@ -237,6 +252,11 @@ class RoundsScreen extends StatelessWidget {
                                                     ? 0
                                                     : game.rounds!.length) +
                                                 1,
+                                            amountList: [
+                                              'Win',
+                                              ...temp!.denominations
+                                                  .map((e) => e.toString())
+                                            ],
                                           ),
                                         ),
                                       );

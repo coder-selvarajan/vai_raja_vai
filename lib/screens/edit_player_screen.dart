@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 import '../models/isar_service.dart';
 import '../models/player.dart';

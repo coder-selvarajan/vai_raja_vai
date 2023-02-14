@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:provider/provider.dart';
 import 'package:vai_raja_vai/models/isar_service.dart';
 import 'package:vai_raja_vai/models/player.dart';
 

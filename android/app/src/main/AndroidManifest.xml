@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="in.selvarajan.vai_raja_vai">
    <application
-        android:label="vai_raja_vai"
+        android:label="Vai Raja Vai"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity

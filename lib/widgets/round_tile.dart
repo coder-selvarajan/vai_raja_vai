@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:vai_raja_vai/screens/edit_round_screen.dart';
 import '../models/game.dart';
+import '../models/isar_service.dart';
 
 class RoundTile extends StatelessWidget {
   Game game;
@@ -52,7 +53,6 @@ class RoundTile extends StatelessWidget {
             // style: const TextStyle(fontWeight: FontWeight.bold),
             style: textTheme.bodyLarge,
           ),
-
           Wrap(
             children: round.entries.map((RoundEntry re) {
               return Padding(
@@ -73,7 +73,7 @@ class RoundTile extends StatelessWidget {
                     ),
                     (re.toPay == -1
                         ? Icon(
-                            Icons.star_border,
+                            Icons.star,
                             size: 15.0,
                             color: Colors.green.shade700,
                           )
@@ -83,14 +83,6 @@ class RoundTile extends StatelessWidget {
               );
             }).toList(),
           ),
-          // Text(
-          //   round.entries
-          //       .map((e) =>
-          //           "${e.player.toUpperCase().substring(0, 2)} ${formatAmount(e.toPay)}")
-          //       .join(' - '),
-          //   style: textTheme.bodyMedium,
-          // ),
-          // const Text("took 5 mins.."),
         ],
       ),
       trailing: const Icon(
@@ -98,13 +90,26 @@ class RoundTile extends StatelessWidget {
         size: 25.0,
         color: Colors.red,
       ),
-      onTap: () {
+      onTap: () async {
+        var temp = await IsarService().getSettings();
+
+        // Add denominations from existing entries + denomination setup.
+        var entries = round.entries
+            .map((e) => e.toPay == -1 ? 'Win' : e.toPay.toString())
+            .toList();
+        List<String> newList = [
+          ...entries.toList(),
+          ...temp!.denominations.map((e) => e.toString())
+        ];
+        newList.sort();
+
         Navigator.push(
           context,
           MaterialPageRoute(
               builder: (context) => EditRound(
                     round: round,
                     game: game,
+                    amountList: [...newList.toSet().toList()],
                   )),
         );
       },

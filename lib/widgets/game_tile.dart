@@ -5,7 +5,7 @@ import 'package:vai_raja_vai/models/game.dart';
 import '../screens/rounds_screen.dart';
 
 class GameTile extends StatelessWidget {
-  final Game game;
+  Game game;
 
   GameTile({
     super.key,
@@ -30,7 +30,7 @@ class GameTile extends StatelessWidget {
             DateFormat('EE MMMd').format(game.time),
             style: TextStyle(
                 fontSize: textTheme.caption!.fontSize,
-                fontWeight: FontWeight.bold,
+                // fontWeight: FontWeight.bold,
                 color: Colors.black87),
           ),
           // const SizedBox(
@@ -69,14 +69,28 @@ class GameTile extends StatelessWidget {
                 .join(', '),
             style: textTheme.subtitle2,
           ),
-          Text(
-            (game.rounds == null
-                    ? ""
-                    : (game.rounds!.length == 1
-                        ? "${game.rounds!.length} round, "
-                        : "${game.rounds!.length} rounds, ")) +
-                describeEnum(game.status!),
-            style: textTheme.bodyMedium,
+          Row(
+            children: [
+              Text(
+                (game.rounds == null
+                        ? "Game "
+                        : (game.rounds!.length == 1
+                            ? "${game.rounds!.length} Round, Game "
+                            : "${game.rounds!.length} Rounds, Game ")) +
+                    describeEnum(game.status!),
+                style: textTheme.bodySmall,
+              ),
+              const SizedBox(
+                width: 5.0,
+              ),
+              (game.status! == Status.Ongoing
+                  ? const Icon(
+                      Icons.circle_rounded,
+                      color: Colors.green,
+                      size: 10.0,
+                    )
+                  : SizedBox()),
+            ],
           ),
         ],
       ),

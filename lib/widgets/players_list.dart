@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:vai_raja_vai/models/player.dart';
 import 'package:vai_raja_vai/screens/add_player_screen.dart';
 import 'package:vai_raja_vai/widgets/player_tile.dart';

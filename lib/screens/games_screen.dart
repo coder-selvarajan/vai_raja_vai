@@ -23,7 +23,7 @@ class GamesScreen extends StatelessWidget {
                 title: Row(
                   children: const [
                     Icon(
-                      Icons.info_outline,
+                      Icons.apps,
                       size: 30.0,
                       color: Colors.white,
                     ),

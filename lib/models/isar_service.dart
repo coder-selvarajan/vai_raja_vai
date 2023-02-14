@@ -43,21 +43,25 @@ class IsarService {
     final isar = await db;
     await isar.writeTxn(() async {
       final success = await isar.games.delete(gameId);
-      // print('Recipe deleted: $success');
     });
   }
 
   Future<void> updateGameStatus() async {
     final isar = await db;
+
+    // get the auto-closure hour value from settings
+    var setting = await getSettings();
+
     await isar.writeTxn(() async {
       List<Game> games = await isar.games
           .filter()
-          .statusEqualTo(Status.Progressing)
-          .timeLessThan(DateTime.now().subtract(const Duration(hours: 2)))
+          .statusEqualTo(Status.Ongoing)
+          .timeLessThan(DateTime.now()
+              .subtract(Duration(hours: setting!.autoClosureHours)))
           .findAll();
 
       for (var game in games) {
-        game.status = Status.Completed;
+        game.status = Status.Ended;
         await isar.games.put(game);
       }
     });
@@ -70,7 +74,13 @@ class IsarService {
 
   Future<Setting?> getSettings() async {
     final isar = await db;
-    return await isar.settings.where().findFirst();
+    var temp = await isar.settings.where().findFirst();
+    // if no settings
+    if (temp == null) {
+      await isar.writeTxnSync<int>(() => isar.settings.putSync(Setting()));
+      temp = await isar.settings.where().findFirst();
+    }
+    return await temp;
   }
 
   Future<void> saveSetting(Setting newSetting) async {
