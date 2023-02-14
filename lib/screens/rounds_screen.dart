@@ -210,7 +210,7 @@ class RoundsScreen extends StatelessWidget {
                                               color: Colors.green,
                                               size: 10.0,
                                             )
-                                          : SizedBox())
+                                          : SizedBox()),
                                     ],
                                   ),
                                 ],

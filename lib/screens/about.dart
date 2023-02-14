@@ -69,18 +69,18 @@ class About extends StatelessWidget {
               height: 20,
             ),
             const Text(
-                "A simple money splitter app for card game played among friends. It takes entries like who won and who pays what etc.. for each round and calculates the money split-up at the end of the game."),
+                "A simple money splitter app for card games played among friends. It takes entries like who won, who pays what, etc.. from each round, and calculates the split-up. Finally it generates gain/loss and who-pays-whom reports for the players."),
             const SizedBox(
               height: 20,
             ),
             const Text(
-                "It's an ad free app. It does n't require internet connectivity or access to any of the information from the user's phone."),
+                "It is an ad free app requires no internet connectivity and it does n't need access to any of the information from the user's phone."),
             const SizedBox(
               height: 20,
             ),
             const Text("Technologies used: Flutter & Isar Local DB"),
             const SizedBox(
-              height: 20,
+              height: 10,
             ),
             const Text("Developer website : https://selvarajan.in"),
             const SizedBox(

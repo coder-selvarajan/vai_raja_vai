@@ -251,8 +251,22 @@ class _SettlementScreenState extends State<SettlementScreen> {
                                 SizedBox(
                                   width: 10,
                                 ),
-                                Text(
-                                    "Status: ${describeEnum(widget.game.status!)}"),
+                                Row(
+                                  children: [
+                                    Text(
+                                        "Game ${describeEnum(widget.game.status!)}"),
+                                    SizedBox(
+                                      width: 5,
+                                    ),
+                                    (widget.game.status! == Status.Ongoing
+                                        ? const Icon(
+                                            Icons.circle_rounded,
+                                            color: Colors.green,
+                                            size: 10.0,
+                                          )
+                                        : SizedBox()),
+                                  ],
+                                ),
                               ],
                             ),
                           ],
