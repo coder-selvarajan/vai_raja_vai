@@ -111,129 +111,133 @@ class _UpdateDenominationState extends State<UpdateDenomination> {
           ),
         ),
       ),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 25.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const Text(
-                "Current denominations in order: \n(You may delete/add denominations here)"),
-            const SizedBox(
-              height: 15.0,
-            ),
-            Wrap(
-              spacing: 5.0,
-              // children: denominations.map((String dina) {
-              children: widget.denominations.map((int deno) {
-                return Chip(
-                  label: Text(" $deno "),
-                  onDeleted: () {
-                    if (deno == 0) {
-                      showMessage("Cannot Delete '0'!",
-                          "'0' denomination is required as a default value");
-                    } else if (widget.denominations.length <= 2) {
-                      // cant allow
-                      showMessage('Cannot Delete! ',
-                          'Atleast two denomination values should exist');
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 25.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Text(
+                  "Current denominations in order: \n(You may delete/add denominations here)"),
+              const SizedBox(
+                height: 15.0,
+              ),
+              Wrap(
+                spacing: 5.0,
+                // children: denominations.map((String dina) {
+                children: widget.denominations.map((int deno) {
+                  return Chip(
+                    label: Text(" $deno "),
+                    onDeleted: () {
+                      if (deno == 0) {
+                        showMessage("Cannot Delete '0'!",
+                            "'0' denomination is required as a default value");
+                      } else if (widget.denominations.length <= 2) {
+                        // cant allow
+                        showMessage('Cannot Delete! ',
+                            'Atleast two denomination values should exist');
+                      } else {
+                        setState(() {
+                          widget.denominations
+                              .removeWhere((element) => element == deno);
+                          // inputs = inputs - 1;
+                        });
+                        formKey.currentState?.reset();
+                        // save to db
+                        saveSettings();
+                      }
+                    },
+                  );
+                }).toList(),
+              ),
+              const SizedBox(height: 10.0),
+              Divider(
+                color: Colors.grey,
+                thickness: 1.0,
+              ),
+              const SizedBox(height: 10.0),
+              const SizedBox(
+                height: 10,
+              ),
+              Form(
+                key: formKey,
+                child: TextFormField(
+                  decoration: InputDecoration(
+                    filled: true, //<-- SEE HERE
+                    fillColor: Colors.grey.withOpacity(0.2),
+                    hintText: "Enter the new denomination  Eg: 100",
+                    // prefixIcon: const Padding(
+                    //   padding: EdgeInsets.all(8.0),
+                    //   child: Icon(Icons.numbers),
+                    // ),
+                    enabledBorder: UnderlineInputBorder(
+                      borderSide: BorderSide(color: Colors.white),
+                      borderRadius: BorderRadius.circular(15.0),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderSide: BorderSide(color: Colors.white),
+                      borderRadius: BorderRadius.circular(15.0),
+                    ),
+                  ),
+                  keyboardType: TextInputType.number,
+                  inputFormatters: <TextInputFormatter>[
+                    FilteringTextInputFormatter.digitsOnly
+                  ],
+                  onChanged: (value) {
+                    newDenomination = value;
+                  },
+                ),
+              ),
+              const SizedBox(height: 20.0),
+              ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.red,
+                  textStyle: const TextStyle(fontSize: 20, color: Colors.white),
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(15.0)),
+                  minimumSize: const Size.fromHeight(50),
+                ),
+                onPressed: () {
+                  if (newDenomination.isNotEmpty) {
+                    if (widget.denominations
+                            .where((element) =>
+                                element.toString() ==
+                                newDenomination.toString())
+                            .length >
+                        0) {
+                      showMessage(
+                          "Duplication!", "Denomination already exist.");
+                    } else if (widget.denominations.length > 20) {
+                      showMessage("Too Many Denominations!",
+                          "You can't have more than 20 denominations. Delete some and add new ones.");
                     } else {
                       setState(() {
-                        widget.denominations
-                            .removeWhere((element) => element == deno);
-                        // inputs = inputs - 1;
+                        widget.denominations.add(int.parse(newDenomination));
+                        widget.denominations.sort();
+                        newDenomination = "0";
                       });
-                      formKey.currentState?.reset();
                       // save to db
                       saveSettings();
+                      formKey.currentState?.reset();
                     }
-                  },
-                );
-              }).toList(),
-            ),
-            const SizedBox(height: 10.0),
-            Divider(
-              color: Colors.grey,
-              thickness: 1.0,
-            ),
-            const SizedBox(height: 10.0),
-            const SizedBox(
-              height: 10,
-            ),
-            Form(
-              key: formKey,
-              child: TextFormField(
-                decoration: InputDecoration(
-                  filled: true, //<-- SEE HERE
-                  fillColor: Colors.grey.withOpacity(0.2),
-                  hintText: "Enter the new denomination  Eg: 100",
-                  // prefixIcon: const Padding(
-                  //   padding: EdgeInsets.all(8.0),
-                  //   child: Icon(Icons.numbers),
-                  // ),
-                  enabledBorder: UnderlineInputBorder(
-                    borderSide: BorderSide(color: Colors.white),
-                    borderRadius: BorderRadius.circular(15.0),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: Colors.white),
-                    borderRadius: BorderRadius.circular(15.0),
-                  ),
-                ),
-                keyboardType: TextInputType.number,
-                inputFormatters: <TextInputFormatter>[
-                  FilteringTextInputFormatter.digitsOnly
-                ],
-                onChanged: (value) {
-                  newDenomination = value;
-                },
-              ),
-            ),
-            const SizedBox(height: 20.0),
-            ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.red,
-                textStyle: const TextStyle(fontSize: 20, color: Colors.white),
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(15.0)),
-                minimumSize: const Size.fromHeight(50),
-              ),
-              onPressed: () {
-                if (newDenomination.isNotEmpty) {
-                  if (widget.denominations
-                          .where((element) =>
-                              element.toString() == newDenomination.toString())
-                          .length >
-                      0) {
-                    showMessage("Duplication!", "Denomination already exist.");
-                  } else if (widget.denominations.length > 5) {
-                    showMessage("Too Many Denominations!",
-                        "You can't have more than 15 denominations. Delete some and add new ones.");
                   } else {
-                    setState(() {
-                      widget.denominations.add(int.parse(newDenomination));
-                      widget.denominations.sort();
-                      newDenomination = "0";
-                    });
-                    // save to db
-                    saveSettings();
-                    formKey.currentState?.reset();
+                    //display alert here
+                    showMessage("Invalid Input!",
+                        "Enter the denomination and click Add");
                   }
-                } else {
-                  //display alert here
-                  showMessage(
-                      "Invalid Input!", "Enter the denomination and click Add");
-                }
-                // }
-              },
-              child: const Padding(
-                padding: EdgeInsets.all(15.0),
-                child: Text('Add Denomination'),
+                  // }
+                },
+                child: const Padding(
+                  padding: EdgeInsets.all(15.0),
+                  child: Text('Add Denomination'),
+                ),
               ),
-            ),
-            const SizedBox(
-              height: 10,
-            ),
-          ],
+              const SizedBox(
+                height: 10,
+              ),
+            ],
+          ),
         ),
       ),
     );

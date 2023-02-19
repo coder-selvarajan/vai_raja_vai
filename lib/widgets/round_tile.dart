@@ -94,14 +94,21 @@ class RoundTile extends StatelessWidget {
         var temp = await IsarService().getSettings();
 
         // Add denominations from existing entries + denomination setup.
-        var entries = round.entries
-            .map((e) => e.toPay == -1 ? 'Win' : e.toPay.toString())
-            .toList();
+        // var entries = round.entries
+        //     .map((e) => e.toPay == -1 ? -1 : e.toPay.toString())
+        //     .toList();
+
+        var entries = round.entries.map((e) => e.toPay).toList();
+        var dList = [...entries, ...temp!.denominations];
+        dList.sort();
+        dList.toSet().toList().sort();
+
         List<String> newList = [
-          ...entries.toList(),
-          ...temp!.denominations.map((e) => e.toString())
+          ...dList.map((e) => e == -1 ? 'Win' : e.toString())
+          // ...entries.toList(),
+          // ...temp!.denominations.map((e) => e.toString())
         ];
-        newList.sort();
+        // newList.sort();
 
         Navigator.push(
           context,
