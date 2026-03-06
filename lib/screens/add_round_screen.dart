@@ -97,7 +97,7 @@ class _AddRoundState extends State<AddRound> {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           Text("Round No: ${widget.roundNo}",
-                              style: textTheme.headline6),
+                              style: textTheme.titleLarge),
                           const SizedBox(height: 5.0),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,

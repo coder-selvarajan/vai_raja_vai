@@ -56,7 +56,7 @@ const GameSchema = CollectionSchema(
   getId: _gameGetId,
   getLinks: _gameGetLinks,
   attach: _gameAttach,
-  version: '3.0.5',
+  version: '3.1.0+1',
 );
 
 int _gameEstimateSize(

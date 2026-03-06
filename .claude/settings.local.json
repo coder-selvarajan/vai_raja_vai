@@ -1,0 +1,14 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(flutter --version)",
+      "Bash(flutter pub get)",
+      "Bash(flutter analyze)",
+      "Bash(dart run build_runner build --delete-conflicting-outputs)",
+      "Bash(grep -n \"version: ''3.0.5''\" lib/models/*.g.dart)",
+      "Bash(flutter build apk --debug)",
+      "Bash(flutter clean)",
+      "Bash(flutter build apk --release)"
+    ]
+  }
+}

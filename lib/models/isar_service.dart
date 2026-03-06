@@ -1,4 +1,5 @@
 import 'package:isar/isar.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:vai_raja_vai/models/game.dart';
 import 'package:vai_raja_vai/models/player.dart';
 import 'package:vai_raja_vai/models/setting.dart';
@@ -12,8 +13,10 @@ class IsarService {
 
   Future<Isar> openDB() async {
     if (Isar.instanceNames.isEmpty) {
+      final dir = await getApplicationDocumentsDirectory();
       return await Isar.open(
         [PlayerSchema, GameSchema, SettingSchema],
+        directory: dir.path,
         inspector: true,
       );
     }

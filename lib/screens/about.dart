@@ -98,7 +98,7 @@ class About extends StatelessWidget {
             InkWell(
               child: Text(
                 'Playing cards icons created by Hilmy Abiyyu A. - Flaticon',
-                style: textTheme.caption,
+                style: textTheme.bodySmall,
               ),
               onTap: () async {
                 final Uri _url = Uri.parse(
@@ -112,7 +112,7 @@ class About extends StatelessWidget {
             InkWell(
               child: Text(
                 'Rupee icons created by YI-PIN - Flaticon',
-                style: textTheme.caption,
+                style: textTheme.bodySmall,
               ),
               onTap: () async {
                 final Uri _url =

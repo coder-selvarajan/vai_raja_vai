@@ -116,7 +116,7 @@ class _EditAutocompleteState extends State<EditAutocomplete> {
                   children: [
                     Text(
                         "Games should automatically be marked as 'Ended' after:  ",
-                        style: textTheme.subtitle1),
+                        style: textTheme.titleMedium),
                     const SizedBox(
                       height: 10,
                     ),

@@ -300,12 +300,12 @@ class _SettlementScreenState extends State<SettlementScreen> {
                               children: [
                                 Text(
                                   playerStatus.player,
-                                  style: textTheme.subtitle2,
+                                  style: textTheme.titleSmall,
                                 ),
                                 Text(
                                     " ${formatAmount(playerStatus.gainlossAmount)}",
                                     style: TextStyle(
-                                        fontSize: textTheme.subtitle2!.fontSize,
+                                        fontSize: textTheme.titleSmall!.fontSize,
                                         color: playerStatus.gainlossAmount >= 0
                                             ? Colors.green.shade500
                                             : Colors.red.shade700,

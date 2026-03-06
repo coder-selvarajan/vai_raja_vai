@@ -29,7 +29,7 @@ class GameTile extends StatelessWidget {
           Text(
             DateFormat('EE MMMd').format(game.time),
             style: TextStyle(
-                fontSize: textTheme.caption!.fontSize,
+                fontSize: textTheme.bodySmall!.fontSize,
                 // fontWeight: FontWeight.bold,
                 color: Colors.black87),
           ),
@@ -39,7 +39,7 @@ class GameTile extends StatelessWidget {
           // Text(
           //   DateFormat('MMMd').format(game.time),
           //   style: TextStyle(
-          //       fontSize: textTheme.caption!.fontSize,
+          //       fontSize: textTheme.bodySmall!.fontSize,
           //       fontWeight: FontWeight.bold,
           //       color: Colors.black87),
           // ),
@@ -49,7 +49,7 @@ class GameTile extends StatelessWidget {
           Text(
             DateFormat('hh:mm a  ').format(game.time),
             style: TextStyle(
-                fontSize: textTheme.caption!.fontSize, color: Colors.black87),
+                fontSize: textTheme.bodySmall!.fontSize, color: Colors.black87),
           ),
           Spacer(),
         ],
@@ -67,7 +67,7 @@ class GameTile extends StatelessWidget {
             game.players
                 .map((name) => name.substring(0, 2).toUpperCase())
                 .join(', '),
-            style: textTheme.subtitle2,
+            style: textTheme.titleSmall,
           ),
           Row(
             children: [
