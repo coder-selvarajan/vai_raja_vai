@@ -8,7 +8,8 @@
       "Bash(grep -n \"version: ''3.0.5''\" lib/models/*.g.dart)",
       "Bash(flutter build apk --debug)",
       "Bash(flutter clean)",
-      "Bash(flutter build apk --release)"
+      "Bash(flutter build apk --release)",
+      "Bash(flutter analyze lib/screens/rounds_screen.dart lib/screens/statistics_screen.dart)"
     ]
   }
 }

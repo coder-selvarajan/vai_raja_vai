@@ -7,6 +7,7 @@ import 'package:vai_raja_vai/screens/settlement_screen.dart';
 import 'package:vai_raja_vai/widgets/rounds_list.dart';
 import '../models/game.dart';
 import 'add_round_screen.dart';
+import 'statistics_screen.dart';
 
 class RoundsScreen extends StatelessWidget {
   // final Cutfor cutfor;
@@ -230,7 +231,60 @@ class RoundsScreen extends StatelessWidget {
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: [
                                 if (game.status! == Status.Ongoing)
-                                  OutlinedButton(
+                                  Flexible(
+                                    child: OutlinedButton(
+                                      style: OutlinedButton.styleFrom(
+                                        backgroundColor: Colors.redAccent,
+                                        side: BorderSide(
+                                            width: 1.5, color: Colors.red),
+                                        shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(20.0)),
+                                        padding: EdgeInsets.symmetric(
+                                            horizontal: 10, vertical: 8),
+                                      ),
+                                      onPressed: () async {
+                                        var temp =
+                                            await IsarService().getSettings();
+
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) => AddRound(
+                                              game: game,
+                                              roundNo: (game.rounds == null
+                                                      ? 0
+                                                      : game.rounds!.length) +
+                                                  1,
+                                              amountList: [
+                                                'Win',
+                                                ...temp!.denominations
+                                                    .map((e) => e.toString())
+                                              ],
+                                            ),
+                                          ),
+                                        );
+                                      },
+                                      child: Row(
+                                        mainAxisSize: MainAxisSize.min,
+                                        children: const [
+                                          Icon(
+                                            Icons.add,
+                                            size: 18.0,
+                                            color: Colors.white,
+                                          ),
+                                          Text(
+                                            ' Round',
+                                            style: TextStyle(
+                                              color: Colors.white,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                Flexible(
+                                  child: OutlinedButton(
                                     style: OutlinedButton.styleFrom(
                                       backgroundColor: Colors.redAccent,
                                       side: BorderSide(
@@ -238,81 +292,73 @@ class RoundsScreen extends StatelessWidget {
                                       shape: RoundedRectangleBorder(
                                           borderRadius:
                                               BorderRadius.circular(20.0)),
+                                      padding: EdgeInsets.symmetric(
+                                          horizontal: 10, vertical: 8),
                                     ),
-                                    onPressed: () async {
-                                      var temp =
-                                          await IsarService().getSettings();
-
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (context) => AddRound(
-                                            game: game,
-                                            roundNo: (game.rounds == null
-                                                    ? 0
-                                                    : game.rounds!.length) +
-                                                1,
-                                            amountList: [
-                                              'Win',
-                                              ...temp!.denominations
-                                                  .map((e) => e.toString())
-                                            ],
+                                    onPressed: () {
+                                      if (game.rounds != null) {
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) =>
+                                                SettlementScreen(game: game),
                                           ),
-                                        ),
-                                      );
+                                        );
+                                      }
                                     },
                                     child: Row(
+                                      mainAxisSize: MainAxisSize.min,
                                       children: const [
                                         Icon(
-                                          Icons.add,
-                                          size: 20.0,
+                                          Icons.currency_rupee_sharp,
+                                          size: 18.0,
                                           color: Colors.white,
-                                          // color: Colors.white,
                                         ),
-                                        Text(
-                                          ' Add Round',
-                                          style: TextStyle(
-                                            // fontSize: 18.0,
-                                            color: Colors.white,
-                                          ),
-                                        ),
+                                        Text(' Settlement',
+                                            style: TextStyle(
+                                              color: Colors.white,
+                                            )),
                                       ],
                                     ),
                                   ),
-                                OutlinedButton(
-                                  style: OutlinedButton.styleFrom(
-                                    backgroundColor: Colors.redAccent,
-                                    side: BorderSide(
-                                        width: 1.5, color: Colors.red),
-                                    shape: RoundedRectangleBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(20.0)),
-                                  ),
-                                  onPressed: () {
-                                    if (game.rounds != null) {
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (context) =>
-                                              SettlementScreen(game: game),
+                                ),
+                                Flexible(
+                                  child: OutlinedButton(
+                                    style: OutlinedButton.styleFrom(
+                                      backgroundColor: Colors.redAccent,
+                                      side: BorderSide(
+                                          width: 1.5, color: Colors.red),
+                                      shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(20.0)),
+                                      padding: EdgeInsets.symmetric(
+                                          horizontal: 10, vertical: 8),
+                                    ),
+                                    onPressed: () {
+                                      if (game.rounds != null) {
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) =>
+                                                StatisticsScreen(game: game),
+                                          ),
+                                        );
+                                      }
+                                    },
+                                    child: Row(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: const [
+                                        Icon(
+                                          Icons.bar_chart,
+                                          size: 18.0,
+                                          color: Colors.white,
                                         ),
-                                      );
-                                    }
-                                  },
-                                  child: Row(
-                                    children: const [
-                                      Icon(
-                                        Icons.currency_rupee_sharp,
-                                        size: 20.0,
-                                        color: Colors.white,
-                                        // color: Colors.white,
-                                      ),
-                                      Text(' View Settlement',
-                                          style: TextStyle(
-                                            // fontSize: 18.0,
-                                            color: Colors.white,
-                                          )),
-                                    ],
+                                        Text(' Stats',
+                                            style: TextStyle(
+                                              color: Colors.white,
+                                            )),
+                                      ],
+                                    ),
                                   ),
                                 ),
                               ],
