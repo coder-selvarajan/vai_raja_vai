@@ -170,7 +170,7 @@ class _SettlementScreenState extends State<SettlementScreen> {
             children: [
               AppBar(
                 backgroundColor: Colors.redAccent,
-                title: const Text("Money Settlement"),
+                title: const Text("Settlement & Stats"),
                 elevation: 0,
               ),
               Expanded(
@@ -456,6 +456,31 @@ class _SettlementScreenState extends State<SettlementScreen> {
                       const SizedBox(
                         height: 10,
                       ),
+                      Divider(
+                        color: Colors.grey[300],
+                        thickness: 3.0,
+                      ),
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      Row(
+                        children: [
+                          Text(
+                            "Player Statistics: ",
+                            style: TextStyle(
+                              fontSize: 18.0,
+                              color: Colors.black,
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      _buildStatsTable(),
+                      const SizedBox(
+                        height: 20,
+                      ),
                     ],
                   ),
                 ),
@@ -463,6 +488,113 @@ class _SettlementScreenState extends State<SettlementScreen> {
             ),
           );
         },
+      ),
+    );
+  }
+
+  Widget _buildStatsTable() {
+    final rounds = widget.game.rounds ?? <Round>[];
+    final players = widget.game.players;
+
+    // Collect all unique denominations from game data
+    final Set<int> denomSet = {};
+    for (var round in rounds) {
+      for (var entry in round.entries) {
+        if (entry.toPay != -1) {
+          denomSet.add(entry.toPay);
+        }
+      }
+    }
+    final denominations = denomSet.toList()..sort();
+
+    // Compute per-player stats
+    final Map<String, int> winsMap = {};
+    final Map<String, int> lossesMap = {};
+    final Map<String, Map<int, int>> denomCountMap = {};
+
+    for (var player in players) {
+      winsMap[player] = 0;
+      lossesMap[player] = 0;
+      denomCountMap[player] = {};
+    }
+
+    for (var round in rounds) {
+      for (var entry in round.entries) {
+        final player = entry.player;
+        if (entry.toPay == -1) {
+          winsMap[player] = (winsMap[player] ?? 0) + 1;
+        } else {
+          lossesMap[player] = (lossesMap[player] ?? 0) + 1;
+          denomCountMap[player] ??= {};
+          denomCountMap[player]![entry.toPay] =
+              (denomCountMap[player]![entry.toPay] ?? 0) + 1;
+        }
+      }
+    }
+
+    return SingleChildScrollView(
+      scrollDirection: Axis.horizontal,
+      child: DataTable(
+        columnSpacing: 16,
+        headingRowColor: WidgetStateProperty.all(
+          Colors.redAccent.withOpacity(0.1),
+        ),
+        border: TableBorder.all(
+          color: Colors.grey.shade300,
+          borderRadius: BorderRadius.circular(8),
+        ),
+        columns: [
+          DataColumn(
+            label: Text(
+              'Player',
+              style: TextStyle(fontWeight: FontWeight.bold),
+            ),
+          ),
+          DataColumn(
+            label: Text(
+              'Won',
+              style: TextStyle(fontWeight: FontWeight.bold),
+            ),
+            numeric: true,
+          ),
+          DataColumn(
+            label: Text(
+              'Lost',
+              style: TextStyle(fontWeight: FontWeight.bold),
+            ),
+            numeric: true,
+          ),
+          ...denominations.map(
+            (d) => DataColumn(
+              label: Text(
+                '\u20B9$d',
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
+              numeric: true,
+            ),
+          ),
+        ],
+        rows: players.map((player) {
+          return DataRow(cells: [
+            DataCell(Text(
+              player,
+              style: TextStyle(fontWeight: FontWeight.w500),
+            )),
+            DataCell(Text(
+              '${winsMap[player] ?? 0}',
+              style: TextStyle(color: Colors.green.shade700),
+            )),
+            DataCell(Text(
+              '${lossesMap[player] ?? 0}',
+              style: TextStyle(color: Colors.red.shade700),
+            )),
+            ...denominations.map(
+              (d) => DataCell(Text(
+                '${denomCountMap[player]?[d] ?? 0}',
+              )),
+            ),
+          ]);
+        }).toList(),
       ),
     );
   }

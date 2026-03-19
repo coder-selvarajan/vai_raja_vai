@@ -7,7 +7,6 @@ import 'package:vai_raja_vai/screens/settlement_screen.dart';
 import 'package:vai_raja_vai/widgets/rounds_list.dart';
 import '../models/game.dart';
 import 'add_round_screen.dart';
-import 'statistics_screen.dart';
 
 class RoundsScreen extends StatelessWidget {
   // final Cutfor cutfor;
@@ -314,46 +313,7 @@ class RoundsScreen extends StatelessWidget {
                                           size: 18.0,
                                           color: Colors.white,
                                         ),
-                                        Text(' Settlement',
-                                            style: TextStyle(
-                                              color: Colors.white,
-                                            )),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                                Flexible(
-                                  child: OutlinedButton(
-                                    style: OutlinedButton.styleFrom(
-                                      backgroundColor: Colors.redAccent,
-                                      side: BorderSide(
-                                          width: 1.5, color: Colors.red),
-                                      shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(20.0)),
-                                      padding: EdgeInsets.symmetric(
-                                          horizontal: 10, vertical: 8),
-                                    ),
-                                    onPressed: () {
-                                      if (game.rounds != null) {
-                                        Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                            builder: (context) =>
-                                                StatisticsScreen(game: game),
-                                          ),
-                                        );
-                                      }
-                                    },
-                                    child: Row(
-                                      mainAxisSize: MainAxisSize.min,
-                                      children: const [
-                                        Icon(
-                                          Icons.bar_chart,
-                                          size: 18.0,
-                                          color: Colors.white,
-                                        ),
-                                        Text(' Stats',
+                                        Text(' Settlement & Stats',
                                             style: TextStyle(
                                               color: Colors.white,
                                             )),
