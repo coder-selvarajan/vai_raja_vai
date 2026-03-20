@@ -510,21 +510,38 @@ class _SettlementScreenState extends State<SettlementScreen> {
     // Compute per-player stats
     final Map<String, int> winsMap = {};
     final Map<String, int> lossesMap = {};
+    final Map<String, int> wonAmountMap = {};
+    final Map<String, int> lostAmountMap = {};
     final Map<String, Map<int, int>> denomCountMap = {};
 
     for (var player in players) {
       winsMap[player] = 0;
       lossesMap[player] = 0;
+      wonAmountMap[player] = 0;
+      lostAmountMap[player] = 0;
       denomCountMap[player] = {};
     }
 
     for (var round in rounds) {
+      // Calculate the total pot for this round (sum of all losers' payments)
+      int roundPot = 0;
+      String? winner;
+      for (var entry in round.entries) {
+        if (entry.toPay == -1) {
+          winner = entry.player;
+        } else {
+          roundPot += entry.toPay;
+        }
+      }
+
       for (var entry in round.entries) {
         final player = entry.player;
         if (entry.toPay == -1) {
           winsMap[player] = (winsMap[player] ?? 0) + 1;
+          wonAmountMap[player] = (wonAmountMap[player] ?? 0) + roundPot;
         } else {
           lossesMap[player] = (lossesMap[player] ?? 0) + 1;
+          lostAmountMap[player] = (lostAmountMap[player] ?? 0) + entry.toPay;
           denomCountMap[player] ??= {};
           denomCountMap[player]![entry.toPay] =
               (denomCountMap[player]![entry.toPay] ?? 0) + 1;
@@ -532,70 +549,132 @@ class _SettlementScreenState extends State<SettlementScreen> {
       }
     }
 
-    return SingleChildScrollView(
-      scrollDirection: Axis.horizontal,
-      child: DataTable(
-        columnSpacing: 16,
-        headingRowColor: WidgetStateProperty.all(
-          Colors.redAccent.withOpacity(0.1),
-        ),
-        border: TableBorder.all(
-          color: Colors.grey.shade300,
-          borderRadius: BorderRadius.circular(8),
-        ),
-        columns: [
-          DataColumn(
-            label: Text(
-              'Player',
-              style: TextStyle(fontWeight: FontWeight.bold),
+    final headingColor = WidgetStateProperty.all(
+      Colors.redAccent.withOpacity(0.1),
+    );
+
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        // Fixed first column
+        DataTable(
+          columnSpacing: 16,
+          headingRowColor: headingColor,
+          border: TableBorder(
+            top: BorderSide(color: Colors.grey.shade300),
+            bottom: BorderSide(color: Colors.grey.shade300),
+            left: BorderSide(color: Colors.grey.shade300),
+            right: BorderSide.none,
+            horizontalInside: BorderSide(color: Colors.grey.shade300),
+            borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(8),
+              bottomLeft: Radius.circular(8),
             ),
           ),
-          DataColumn(
-            label: Text(
-              'Won',
-              style: TextStyle(fontWeight: FontWeight.bold),
-            ),
-            numeric: true,
-          ),
-          DataColumn(
-            label: Text(
-              'Lost',
-              style: TextStyle(fontWeight: FontWeight.bold),
-            ),
-            numeric: true,
-          ),
-          ...denominations.map(
-            (d) => DataColumn(
+          columns: [
+            DataColumn(
               label: Text(
-                '\u20B9$d',
+                'Player',
                 style: TextStyle(fontWeight: FontWeight.bold),
               ),
-              numeric: true,
+            ),
+          ],
+          rows: players.map((player) {
+            return DataRow(cells: [
+              DataCell(Text(
+                player,
+                style: TextStyle(fontWeight: FontWeight.w500),
+              )),
+            ]);
+          }).toList(),
+        ),
+        // Scrollable remaining columns
+        Expanded(
+          child: SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: DataTable(
+              columnSpacing: 16,
+              headingRowColor: headingColor,
+              border: TableBorder(
+                top: BorderSide(color: Colors.grey.shade300),
+                bottom: BorderSide(color: Colors.grey.shade300),
+                right: BorderSide(color: Colors.grey.shade300),
+                left: BorderSide(color: Colors.grey.shade300),
+                horizontalInside: BorderSide(color: Colors.grey.shade300),
+                verticalInside: BorderSide(color: Colors.grey.shade300),
+                borderRadius: BorderRadius.only(
+                  topRight: Radius.circular(8),
+                  bottomRight: Radius.circular(8),
+                ),
+              ),
+              columns: [
+                DataColumn(
+                  label: Text(
+                    'Won',
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                  numeric: true,
+                ),
+                DataColumn(
+                  label: Text(
+                    'Lost',
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                  numeric: true,
+                ),
+                DataColumn(
+                  label: Text(
+                    'Won \u20B9',
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                  numeric: true,
+                ),
+                DataColumn(
+                  label: Text(
+                    'Lost \u20B9',
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                  numeric: true,
+                ),
+                ...denominations.map(
+                  (d) => DataColumn(
+                    label: Text(
+                      '\u20B9$d',
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                    numeric: true,
+                  ),
+                ),
+              ],
+              rows: players.map((player) {
+                return DataRow(cells: [
+                  DataCell(Text(
+                    '${winsMap[player] ?? 0}',
+                    style: TextStyle(color: Colors.green.shade700),
+                  )),
+                  DataCell(Text(
+                    '${lossesMap[player] ?? 0}',
+                    style: TextStyle(color: Colors.red.shade700),
+                  )),
+                  DataCell(Text(
+                    '${wonAmountMap[player] ?? 0}',
+                    style: TextStyle(color: Colors.green.shade700),
+                  )),
+                  DataCell(Text(
+                    '${lostAmountMap[player] ?? 0}',
+                    style: TextStyle(color: Colors.red.shade700),
+                  )),
+                  ...denominations.map(
+                    (d) => DataCell(Text(
+                      '${denomCountMap[player]?[d] ?? 0}',
+                    )),
+                  ),
+                ]);
+              }).toList(),
             ),
           ),
-        ],
-        rows: players.map((player) {
-          return DataRow(cells: [
-            DataCell(Text(
-              player,
-              style: TextStyle(fontWeight: FontWeight.w500),
-            )),
-            DataCell(Text(
-              '${winsMap[player] ?? 0}',
-              style: TextStyle(color: Colors.green.shade700),
-            )),
-            DataCell(Text(
-              '${lossesMap[player] ?? 0}',
-              style: TextStyle(color: Colors.red.shade700),
-            )),
-            ...denominations.map(
-              (d) => DataCell(Text(
-                '${denomCountMap[player]?[d] ?? 0}',
-              )),
-            ),
-          ]);
-        }).toList(),
-      ),
+        ),
+      ],
     );
   }
 }
